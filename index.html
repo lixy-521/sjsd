@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>山经书店官方旗舰店 - 淘宝网</title>
+  <!-- 引入Font Awesome图标库 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 0 0 20px 0;
+    }
+
+    /* 淘宝风格手机容器 */
+    .app-container {
+      width: 100%;
+      max-width: 420px;
+      background-color: #ffffff;
+      box-shadow: 0 0 20px rgba(0,0,0,0.08);
+      min-height: 100vh;
+      position: relative;
+      border-radius: 0;
+    }
+
+    /* 状态栏占位 */
+    .status-bar {
+      padding: 12px 16px 4px;
+      background-color: #ff5000;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* 搜索头部 */
+    .search-header {
+      background: #ff5000;
+      padding: 8px 12px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn {
+      color: white;
+      font-size: 20px;
+      width: 24px;
+    }
+
+    .search-box {
+      flex: 1;
+      background: white;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      padding: 6px 12px;
+      gap: 6px;
+      color: #999;
+      font-size: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .search-box i {
+      font-size: 14px;
+      color: #ff5000;
+    }
+
+    .search-box span {
+      color: #bbb;
+    }
+
+    .header-icons {
+      display: flex;
+      gap: 12px;
+      color: white;
+      font-size: 18px;
+    }
+
+    /* 店铺头部 */
+    .shop-header {
+      background: white;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .shop-logo {
+      width: 60px;
+      height: 60px;
+      background: #2c3e50;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d4af37;
+      font-size: 28px;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .shop-info {
+      flex: 1;
+    }
+
+    .shop-name {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #222;
+    }
+
+    .shop-name .badge {
+      background: #ff5000;
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-weight: 500;
+    }
+
+    .shop-stats {
+      display: flex;
+      gap: 16px;
+      margin-top: 6px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .shop-stats i {
+      color: #ff5000;
+      margin-right: 2px;
+    }
+
+    .shop-rating {
+      color: #ff5000;
+      font-weight: 600;
+    }
+
+    /* 导航分类 */
+    .category-nav {
+      background: white;
+      padding: 0 12px;
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid #eee;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .category-item {
+      padding: 12px 10px;
+      font-size: 14px;
+      color: #555;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .category-item.active {
+      color: #ff5000;
+      border-bottom: 2px solid #ff5000;
+      font-weight: 600;
+    }
+
+    .category-item.locked {
+      color: #999;
+      cursor: not-allowed;
+      opacity: 0.8;
+    }
+
+    /* 公告横幅 */
+    .notice-banner {
+      background: #fff7e6;
+      margin: 10px 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #b85e00;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #ffdec0;
+    }
+
+    .notice-banner i {
+      color: #ff5000;
+      font-size: 16px;
+    }
+
+    /* 热卖商品卡片 */
+    .section-title {
+      padding: 14px 16px 8px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #222;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      margin-top: 8px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 0 12px 12px;
+      background: white;
+    }
+
+    .product-card {
+      background: #fafafa;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      transition: transform 0.2s;
+      cursor: pointer;
+      border: 1px solid #f0f0f0;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .product-img {
+      height: 140px;
+      background: #e9e9e9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      font-size: 32px;
+      position: relative;
+    }
+
+    .product-img.special {
+      background: linear-gradient(135deg, #1e2a3a, #2c3e50);
+      color: #d4af37;
+    }
+
+    .product-tag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: #ff5000;
+      color: white;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .product-info {
+      padding: 10px;
+    }
+
+    .product-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .product-price {
+      color: #ff5000;
+      font-weight: 700;
+      font-size: 18px;
+      margin-top: 6px;
+    }
+
+    .product-price span {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .product-sold {
+      font-size: 11px;
+      color: #999;
+      margin-left: 6px;
+    }
+
+    /* 底部微信提示 */
+    .wechat-hint {
+      margin: 12px 16px;
+      padding: 14px;
+      background: #f0f0f0;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #444;
+      border: 1px dashed #ccc;
+    }
+
+    .wechat-hint i {
+      font-size: 24px;
+      color: #07c160;
+    }
+
+    /* 对话框模拟 */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: 20px;
+      padding: 24px 20px;
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.2);
+    }
+
+    .modal-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 16px 0;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .modal-btn {
+      background: #ff5000;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 20px;
+      font-weight: 600;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* 线索提示 */
+    .clue-tooltip {
+      color: #ff5000;
+      font-size: 12px;
+      margin-top: 6px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container" id="appContainer">
+  <!-- 状态栏/淘宝顶部 -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <span><i class="fas fa-signal"></i> <i class="fas fa-wifi"></i> <i class="fas fa-battery-full"></i></span>
+  </div>
+
+  <div class="search-header">
+    <div class="back-btn"><i class="fas fa-chevron-left"></i></div>
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <span>搜索店内商品</span>
+    </div>
+    <div class="header-icons">
+      <i class="far fa-heart"></i>
+      <i class="fas fa-shopping-cart"></i>
+    </div>
+  </div>
+
+  <!-- 店铺头部 -->
+  <div class="shop-header">
+    <div class="shop-logo">山经</div>
+    <div class="shop-info">
+      <div class="shop-name">
+        山经书店官方旗舰店
+        <span class="badge">企业店</span>
+      </div>
+      <div class="shop-stats">
+        <span><i class="fas fa-star"></i> <span class="shop-rating">4.9</span></span>
+        <span>2.3万关注</span>
+        <span>已售1.2万件</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 分类导航 -->
+  <div class="category-nav" id="categoryNav">
+    <div class="category-item active" data-cat="all">全部</div>
+    <div class="category-item" data-cat="used">二手教辅</div>
+    <div class="category-item" data-cat="rare">绝版书籍</div>
+    <div class="category-item" data-cat="study">学习资料</div>
+    <div class="category-item locked" data-cat="cognitive" id="cognitiveTab">
+      <i class="fas fa-lock" style="font-size:10px;"></i> 认知资源
+    </div>
+  </div>
+
+  <!-- 公告 -->
+  <div class="notice-banner">
+    <i class="fas fa-bullhorn"></i>
+    <span>📢 新品上架！认知强化包限时优惠 | 诚招兼职采集员，时薪300元</span>
+  </div>
+
+  <!-- 热卖商品 -->
+  <div class="section-title">
+    热卖推荐
+    <span style="font-size:13px; color:#999;">查看更多 <i class="fas fa-angle-right"></i></span>
+  </div>
+
+  <div class="product-grid">
+    <!-- 商品1：正常书籍 -->
+    <div class="product-card">
+      <div class="product-img">
+        <i class="fas fa-book" style="color:#5d4e37;"></i>
+      </div>
+      <div class="product-info">
+        <div class="product-title">《高中数学解题技巧》</div>
+        <div class="product-price"><span>¥</span>25</div>
+        <span class="product-sold">已售341件</span>
+      </div>
+    </div>
+
+    <!-- 商品2：正常书籍 -->
+    <div class="product-card">
+      <div class="product-img">
+        <i class="fas fa-language" style="color:#2d5a27;"></i>
+      </div>
+      <div class="product-info">
+        <div class="product-title">《英语语法速记》</div>
+        <div class="product-price"><span>¥</span>18</div>
+        <span class="product-sold">已售208件</span>
+      </div>
+    </div>
+
+    <!-- 商品3：可疑的内部资源 -->
+    <div class="product-card" id="historyPackCard" style="border:1px solid #ffb085;">
+      <div class="product-img special">
+        <i class="fas fa-brain"></i>
+        <span class="product-tag">内部资源</span>
+      </div>
+      <div class="product-info">
+        <div class="product-title">【内部资源】历史学科认知强化包</div>
+        <div class="product-price"><span>¥</span>2999</div>
+        <span class="product-sold">已售217件</span>
+        <div class="clue-tooltip"><i class="fas fa-exclamation-circle"></i> 点击查看详情</div>
+      </div>
+    </div>
+
+    <!-- 商品4：普通教辅 -->
+    <div class="product-card">
+      <div class="product-img">
+        <i class="fas fa-flask" style="color:#1e3b4a;"></i>
+      </div>
+      <div class="product-info">
+        <div class="product-title">《化学考点精讲》</div>
+        <div class="product-price"><span>¥</span>32</div>
+        <span class="product-sold">已售119件</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 客服微信提示 -->
+  <div class="wechat-hint">
+    <i class="fab fa-weixin"></i>
+    <div>
+      <strong>兼职/咨询请联系客服</strong><br>
+      <span style="font-size:12px; color:#666;">微信号: sjbook2026</span>
+    </div>
+  </div>
+
+  <div style="height: 40px;"></div>
+  <div style="text-align:center; font-size:11px; color:#bbb; padding:16px;">山经书店 · 文化路217号 · 怀璧市</div>
+</div>
+
+<!-- 暗号弹窗 (认知资源分类) -->
+<div class="modal-overlay hidden" id="codeModal">
+  <div class="modal-box">
+    <i class="fas fa-lock" style="font-size: 28px; color:#ff5000;"></i>
+    <h3 style="margin:12px 0 4px;">认知资源分类</h3>
+    <p style="font-size:13px; color:#666;">请输入访问暗号</p>
+    <input type="text" id="codeInput" placeholder="暗号..." autocomplete="off">
+    <button class="modal-btn" id="submitCode">确认</button>
+    <p style="font-size:11px; color:#aaa; margin-top:12px;" id="codeHint">提示：APP相关</p>
+  </div>
+</div>
+
+<!-- 商品详情弹窗 (历史认知包) -->
+<div class="modal-overlay hidden" id="productModal">
+  <div class="modal-box" style="width: 340px; text-align: left; max-height: 80vh; overflow-y: auto; padding: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h3 style="color:#222;">历史学科认知强化包</h3>
+      <i class="fas fa-times" id="closeProductModal" style="cursor:pointer; font-size:18px; color:#999;"></i>
+    </div>
+    <div style="background:#1e2a3a; color:white; padding:20px; border-radius:12px; margin:12px 0; text-align:center;">
+      <i class="fas fa-headphones" style="font-size:40px;"></i>
+      <p style="margin-top:8px;">MindSync 神经同步耳机</p>
+    </div>
+    <p style="color:#ff5000; font-size:24px; font-weight:700;">¥2999 <span style="font-size:14px; color:#999;">已售217件</span></p>
+    <p style="font-size:13px; color:#555; margin:10px 0;">采用最新神经科学技术，提取优秀学生学习认知模式。每晚睡前收听30-60分钟，7-14天见效。</p>
+    <div style="background:#fff3e0; padding:10px; border-radius:8px; font-size:12px; color:#b85e00;">
+      ⚠️ 部分用户反馈出现轻微头晕或陌生记忆画面，属正常整合现象。
+    </div>
+    <div style="margin-top:16px;">
+      <strong style="font-size:14px;">最新评价</strong>
+      <div style="border-bottom:1px solid #eee; padding:8px 0;">
+        <span style="color:#ff5000;">h***u</span> ⭐⭐⭐⭐⭐<br>
+        <span style="font-size:13px;">效果惊人！一周提高30分！</span><br>
+        <span style="color:#999; font-size:11px;">追评：但脑子里出现奇怪画面……</span>
+      </div>
+      <div style="border-bottom:1px solid #eee; padding:8px 0;">
+        <span style="color:#ff5000;">k***2</span> ⭐<br>
+        <span style="font-size:13px;">退款！这些记忆不是我的！客服不回复了</span>
+      </div>
+    </div>
+    <button class="modal-btn" style="margin-top:20px;" id="closeProductBtn">关闭详情</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- 游戏状态 ----------
+    let cognitiveUnlocked = false; // 是否已解锁认知资源分类
+
+    // DOM元素
+    const cognitiveTab = document.getElementById('cognitiveTab');
+    const codeModal = document.getElementById('codeModal');
+    const codeInput = document.getElementById('codeInput');
+    const submitCode = document.getElementById('submitCode');
+    const codeHint = document.getElementById('codeHint');
+    const historyPackCard = document.getElementById('historyPackCard');
+    const productModal = document.getElementById('productModal');
+    const closeProductModal = document.getElementById('closeProductModal');
+    const closeProductBtn = document.getElementById('closeProductBtn');
+    const categoryItems = document.querySelectorAll('.category-item');
+
+    // ---------- 工具函数 ----------
+    function showModal(modal) {
+      modal.classList.remove('hidden');
+    }
+
+    function hideModal(modal) {
+      modal.classList.add('hidden');
+    }
+
+    // 重置分类高亮
+    function setActiveCategory(activeElement) {
+      categoryItems.forEach(item => item.classList.remove('active'));
+      if (activeElement) activeElement.classList.add('active');
+    }
+
+    // ---------- 事件绑定 ----------
+
+    // 1. 点击“认知资源”分类 (锁定状态)
+    cognitiveTab.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (cognitiveUnlocked) {
+        // 已解锁：显示认知资源分类（简单模拟）
+        alert('🔓 认知资源专区：\n【历史学科能力包】¥2999\n【数学思维包】¥3999\n【英语语感包】¥3999\n【记忆碎片·旅行】¥499');
+        setActiveCategory(cognitiveTab);
+      } else {
+        // 未解锁：弹出暗号输入框
+        showModal(codeModal);
+        codeInput.value = '';
+        codeInput.focus();
+      }
+    });
+
+    // 2. 提交暗号
+    submitCode.addEventListener('click', function() {
+      const answer = codeInput.value.trim();
+      // 暗号：MindSync (不区分大小写)
+      if (answer.toLowerCase() === 'mindsync') {
+        cognitiveUnlocked = true;
+        hideModal(codeModal);
+        // 更新分类样式：移除锁定图标，改变文字
+        cognitiveTab.innerHTML = '🧠 认知资源';
+        cognitiveTab.classList.remove('locked');
+        cognitiveTab.style.color = '#333';
+        alert('✅ 暗号正确！认知资源分类已解锁。\n你现在可以访问隐藏商品了。');
+        // 自动切换到认知资源分类
+        setActiveCategory(cognitiveTab);
+      } else {
+        codeHint.innerHTML = '❌ 暗号错误，请重试。提示：与APP名称有关';
+        codeHint.style.color = '#d32f2f';
+        codeInput.value = '';
+        codeInput.focus();
+      }
+    });
+
+    // 回车提交暗号
+    codeInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        submitCode.click();
+      }
+    });
+
+    // 3. 点击历史学科认知强化包 (商品卡片)
+    historyPackCard.addEventListener('click', function() {
+      showModal(productModal);
+    });
+
+    // 4. 关闭商品详情弹窗
+    function closeProductDetails() {
+      hideModal(productModal);
+    }
+
+    closeProductModal.addEventListener('click', closeProductDetails);
+    closeProductBtn.addEventListener('click', closeProductDetails);
+    productModal.addEventListener('click', function(e) {
+      if (e.target === productModal) closeProductDetails();
+    });
+
+    // 5. 关闭暗号弹窗 (点击背景)
+    codeModal.addEventListener('click', function(e) {
+      if (e.target === codeModal) {
+        hideModal(codeModal);
+      }
+    });
+
+    // 6. 其他分类点击 (模拟切换)
+    categoryItems.forEach(item => {
+      item.addEventListener('click', function(e) {
+        if (item === cognitiveTab) return; // 由上面处理
+        if (item.classList.contains('locked')) {
+          // 如果是锁定状态且不是认知资源(目前只有认知资源锁定)
+          if (item.dataset.cat === 'cognitive') {
+            cognitiveTab.click();
+          }
+          return;
+        }
+        setActiveCategory(item);
+        // 实际游戏中会加载对应商品，这里仅示意
+        console.log('切换到分类：' + item.dataset.cat);
+      });
+    });
+
+    // 7. 微信提示点击 (彩蛋)
+    document.querySelector('.wechat-hint').addEventListener('click', function() {
+      alert('📱 客服微信 sjbook2026\n添加后可咨询兼职或产品问题。\n(游戏线索：也许能套出暗号信息)');
+    });
+
+    // 初始化：确保认知资源显示锁定图标
+    console.log('📘 山经书店·消失的买家 主界面已启动');
+    console.log('🔍 调查提示：寻找暗号“MindSync”以解锁隐藏分类');
+    console.log('📦 点击历史学科认知强化包查看详情与评价线索');
+  })();
+</script>
+</body>
+</html>
