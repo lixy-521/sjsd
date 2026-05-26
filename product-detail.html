@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【内部资源】历史学科认知强化包 - 山经书店官方旗舰店 - 淘宝网</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+      background-color: #f4f4f4;
+      min-width: 1200px;
+      color: #333;
+    }
+
+    /* ========== 淘宝顶部导航 ========== */
+    .tb-topbar {
+      background: #f5f5f5;
+      border-bottom: 1px solid #e8e8e8;
+      font-size: 12px;
+      color: #6c6c6c;
+      height: 35px;
+      line-height: 35px;
+    }
+    .tb-topbar-inner {
+      width: 1190px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+    }
+    .tb-topbar-left span {
+      margin-right: 18px;
+      cursor: pointer;
+    }
+    .tb-topbar-right span {
+      margin-left: 18px;
+      cursor: pointer;
+    }
+    .tb-topbar-right i {
+      margin-right: 4px;
+      color: #ff5000;
+    }
+
+    /* ========== 淘宝头部 ========== */
+    .tb-header {
+      background: white;
+      padding: 20px 0 12px;
+      border-bottom: 2px solid #ff5000;
+    }
+    .tb-header-inner {
+      width: 1190px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+    .tb-logo {
+      width: 140px;
+      height: 50px;
+      background: #ff5000;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .tb-search-box {
+      display: flex;
+      width: 620px;
+      height: 40px;
+      border: 2px solid #ff5000;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .tb-search-box input {
+      flex: 1;
+      border: none;
+      padding: 0 16px;
+      font-size: 14px;
+      outline: none;
+    }
+    .tb-search-btn {
+      background: #ff5000;
+      color: white;
+      border: none;
+      padding: 0 28px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* ========== 面包屑导航 ========== */
+    .breadcrumb {
+      width: 1190px;
+      margin: 12px auto;
+      font-size: 13px;
+      color: #999;
+    }
+    .breadcrumb span {
+      cursor: pointer;
+    }
+    .breadcrumb span:hover {
+      color: #ff5000;
+    }
+    .breadcrumb .current {
+      color: #333;
+      font-weight: 600;
+    }
+
+    /* ========== 商品主区域 ========== */
+    .product-main {
+      width: 1190px;
+      margin: 0 auto;
+      display: flex;
+      gap: 20px;
+    }
+
+    /* 左侧商品图 */
+    .product-gallery {
+      width: 420px;
+      flex-shrink: 0;
+    }
+    .main-image {
+      width: 420px;
+      height: 420px;
+      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      color: #d4af37;
+      position: relative;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+    .main-image .tag {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: #ff5000;
+      color: white;
+      font-size: 13px;
+      padding: 4px 14px;
+      border-radius: 14px;
+      font-weight: 600;
+    }
+    .thumb-list {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 8px;
+      background: #e8e8e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #555;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: 0.2s;
+    }
+    .thumb.active {
+      border-color: #ff5000;
+    }
+    .thumb.special-thumb {
+      background: #1a1a2e;
+      color: #d4af37;
+    }
+
+    /* 中间商品信息 */
+    .product-info-area {
+      flex: 1;
+      min-width: 0;
+    }
+    .product-title-main {
+      font-size: 20px;
+      font-weight: 700;
+      color: #222;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    .product-subtitle {
+      font-size: 13px;
+      color: #ff5000;
+      background: #fff0e6;
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .price-area {
+      background: #fff5f0;
+      padding: 16px 20px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .price-label {
+      font-size: 13px;
+      color: #999;
+    }
+    .price-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #ff5000;
+    }
+    .price-value span {
+      font-size: 18px;
+    }
+    .price-original {
+      font-size: 13px;
+      color: #999;
+      text-decoration: line-through;
+      margin-left: 10px;
+    }
+    .price-meta {
+      display: flex;
+      gap: 20px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+    .promo-tags {
+      display: flex;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .promo-tag {
+      background: white;
+      border: 1px solid #ffbb96;
+      color: #ff5000;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+    .sku-area {
+      margin: 16px 0;
+    }
+    .sku-label {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    .sku-options {
+      display: flex;
+      gap: 8px;
+    }
+    .sku-option {
+      padding: 8px 18px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .sku-option.active {
+      border-color: #ff5000;
+      color: #ff5000;
+      font-weight: 600;
+      background: #fff5f0;
+    }
+    .sku-option:hover {
+      border-color: #ff5000;
+    }
+    .quantity-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+      font-size: 13px;
+      color: #666;
+    }
+    .qty-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+    .qty-input {
+      width: 50px;
+      height: 32px;
+      text-align: center;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .stock-info {
+      font-size: 12px;
+      color: #999;
+      margin-left: 16px;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .btn-buy-now {
+      background: #ff5000;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      font-size: 16px;
+      font-weight: 700;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-buy-now:hover {
+      background: #e04400;
+    }
+    .btn-add-cart {
+      background: #ffeded;
+      color: #ff5000;
+      border: 1px solid #ff5000;
+      padding: 14px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 24px;
+      cursor: pointer;
+    }
+    .btn-report {
+      background: transparent;
+      color: #999;
+      border: 1px solid #ddd;
+      padding: 14px 20px;
+      font-size: 14px;
+      border-radius: 24px;
+      cursor: pointer;
+    }
+
+    /* 右侧店铺卡片 */
+    .shop-card {
+      width: 200px;
+      flex-shrink: 0;
+      background: white;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+      height: fit-content;
+      position: sticky;
+      top: 16px;
+    }
+    .shop-card-logo {
+      width: 56px;
+      height: 56px;
+      background: #2c3e50;
+      border-radius: 12px;
+      margin: 0 auto 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: #d4af37;
+    }
+    .shop-card-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #222;
+    }
+    .shop-card-stats {
+      font-size: 12px;
+      color: #999;
+      margin: 6px 0 12px;
+    }
+    .shop-card-stats .rating {
+      color: #ff5000;
+      font-weight: 600;
+    }
+    .btn-enter-shop {
+      display: block;
+      background: #ff5000;
+      color: white;
+      border: none;
+      padding: 8px 0;
+      width: 100%;
+      border-radius: 16px;
+      font-size: 13px;
+      cursor: pointer;
+      margin-bottom: 6px;
+    }
+    .btn-follow-shop {
+      display: block;
+      background: white;
+      color: #ff5000;
+      border: 1px solid #ff5000;
+      padding: 8px 0;
+      width: 100%;
+      border-radius: 16px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* ========== 下方详情+评价区 ========== */
+    .detail-section {
+      width: 1190px;
+      margin: 24px auto;
+      display: flex;
+      gap: 20px;
+    }
+    .detail-left {
+      flex: 1;
+      min-width: 0;
+    }
+    .detail-right {
+      width: 200px;
+      flex-shrink: 0;
+    }
+    .tab-nav {
+      display: flex;
+      background: white;
+      border-radius: 10px 10px 0 0;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+    }
+    .tab-item {
+      padding: 14px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #666;
+      border-bottom: 2px solid transparent;
+      transition: 0.2s;
+    }
+    .tab-item.active {
+      color: #ff5000;
+      border-bottom-color: #ff5000;
+    }
+    .tab-content {
+      background: white;
+      padding: 24px;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+      min-height: 400px;
+    }
+
+    /* 商品描述 */
+    .desc-block {
+      margin-bottom: 20px;
+    }
+    .desc-block h4 {
+      font-size: 16px;
+      color: #222;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .desc-block p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.8;
+    }
+    .feature-list {
+      list-style: none;
+      margin: 10px 0;
+    }
+    .feature-list li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feature-list li::before {
+      content: "✓";
+      color: #07c160;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .warning-box {
+      background: #fffbe6;
+      border: 1px solid #ffe58f;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #8c6d00;
+      margin: 16px 0;
+    }
+    .warning-box i {
+      color: #faad14;
+      margin-right: 6px;
+    }
+
+    /* 评价区 */
+    .review-summary {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 16px;
+    }
+    .review-score {
+      font-size: 48px;
+      font-weight: 700;
+      color: #ff5000;
+    }
+    .review-stars {
+      color: #ffbb00;
+      font-size: 18px;
+    }
+    .review-count {
+      font-size: 13px;
+      color: #999;
+    }
+    .review-filter {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .review-filter span {
+      padding: 6px 14px;
+      background: #f5f5f5;
+      border-radius: 14px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .review-filter span.active {
+      background: #fff0e6;
+      color: #ff5000;
+      font-weight: 600;
+    }
+    .review-item {
+      padding: 14px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .review-user {
+      font-size: 13px;
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .review-user .stars-sm {
+      color: #ffbb00;
+      font-size: 12px;
+    }
+    .review-date {
+      font-size: 11px;
+      color: #bbb;
+      margin-left: auto;
+    }
+    .review-content {
+      font-size: 14px;
+      color: #444;
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+    .review-followup {
+      background: #fff5f0;
+      border-left: 3px solid #ff5000;
+      padding: 10px 14px;
+      margin-top: 8px;
+      border-radius: 0 8px 8px 0;
+      font-size: 13px;
+      color: #b85e00;
+    }
+    .review-followup .fu-date {
+      font-size: 11px;
+      color: #999;
+      margin-top: 4px;
+    }
+    .review-followup .no-reply {
+      color: #d32f2f;
+      font-weight: 600;
+    }
+    .folded-notice {
+      text-align: center;
+      padding: 16px;
+      color: #ff5000;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+    .folded-notice:hover {
+      color: #e04400;
+      text-decoration: underline;
+    }
+    .deleted-hint {
+      color: #ccc;
+      font-style: italic;
+      font-size: 12px;
+    }
+
+    /* 问大家 */
+    .qa-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #f5f5f5;
+    }
+    .qa-q {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+    .qa-q i {
+      color: #ff5000;
+      margin-right: 6px;
+    }
+    .qa-a {
+      font-size: 13px;
+      color: #666;
+      margin-top: 4px;
+      padding-left: 20px;
+    }
+    .qa-deleted {
+      color: #ccc;
+      font-style: italic;
+      text-decoration: line-through;
+    }
+
+    /* ========== 弹窗 ========== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    .modal-dialog {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+    .modal-dialog h3 {
+      margin-bottom: 12px;
+      color: #222;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-dialog .close-btn {
+      float: right;
+      cursor: pointer;
+      font-size: 18px;
+      color: #999;
+      background: none;
+      border: none;
+    }
+    .modal-dialog .close-btn:hover {
+      color: #333;
+    }
+    .btn-primary-sm {
+      background: #ff5000;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    /* 客服弹窗 */
+    .chat-window {
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 12px;
+      height: 280px;
+      overflow-y: auto;
+      margin: 12px 0;
+      font-size: 13px;
+    }
+    .chat-msg {
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chat-msg.user {
+      align-items: flex-end;
+    }
+    .chat-msg.user .bubble {
+      background: #ff5000;
+      color: white;
+      padding: 8px 14px;
+      border-radius: 14px 14px 4px 14px;
+      max-width: 75%;
+    }
+    .chat-msg.seller .bubble {
+      background: white;
+      padding: 8px 14px;
+      border-radius: 14px 14px 14px 4px;
+      max-width: 75%;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    .chat-input-area {
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input-area input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      border-radius: 16px;
+      font-size: 13px;
+      outline: none;
+    }
+    .chat-input-area button {
+      background: #ff5000;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== 淘宝顶部导航 ==================== -->
+  <div class="tb-topbar">
+    <div class="tb-topbar-inner">
+      <div class="tb-topbar-left">
+        <span>中国大陆</span>
+        <span>亲，请登录</span>
+        <span>免费注册</span>
+      </div>
+      <div class="tb-topbar-right">
+        <span><i class="fas fa-user"></i> 我的淘宝</span>
+        <span><i class="fas fa-shopping-cart"></i> 购物车</span>
+        <span><i class="fas fa-heart"></i> 收藏夹</span>
+        <span><i class="fas fa-headset"></i> 联系客服</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 淘宝头部 ==================== -->
+  <div class="tb-header">
+    <div class="tb-header-inner">
+      <div class="tb-logo">淘宝网</div>
+      <div class="tb-search-box">
+        <input type="text" placeholder="历史学科认知强化包" value="历史学科认知强化包">
+        <button class="tb-search-btn">搜索</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 面包屑 ==================== -->
+  <div class="breadcrumb">
+    <span>山经书店官方旗舰店</span> &gt;
+    <span>认知资源</span> &gt;
+    <span class="current">【内部资源】历史学科认知强化包 - 高中全套</span>
+  </div>
+
+  <!-- ==================== 商品主区域 ==================== -->
+  <div class="product-main">
+    <!-- 左侧图片 -->
+    <div class="product-gallery">
+      <div class="main-image" id="mainImage">
+        <i class="fas fa-brain"></i>
+        <span class="tag">内部资源</span>
+      </div>
+      <div class="thumb-list">
+        <div class="thumb special-thumb active" data-img="brain"><i class="fas fa-brain"></i></div>
+        <div class="thumb" data-img="headphone"><i class="fas fa-headphones"></i></div>
+        <div class="thumb" data-img="app"><i class="fas fa-mobile-alt"></i></div>
+        <div class="thumb" data-img="chart"><i class="fas fa-chart-line"></i></div>
+      </div>
+    </div>
+
+    <!-- 中间信息 -->
+    <div class="product-info-area">
+      <div class="product-title-main">【内部资源】历史学科认知强化包 - 高中全套</div>
+      <div class="product-subtitle"><i class="fas fa-fire"></i> 采用最新神经科学技术 · 7-14天见效 · 无效退款</div>
+
+      <div class="price-area">
+        <span class="price-label">价格</span>
+        <span class="price-value"><span>¥</span>2999</span>
+        <span class="price-original">¥5999</span>
+        <div class="price-meta">
+          <span>已售 <strong>217</strong> 件</span>
+          <span>库存 <strong style="color:#ff5000;">47</strong> 件</span>
+          <span>好评率 <strong style="color:#ff5000;">99%</strong></span>
+        </div>
+      </div>
+
+      <div class="promo-tags">
+        <span class="promo-tag">限时优惠</span>
+        <span class="promo-tag">7天无理由</span>
+        <span class="promo-tag">赠MindSync耳机</span>
+      </div>
+
+      <div class="sku-area">
+        <div class="sku-label">学科选择</div>
+        <div class="sku-options">
+          <span class="sku-option active">历史·高中全套</span>
+          <span class="sku-option">历史·中国古代史</span>
+          <span class="sku-option">历史·世界近现代史</span>
+        </div>
+      </div>
+
+      <div class="quantity-area">
+        <span>数量</span>
+        <button class="qty-btn">-</button>
+        <input type="text" class="qty-input" value="1">
+        <button class="qty-btn">+</button>
+        <span class="stock-info">库存47件</span>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-buy-now" id="btnBuyNow">立即购买</button>
+        <button class="btn-add-cart">加入购物车</button>
+        <button class="btn-report" id="btnReport"><i class="fas fa-exclamation-triangle"></i> 举报</button>
+      </div>
+    </div>
+
+    <!-- 右侧店铺卡片 -->
+    <div class="shop-card">
+      <div class="shop-card-logo">山经</div>
+      <div class="shop-card-name">山经书店官方旗舰店</div>
+      <div class="shop-card-stats">
+        <span class="rating">4.9分</span> | 2.3万关注
+      </div>
+      <button class="btn-enter-shop">进入店铺</button>
+      <button class="btn-follow-shop">关注店铺</button>
+      <div style="font-size:11px; color:#aaa; margin-top:8px;">📍 怀璧市文化路217号</div>
+    </div>
+  </div>
+
+  <!-- ==================== 下方Tab区域 ==================== -->
+  <div class="detail-section">
+    <div class="detail-left">
+      <div class="tab-nav">
+        <div class="tab-item active" data-tab="desc">商品描述</div>
+        <div class="tab-item" data-tab="reviews">买家评价 (217)</div>
+        <div class="tab-item" data-tab="qa">问大家 (38)</div>
+      </div>
+
+      <!-- 商品描述 -->
+      <div class="tab-content" id="tabDesc">
+        <div class="desc-block">
+          <h4>🧠 产品原理</h4>
+          <p>基于最新神经科学的<strong>认知模式迁移技术</strong>，提取优秀学生的学习认知数据，通过特定频率的脑波音频引导使用者大脑快速建立知识体系。该技术由MindTech Lab研发，已在多个教育机构进行过内部测试。</p>
+        </div>
+
+        <div class="desc-block">
+          <h4>📋 使用方法</h4>
+          <ol style="padding-left:20px; line-height:2; font-size:14px; color:#555;">
+            <li>下载配套APP <strong>MindSync</strong>（购买后通过物流短信发送下载链接）</li>
+            <li>佩戴附赠的专业脑波同步耳机</li>
+            <li>每晚睡前收听 <strong>30-60分钟</strong></li>
+            <li>坚持使用 <strong>7-14天</strong> 即可见效</li>
+          </ol>
+        </div>
+
+        <div class="desc-block">
+          <h4>✓ 效果承诺</h4>
+          <ul class="feature-list">
+            <li>知识点记忆速度提升300%</li>
+            <li>历史思维能力显著增强</li>
+            <li>答题准确率大幅提高</li>
+            <li>7天见效，无效全额退款</li>
+          </ul>
+        </div>
+
+        <div class="warning-box">
+          <i class="fas fa-exclamation-triangle"></i>
+          <strong>注意事项：</strong><br>
+          • 仅限学习使用，严禁商用<br>
+          • 使用期间可能出现轻微头晕、注意力暂时下降，属正常现象<br>
+          • 部分用户反馈出现陌生记忆画面，系大脑整合知识过程中的正常反应<br>
+          • 如有严重不适请立即停用并咨询客服微信 sjbook2026
+        </div>
+      </div>
+
+      <!-- 买家评价 -->
+      <div class="tab-content hidden" id="tabReviews">
+        <div class="review-summary">
+          <div class="review-score">4.9</div>
+          <div>
+            <div class="review-stars">⭐⭐⭐⭐⭐</div>
+            <div class="review-count">217条评价 | 好评率99%</div>
+          </div>
+        </div>
+
+        <div class="review-filter">
+          <span class="active">全部(217)</span>
+          <span>好评(210)</span>
+          <span>追评(87)</span>
+          <span>有图(34)</span>
+          <span style="color:#ff5000;">⚠️ 有副作用反馈(23)</span>
+        </div>
+
+        <!-- 评价1 -->
+        <div class="review-item">
+          <div class="review-user">
+            h***u <span class="stars-sm">⭐⭐⭐⭐⭐</span>
+            <span class="review-date">2026-01-15</span>
+          </div>
+          <div class="review-content">效果惊人！一周时间历史成绩从60分涨到90分！推荐给所有学历史的同学。配套的耳机戴着也很舒服。</div>
+          <div class="review-followup">
+            🔺 <strong>追评</strong>（30天后）<br>
+            但最近总觉得脑子里有些奇怪的画面……我"记得"在一个博物馆看展览，但我从没去过那个博物馆。客服说这是大脑在整合知识，让我多喝水休息。希望没事。
+            <div class="fu-date">2026-02-15 | <span style="color:#ff5000;">商家回复：正常现象，大脑在整合知识</span></div>
+          </div>
+        </div>
+
+        <!-- 评价2 -->
+        <div class="review-item">
+          <div class="review-user">
+            x***3 <span class="stars-sm">⭐⭐⭐⭐⭐</span>
+            <span class="review-date">2026-01-20</span>
+          </div>
+          <div class="review-content">物超所值！推荐给同学了。用了两周，背书的效率确实提高了。</div>
+          <div class="review-followup">
+            🔺 <strong>追评</strong>（45天后）<br>
+            有点后悔。感觉这些知识不像是"我自己学的"，更像是别人塞进我脑子里的。而且开始做噩梦，梦到一个陌生女孩在哭。这到底是什么东西？
+            <div class="fu-date">2026-03-06 | <span style="color:#ff5000;">商家回复：多喝水，注意休息</span></div>
+          </div>
+        </div>
+
+        <!-- 评价3 -->
+        <div class="review-item">
+          <div class="review-user">
+            t***7 <span class="stars-sm">⭐⭐⭐⭐⭐</span>
+            <span class="review-date">2026-01-28</span>
+          </div>
+          <div class="review-content">太神奇了！背诵古诗词像开了外挂。效果真的很好。</div>
+          <div class="review-followup">
+            🔺 <strong>追评</strong>（60天后）<br>
+            求助！我开始做噩梦，梦到一个陌生女孩在博物馆里哭。而且那个场景越来越清晰……我甚至"记得"那个博物馆里展品的细节。但我从没去过那里！这正常吗？？
+            <div class="fu-date">2026-03-28 | <span class="no-reply">⚠️ 商家未回复</span></div>
+          </div>
+        </div>
+
+        <!-- 评价4 -->
+        <div class="review-item">
+          <div class="review-user">
+            k***2 <span class="stars-sm">⭐</span>
+            <span class="review-date">2026-02-05</span>
+          </div>
+          <div class="review-content">退款！我要退款！这些记忆不是我的！我脑子里出现了完全不属于我的记忆片段，太可怕了。</div>
+          <div class="review-followup">
+            🔺 <strong>追评</strong><br>
+            客服不回复了。我"记得"一些我根本没经历过的事。我会报警的。
+            <div class="fu-date">2026-03-05 | <span style="color:#ccc; text-decoration:line-through;">商家回复：</span><span class="deleted-hint">（此回复已被删除）</span></div>
+          </div>
+        </div>
+
+        <!-- 折叠评价 -->
+        <div class="folded-notice" id="foldedReviewsTrigger">
+          <i class="fas fa-chevron-down"></i> 查看已折叠的114条评价 <i class="fas fa-chevron-down"></i>
+        </div>
+      </div>
+
+      <!-- 问大家 -->
+      <div class="tab-content hidden" id="tabQA">
+        <div class="qa-item">
+          <div class="qa-q"><i class="fas fa-question-circle"></i> 这个数据是从哪里来的？</div>
+          <div class="qa-a">商家回复：独家技术，商业机密。所有数据均来自合法渠道。</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><i class="fas fa-question-circle"></i> 为什么我会看到别人的记忆？</div>
+          <div class="qa-a">商家回复：那是潜意识的想象，很正常。大脑在学习新知识时会自动联想。</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><i class="fas fa-question-circle"></i> 卖数据的学生知道吗？</div>
+          <div class="qa-a qa-deleted">（此问题已被删除）</div>
+        </div>
+        <div class="qa-item">
+          <div class="qa-q"><i class="fas fa-question-circle"></i> 有没有副作用？长期使用安全吗？</div>
+          <div class="qa-a">商家回复：产品经过严格测试，安全无害。个别用户出现头晕属正常现象。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右侧热销 -->
+    <div class="detail-right">
+      <div style="background:white; border-radius:10px; padding:14px; box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+        <div style="font-weight:700; margin-bottom:10px; font-size:14px;">🔥 店内热销</div>
+        <div style="font-size:12px; color:#666; padding:6px 0; border-bottom:1px solid #f5f5f5;">数学思维包 ¥3999</div>
+        <div style="font-size:12px; color:#666; padding:6px 0; border-bottom:1px solid #f5f5f5;">英语语感包 ¥3999</div>
+        <div style="font-size:12px; color:#666; padding:6px 0; border-bottom:1px solid #f5f5f5;">生物学科包 ¥1999</div>
+        <div style="font-size:12px; color:#666; padding:6px 0;">记忆碎片·旅行 ¥299</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 折叠评价弹窗 ==================== -->
+  <div class="modal-overlay hidden" id="foldedModal">
+    <div class="modal-dialog">
+      <h3>📂 已折叠评价（114条）<button class="close-btn" id="closeFoldedModal">✕</button></h3>
+      <div style="max-height:350px; overflow-y:auto; font-size:13px;">
+        <div class="review-item">
+          <strong>m***9</strong> ⭐⭐⭐⭐ 效果有，但头晕
+          <div class="review-followup">追评：脑子里多了好多不属于我的记忆片段，好可怕。商家让我多喝水。</div>
+        </div>
+        <div class="review-item">
+          <strong>q***1</strong> ⭐ 客服不回复！
+          <div class="review-followup">追评：我"记得"一个博物馆展览，但我根本没去过。而且那个记忆特别清晰。</div>
+        </div>
+        <div class="review-item">
+          <strong>p***4</strong> ⭐⭐⭐ 一般般
+          <div class="review-followup">追评：为什么我会看到陌生人的记忆？这到底是什么东西？有没有人跟我一样？</div>
+        </div>
+        <div class="review-item">
+          <strong>w***8</strong> ⭐⭐⭐⭐ 效果很好
+          <div class="review-followup">追评：但我会梦到一个女孩在历史课上回答问题……我不认识她。</div>
+        </div>
+        <div class="review-item">
+          <strong>y***5</strong> ⭐⭐ 不推荐
+          <div class="review-followup">追评：这些"记忆"让我分不清真实和虚幻了。我到底是谁？</div>
+        </div>
+        <div class="review-item">
+          <strong>z***0</strong> ⭐ 已报警
+          <div class="review-followup">追评：这根本不是学习产品。这是某种数据提取。我已经向网警报案。</div>
+        </div>
+      </div>
+      <button class="btn-primary-sm" id="closeFoldedBtn" style="margin-top:12px; width:100%;">关闭</button>
+    </div>
+  </div>
+
+  <!-- ==================== 客服弹窗 ==================== -->
+  <div class="modal-overlay hidden" id="chatModal">
+    <div class="modal-dialog">
+      <h3>💬 山经书店客服 <button class="close-btn" id="closeChatModal">✕</button></h3>
+      <div class="chat-window" id="chatWindow">
+        <div class="chat-msg seller">
+          <div class="bubble">您好，山经书店官方客服，请问有什么可以帮您？</div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="输入您的问题..." autocomplete="off">
+        <button id="sendChat">发送</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 举报弹窗 ==================== -->
+  <div class="modal-overlay hidden" id="reportModal">
+    <div class="modal-dialog">
+      <h3>⚠️ 举报商品 <button class="close-btn" id="closeReportModal">✕</button></h3>
+      <p style="font-size:13px; color:#666; margin-bottom:12px;">请选择举报原因：</p>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <label style="cursor:pointer; font-size:14px;"><input type="radio" name="report" value="fake"> 疑似虚假宣传</label>
+        <label style="cursor:pointer; font-size:14px;"><input type="radio" name="report" value="illegal"> 涉及非法交易</label>
+        <label style="cursor:pointer; font-size:14px;"><input type="radio" name="report" value="harm"> 危害人身安全</label>
+        <label style="cursor:pointer; font-size:14px;"><input type="radio" name="report" value="other"> 其他</label>
+      </div>
+      <button class="btn-primary-sm" style="margin-top:12px; width:100%;" id="submitReport">提交举报</button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ========== Tab切换 ==========
+      const tabItems = document.querySelectorAll('.tab-item');
+      const tabContents = {
+        desc: document.getElementById('tabDesc'),
+        reviews: document.getElementById('tabReviews'),
+        qa: document.getElementById('tabQA')
+      };
+
+      tabItems.forEach(tab => {
+        tab.addEventListener('click', function() {
+          tabItems.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          Object.values(tabContents).forEach(c => c.classList.add('hidden'));
+          const target = this.dataset.tab;
+          if (tabContents[target]) tabContents[target].classList.remove('hidden');
+        });
+      });
+
+      // ========== 缩略图切换 ==========
+      const thumbs = document.querySelectorAll('.thumb');
+      const mainImage = document.getElementById('mainImage');
+      const iconMap = {
+        brain: '<i class="fas fa-brain"></i>',
+        headphone: '<i class="fas fa-headphones"></i>',
+        app: '<i class="fas fa-mobile-alt"></i>',
+        chart: '<i class="fas fa-chart-line"></i>'
+      };
+
+      thumbs.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+          thumbs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          const imgType = this.dataset.img;
+          mainImage.innerHTML = iconMap[imgType] + '<span class="tag">内部资源</span>';
+        });
+      });
+
+      // ========== SKU选择 ==========
+      document.querySelectorAll('.sku-option').forEach(opt => {
+        opt.addEventListener('click', function() {
+          this.parentElement.querySelectorAll('.sku-option').forEach(o => o.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // ========== 折叠评价弹窗 ==========
+      const foldedModal = document.getElementById('foldedModal');
+      document.getElementById('foldedReviewsTrigger').addEventListener('click', () => foldedModal.classList.remove('hidden'));
+      document.getElementById('closeFoldedModal').addEventListener('click', () => foldedModal.classList.add('hidden'));
+      document.getElementById('closeFoldedBtn').addEventListener('click', () => foldedModal.classList.add('hidden'));
+      foldedModal.addEventListener('click', e => { if (e.target === foldedModal) foldedModal.classList.add('hidden'); });
+
+      // ========== 客服弹窗 ==========
+      const chatModal = document.getElementById('chatModal');
+      const chatWindow = document.getElementById('chatWindow');
+      const chatInput = document.getElementById('chatInput');
+      const sendChat = document.getElementById('sendChat');
+
+      // 点击"联系客服"或店铺卡片进入店铺都可以触发（这里绑定顶部客服和举报旁边的入口）
+      document.querySelector('.tb-topbar-right span:last-child').addEventListener('click', () => chatModal.classList.remove('hidden'));
+      document.querySelector('.shop-card .btn-enter-shop').addEventListener('click', () => chatModal.classList.remove('hidden'));
+      document.getElementById('closeChatModal').addEventListener('click', () => chatModal.classList.add('hidden'));
+      chatModal.addEventListener('click', e => { if (e.target === chatModal) chatModal.classList.add('hidden'); });
+
+      // 客服关键词回复
+      const keywordReplies = {
+        '副作用': '亲，轻微头晕和疲劳是正常现象哦。大脑在适应新的学习模式，一般3-5天就会消失。',
+        '记忆': '那是潜意识的想象呢，说明产品正在激活您的神经元连接。多喝水，注意休息就好。',
+        '退款': '亲，您已经使用超过7天了，根据规定无法退款呢。但如果持续不适建议暂停使用。',
+        '数据': '我们的数据均来自合法渠道，所有提供者都签署了授权协议。这是商业机密哦。',
+        '来源': '数据来源是保密的呢，但都是经过严格筛选的优秀学生志愿者。',
+        'mindsync': 'MindSync是我们的配套APP哦，购买后会通过物流短信发送下载链接。暗号？什么暗号？（对方似乎有些紧张）',
+        '暗号': '（对方沉默了几秒）……您从哪里知道这个词的？不过我可以告诉您，认知资源分类需要输入MindSync才能访问。',
+        '报警': '（对方沉默了）……建议您通过正规渠道反馈问题。',
+        '徐雨桐': '（对方没有回复，对话框显示"正在输入..."，然后又消失了）',
+        '志愿者': '我们确实在招募志愿者呢！时薪150-300元，地址在怀璧市文化路217号山经书店二楼。要求成绩优秀哦。',
+        '董新飞': '（对方沉默了很长时间）……您是谁？',
+        '陈昱': '（对方已离线）'
+      };
+
+      function addChatMessage(text, type) {
+        const div = document.createElement('div');
+        div.className = 'chat-msg ' + type;
+        div.innerHTML = '<div class="bubble">' + text + '</div>';
+        chatWindow.appendChild(div);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+      }
+
+      function processChatInput() {
+        const msg = chatInput.value.trim();
+        if (!msg) return;
+        addChatMessage(msg, 'user');
+        chatInput.value = '';
+
+        // 检查关键词
+        let replied = false;
+        for (const [keyword, reply] of Object.entries(keywordReplies)) {
+          if (msg.includes(keyword)) {
+            setTimeout(() => addChatMessage(reply, 'seller'), 600 + Math.random() * 800);
+            replied = true;
+            break;
+          }
+        }
+        if (!replied) {
+          const defaults = [
+            '亲，请问您想咨询哪款产品呢？',
+            '我们的产品效果很好的哦，7-14天见效。',
+            '亲，具体有什么问题可以详细描述一下~',
+            '您好，客服在线，随时为您服务。'
+          ];
+          setTimeout(() => addChatMessage(defaults[Math.floor(Math.random() * defaults.length)], 'seller'), 600);
+        }
+      }
+
+      sendChat.addEventListener('click', processChatInput);
+      chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') processChatInput(); });
+
+      // ========== 举报弹窗 ==========
+      const reportModal = document.getElementById('reportModal');
+      document.getElementById('btnReport').addEventListener('click', () => reportModal.classList.remove('hidden'));
+      document.getElementById('closeReportModal').addEventListener('click', () => reportModal.classList.add('hidden'));
+      reportModal.addEventListener('click', e => { if (e.target === reportModal) reportModal.classList.add('hidden'); });
+      document.getElementById('submitReport').addEventListener('click', () => {
+        const selected = document.querySelector('input[name="report"]:checked');
+        if (selected) {
+          alert('✅ 举报已提交。\n\n您的举报将作为调查线索之一。\n（游戏内：该举报会触发后续剧情）');
+          reportModal.classList.add('hidden');
+        } else {
+          alert('请选择一个举报原因');
+        }
+      });
+
+      // ========== 立即购买 ==========
+      document.getElementById('btnBuyNow').addEventListener('click', () => {
+        alert('🛒 模拟购买流程\n\n支付金额：¥2999\n发货方式：物流配送（含MindSync耳机）\n下载链接将通过短信发送\n\n（游戏内：购买后可获得APP下载链接和物流信息线索）');
+      });
+
+      console.log('📦 商品详情页已加载 | 山经书店·消失的买家');
+      console.log('🔍 线索提示：查看追评、问大家、与客服对话套取信息');
+      console.log('💡 试试在客服聊天中输入：副作用、数据来源、徐雨桐、董新飞、陈昱');
+    })();
+  </script>
+</body>
+</html>
