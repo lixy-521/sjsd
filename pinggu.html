@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>山经bookstore · 学习能力评估</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f2f2f2;
+  color: #333;
+  padding-bottom: 40px;
+}
+
+/* Brand bar */
+.brand-bar {
+  background: #1a3a5c;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.brand-icon {
+  width: 36px; height: 36px;
+  border-radius: 6px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a3a5c;
+  flex-shrink: 0;
+}
+.brand-text { color: #fff; }
+.brand-text .name { font-size: 15px; font-weight: 600; }
+.brand-text .sub { font-size: 11px; opacity: .7; }
+
+/* Article container */
+.article {
+  max-width: 640px;
+  margin: 0 auto;
+  background: #fff;
+  position: relative;
+}
+
+/* Cover */
+.cover {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #1a3a5c 0%, #2d5a8a 50%, #4a7ab5 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L55 30 L30 55 L5 30 Z' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='1'/%3E%3C/svg%3E") repeat;
+}
+.cover h1 {
+  font-size: 22px;
+  font-weight: 700;
+  position: relative;
+  z-index: 1;
+  line-height: 1.4;
+}
+.cover .meta {
+  font-size: 13px;
+  opacity: .7;
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Content body */
+.content {
+  padding: 24px 20px 20px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+.content p {
+  margin-bottom: 16px;
+  text-indent: 2em;
+}
+.content p.no-indent { text-indent: 0; }
+
+.content h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 28px 0 12px;
+  color: #1a3a5c;
+  text-indent: 0;
+}
+.content h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 20px 0 10px;
+  color: #2d5a8a;
+  text-indent: 0;
+}
+
+.content .interview-q {
+  font-weight: 600;
+  color: #1a3a5c;
+  margin-bottom: 4px;
+  text-indent: 0;
+}
+.content .interview-a {
+  margin-bottom: 20px;
+  padding-left: 0;
+  text-indent: 0;
+}
+
+.content .highlight-box {
+  background: #f0f5fb;
+  border-left: 4px solid #1a3a5c;
+  padding: 14px 16px;
+  margin: 16px 0;
+  border-radius: 0 8px 8px 0;
+  text-indent: 0;
+  font-size: 15px;
+}
+
+.content .highlight-box.warn {
+  border-left-color: #c0392b;
+  background: #fdf2f2;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #e8e8e8;
+  margin: 24px 0;
+}
+
+/* Tag */
+.tag {
+  display: inline-block;
+  background: #1a3a5c;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-right: 4px;
+}
+
+/* CTA Section */
+.cta-section {
+  margin: 28px 0 0;
+  padding: 24px 20px;
+  background: linear-gradient(135deg, #f0f5fb 0%, #e8f0f8 100%);
+  border-radius: 12px;
+  text-align: center;
+}
+.cta-section h3 {
+  font-size: 18px;
+  color: #1a3a5c;
+  margin-bottom: 6px;
+  text-indent: 0;
+}
+.cta-section p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+  text-indent: 0;
+}
+.cta-btn {
+  display: inline-block;
+  padding: 12px 32px;
+  background: #1a3a5c;
+  color: #fff;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .2s, transform .1s;
+  cursor: pointer;
+  border: none;
+}
+.cta-btn:hover { background: #2d5a8a; }
+.cta-btn:active { transform: scale(.97); }
+
+/* Divider */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  color: #bbb;
+  font-size: 12px;
+}
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid #e8e8e8;
+}
+
+/* Form section */
+.form-section {
+  padding: 0 20px 20px;
+}
+.form-section h2 {
+  font-size: 18px;
+  color: #1a3a5c;
+  margin-bottom: 4px;
+  text-indent: 0;
+}
+.form-section .form-sub {
+  font-size: 13px;
+  color: #999;
+  margin-bottom: 20px;
+  text-indent: 0;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 6px;
+}
+.form-group label .required {
+  color: #e74c3c;
+  margin-left: 2px;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color .2s;
+  background: #fff;
+  font-family: inherit;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #1a3a5c;
+}
+.form-group textarea {
+  height: 80px;
+  resize: vertical;
+}
+.form-group .hint {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+.form-row .form-group { flex: 1; }
+
+.form-group.checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.form-group.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.form-group.checkbox-group label {
+  font-weight: 400;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.submit-area {
+  text-align: center;
+  margin-top: 24px;
+}
+.submit-btn {
+  padding: 14px 48px;
+  background: #1a3a5c;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+}
+.submit-btn:hover { background: #2d5a8a; }
+.submit-btn:active { transform: scale(.97); }
+.submit-btn:disabled {
+  opacity: .4;
+  cursor: default;
+}
+
+.submit-status {
+  margin-top: 12px;
+  font-size: 14px;
+  min-height: 24px;
+}
+.submit-status.success { color: #27ae60; }
+.submit-status.error { color: #e74c3c; }
+
+/* Footer */
+.footer-note {
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  color: #bbb;
+}
+.footer-note a { color: #999; text-decoration: none; }
+
+/* Hidden by default */
+#formSection {
+  display: none;
+}
+#formSection.active {
+  display: block;
+  animation: fadeIn .3s ease-out;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+@media (max-width: 480px) {
+  .content { padding: 16px 14px; }
+  .cover { height: 160px; }
+  .cover h1 { font-size: 18px; }
+  .form-row { flex-direction: column; gap: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="article">
+  <!-- Brand bar -->
+  <div class="brand-bar">
+    <div class="brand-icon">山经</div>
+    <div class="brand-text">
+      <div class="name">山经bookstore</div>
+      <div class="sub">怀璧本地教辅书店，专注中高考二十年</div>
+    </div>
+  </div>
+
+  <!-- Cover -->
+  <div class="cover">
+    <h1>"你害怕的东西，其实没那么可怕"</h1>
+    <div class="meta">林晚 · 686分 · 北境大学强基计划录取</div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <p class="no-indent" style="font-size:13px;color:#999;margin-bottom:8px;">
+      <span class="tag">学霸访谈</span> 2026年7月
+    </p>
+
+    <p>2026年高考已经结束。怀璧一中的走廊里，有人欢呼，有人落泪。而一个名字在教师办公室里反复被提起——林晚，高三（7）班，总分686分，全校第一，被北境大学强基计划录取。</p>
+
+    <p>这个成绩在怀璧一中算不上破纪录，但了解她的人都知道，就在四月二模，她还在年级五十名开外。</p>
+
+    <p>我们约到了林晚同学，在公布录取结果的第二天上午，山经书店二楼的学习评估室里访谈。</p>
+
+    <p class="no-indent" style="font-weight:600;color:#1a3a5c;">以下是访谈实录。</p>
+
+    <p class="interview-q">Q：先恭喜你，686分。现在是什么心情？</p>
+    <div class="interview-a">
+      <p>说实话，还没反应过来。那天晚上查分的时候手一直在抖，我妈在旁边比我还紧张。输完考号等了大概十秒钟吧，分数跳出来，我妈就哭了。</p>
+      <p>我倒没哭。就是觉得，啊，终于结束了。</p>
+      <p>然后今天早上醒来，突然意识到——我再也不用刷题了。那个感觉比查分还高兴。</p>
+    </div>
+
+    <p class="interview-q">Q：听说你高三下学期成绩还在五十名左右，怎么最后一个月冲上来的？</p>
+    <div class="interview-a">
+      <p>（笑）这个问题我从昨天到今天被问了快一百遍了。</p>
+      <p>其实没有什么秘诀。如果非要说一个——我换了一种"学"的方式。</p>
+      <p>高三上学期我特别焦虑。每天刷题刷到凌晨一点，周末也泡在书桌前，但成绩就是上不去。最崩溃的一次是二模，生物考了71分。我明明把所有知识点都背了，但考试的时候脑子里一片空白，像是有什么东西堵住了。</p>
+      <p>后来一个很偶然的机会，我听说了山经书店有学习能力评估。就来了。</p>
+    </div>
+
+    <p class="interview-q">Q：能具体说说学习能力评估吗？</p>
+    <div class="interview-a">
+      <p>就是戴一个头戴式的设备，然后做题。设备会记录你的脑电波什么的，分析你的思维模式。做完之后会出一份报告，告诉你哪些知识点是"真会"，哪些只是"你以为你会了"。</p>
+      <p>我第一次做的时候，报告显示我生物的遗传学部分认知模式是"碎片化"的——就是我知道每个知识点，但它们之间没有形成网络。所以一遇到综合题就崩。</p>
+      <p>这个评估对我帮助挺大的。后面复习就有针对性了。</p>
+    </div>
+
+    <p class="interview-q">Q：所以是评估帮了你？</p>
+    <div class="interview-a">
+      <p>评估是一个起点。它让我知道自己问题出在哪。</p>
+      <p>但真正改变的是那之后的学习方式。我不再盲目刷题了。每天只做三件事：补薄弱点、建立知识网络、保持手感。</p>
+      <p>说起来简单，做起来很难。补薄弱点需要大量针对性的练习，建立知识网络需要有人帮你串讲——这个我特别感谢我的生物老师，她帮了我很多。</p>
+      <p>最后十天，我每天早上六点起床，晚上十一点睡觉。不熬夜。效率比时长重要。</p>
+    </div>
+
+    <p class="interview-q">Q：你提到了生物。这次高考生物考了多少？</p>
+    <div class="interview-a">
+      <p>94分。不算特别高，但对我来说已经很满意了。毕竟一个月前还是71。</p>
+      <p>遗传题我全对了。那道大题，关于基因频率计算的，我看到题的时候差点笑出来——那个题型我在评估之后专门练过。就是那种"这道题我见过"的感觉。</p>
+    </div>
+
+    <p class="interview-q">Q：现在很多学弟学妹可能会问：我也去做了评估，为什么没你这样的效果？</p>
+    <div class="interview-a">
+      <p>（沉默了几秒）</p>
+      <p>这个问题……我想认真回答一下。</p>
+      <p>评估只是一个工具。它像一面镜子，能照出你的问题，但不能替你解决问题。我看到有些同学来做了评估，拿到报告，看了一眼就扔一边了。那没有用。</p>
+      <p>还有一点——我觉得评估不能做太多次。</p>
+      <p>我只做过一次。就够了。</p>
+      <p>我知道有些同学每个月都来做一次，甚至两周一次。但你想，如果一直依赖这个，你自己的学习能力反而会退化。就像走路——你可以拄拐杖，但不能一直拄着。拄久了，你自己的腿就没力气了。</p>
+    </div>
+
+    <div class="highlight-box warn">
+      <strong>编者注：</strong>林晚同学说得对。学习能力评估是一种诊断工具，而非替代学习的捷径。我们建议每位同学每学期最多参与一次评估，将更多精力放在评估后的针对性训练上。
+    </div>
+
+    <p class="interview-q">Q：你对学弟学妹有什么建议？</p>
+    <div class="interview-a">
+      <p>两点吧。</p>
+      <p>第一，学会休息。高三最后阶段，拼的不是谁刷的题多，是谁的状态好。我最后一个月，每天晚上睡前都会听一会儿歌，就十分钟，什么都不想。那十分钟对我来说特别重要。</p>
+      <p>第二，相信自己的节奏。不要看别人买了什么教辅你就买什么，别人报了补习班你就跟着报。找到自己的问题，用自己的方法解决。</p>
+      <p>哦还有——多去书店逛逛。不是替你们打广告（笑），但山经书店的教辅确实全。我最后几天用的押题卷都是在这儿买的。</p>
+    </div>
+
+    <p class="interview-q">Q：最后一个问题。如果让你对一年前的自己说一句话，你会说什么？</p>
+    <div class="interview-a">
+      <p>（想了很久）</p>
+      <p>我会说——"你害怕的东西，其实没那么可怕。"</p>
+      <p>高考就是一张卷子。在你前面做过无数张卷子，它只是其中一张。只不过它是最后一张。</p>
+      <p>做完了，你就自由了。</p>
+    </div>
+
+    <hr class="divider">
+
+    <p style="font-size:14px;color:#666;text-indent:0;">
+      <strong>山经bookstore后记：</strong>
+    </p>
+    <p>访谈结束的时候，林晚站起来，看了一眼窗外。正是上午十点多的光景，怀璧一中的操场上有人在跑步。</p>
+    <p>"那条跑道，"她指了指窗外，"我跑了三年。"</p>
+    <p>"以后不用跑了。"</p>
+    <p>她笑了一下，跟我们道别，背着书包走了。书包看起来挺沉的，但她的脚步很轻。</p>
+    <p>我们祝愿林晚同学如愿以偿，也祝愿所有2026届高考考生——无论分数高低，你们都值得被恭喜。因为你们完整地走过了这条漫长的路。</p>
+    <p>而这本身，就是了不起的成就。</p>
+    <p style="text-indent:0;color:#999;font-size:14px;">——山经bookstore，陪你走过每一个学年。</p>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <h3>你也想了解自己的学习能力吗？</h3>
+      <p>填写评估问卷，预约到店进行免费学习能力评估。<br>生成专属认知模式报告，找到你的提分突破口。</p>
+      <button class="cta-btn" onclick="showForm()">立即填写评估问卷 →</button>
+    </div>
+
+    <!-- Form -->
+    <div id="formSection">
+      <div class="section-divider"><span>评估报名表</span></div>
+
+      <div class="form-section">
+        <h2>学习能力评估 · 预约登记</h2>
+        <p class="form-sub">填写以下信息，我们将在一周内短信通知您到店评估的时间安排。</p>
+
+        <form id="evalForm" onsubmit="return handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>姓名 <span class="required">*</span></label>
+              <input type="text" id="name" required placeholder="请输入真实姓名">
+            </div>
+            <div class="form-group">
+              <label>性别</label>
+              <select id="gender">
+                <option value="">请选择</option>
+                <option>男</option>
+                <option>女</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>在读学校 <span class="required">*</span></label>
+            <input type="text" id="school" required placeholder="如：怀璧一中">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>年级 <span class="required">*</span></label>
+              <select id="grade" required>
+                <option value="">请选择</option>
+                <option>高一</option>
+                <option>高二</option>
+                <option>高三</option>
+                <option>复读</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>选科 / 文理科</label>
+              <select id="track">
+                <option value="">请选择</option>
+                <option>物化生</option>
+                <option>物化政</option>
+                <option>物化地</option>
+                <option>物生地</option>
+                <option>物生政</option>
+                <option>历政地</option>
+                <option>历政生</option>
+                <option>理科</option>
+                <option>文科</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>薄弱学科（可多选） <span class="required">*</span></label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="语文"> 语文
+              </label>
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="数学"> 数学
+              </label>
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="英语"> 英语
+              </label>
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="物理"> 物理
+              </label>
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="化学"> 化学
+              </label>
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="生物"> 生物
+              </label>
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="历史"> 历史
+              </label>
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="地理"> 地理
+              </label>
+              <label style="font-weight:400;font-size:14px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:80px;">
+                <input type="checkbox" name="weak" value="政治"> 政治
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>当前成绩水平</label>
+            <select id="level">
+              <option value="">请选择</option>
+              <option>年级前10%</option>
+              <option>年级前30%</option>
+              <option>年级前50%</option>
+              <option>年级后50%</option>
+              <option>不清楚</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>手机号 <span class="required">*</span></label>
+            <input type="tel" id="phone" required placeholder="用于接收评估通知短信" pattern="[0-9]{11}">
+            <div class="hint">我们将通过短信通知您评估时间安排</div>
+          </div>
+
+          <div class="form-group">
+            <label>备注（选填）</label>
+            <textarea id="note" placeholder="如有特殊情况或需求，请在此说明"></textarea>
+          </div>
+
+          <div class="form-group checkbox-group">
+            <input type="checkbox" id="agree" required>
+            <label for="agree">我已阅读并同意 <a href="#" style="color:#1a3a5c;" onclick="alert('《数据采集知情同意书》\n\n本人确认：已充分了解评估过程中将采集脑电波数据用于学习能力分析；自愿参与本次评估，无任何强迫；已知晓评估过程中可能出现轻微疲劳等正常反应。\n\n本数据仅用于学习科学研究及相关产品开发。')">《数据采集知情同意书》</a> <span class="required">*</span></label>
+          </div>
+
+          <div class="submit-area">
+            <button type="submit" class="submit-btn" id="submitBtn">提交预约</button>
+            <div class="submit-status" id="submitStatus"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <a href="#">山经bookstore</a> · 怀璧县文化路217号<br>
+    营业时间：周一至周日 8:30-21:00
+  </div>
+</div>
+
+<script>
+function showForm() {
+  const section = document.getElementById('formSection');
+  section.classList.add('active');
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('submitStatus');
+  btn.disabled = true;
+  btn.textContent = '提交中…';
+  status.className = 'submit-status';
+  status.textContent = '';
+
+  const name = document.getElementById('name').value.trim();
+  const school = document.getElementById('school').value.trim();
+  const grade = document.getElementById('grade').value;
+  const phone = document.getElementById('phone').value.trim();
+  const agree = document.getElementById('agree').checked;
+
+  if (!name || !school || !grade || !phone || !agree) {
+    status.className = 'submit-status error';
+    status.textContent = '请填写所有必填项并同意协议。';
+    btn.disabled = false;
+    btn.textContent = '提交预约';
+    return;
+  }
+  if (!/^[0-9]{11}$/.test(phone)) {
+    status.className = 'submit-status error';
+    status.textContent = '请输入11位手机号。';
+    btn.disabled = false;
+    btn.textContent = '提交预约';
+    return;
+  }
+
+  const weakSubjects = [...document.querySelectorAll('input[name="weak"]:checked')].map(c => c.value);
+  const gender = document.getElementById('gender').value;
+  const track = document.getElementById('track').value;
+  const level = document.getElementById('level').value;
+  const note = document.getElementById('note').value.trim();
+
+  const formData = {
+    name, school, grade, phone, gender, track, level, note,
+    weakSubjects,
+    submittedAt: new Date().toISOString()
+  };
+  console.log('评估报名数据：', formData);
+
+  setTimeout(() => {
+    btn.textContent = '已提交 ✓';
+    status.className = 'submit-status success';
+    status.textContent = '预约成功！我们将在3个工作日内短信通知您评估时间。';
+
+    document.getElementById('evalForm').querySelectorAll('input, select, textarea, button').forEach(el => {
+      if (el.type !== 'checkbox' && el.id !== 'agree') el.disabled = true;
+    });
+    document.getElementById('agree').disabled = true;
+  }, 1200);
+
+  return false;
+}
+</script>
+</body>
+</html>

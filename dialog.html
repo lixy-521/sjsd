@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Lbyz · 刘天清</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #e0e0e0;
+}
+.chat-container {
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  max-height: 780px;
+  background: #1a1a2e;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  position: relative;
+}
+@media (min-width: 500px) {
+  .chat-container { border-radius: 16px; height: 90vh; }
+}
+
+/* Header */
+.chat-header {
+  background: #16213e;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #0f3460;
+  flex-shrink: 0;
+}
+.avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f3460, #533483);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #e0e0e0;
+  flex-shrink: 0;
+}
+.header-info { flex: 1; }
+.header-name {
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.header-status {
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot.online { background: #4ade80; }
+.status-dot.offline { background: #666; }
+.status-dot.warning { background: #fbbf24; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.mode-badge {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.mode-badge.script { background: #1e3a5f; color: #60a5fa; }
+.mode-badge.manual { background: #5f1e1e; color: #fb7185; animation: pulse 1.5s ease-in-out infinite; }
+
+/* Chat Messages */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-track { background: transparent; }
+.chat-messages::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+
+.message {
+  display: flex;
+  gap: 8px;
+  max-width: 88%;
+  animation: msgIn .25s ease-out;
+}
+@keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.message.bot { align-self: flex-start; }
+.message.user { align-self: flex-end; flex-direction: row-reverse; }
+.message .msg-avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f3460, #533483);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+  align-self: flex-end;
+}
+.message.user .msg-avatar { background: #1e3a5f; font-size: 10px; }
+.message .bubble {
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  word-break: break-word;
+  position: relative;
+}
+.message.bot .bubble {
+  background: #16213e;
+  border-bottom-left-radius: 4px;
+  color: #d0d8e8;
+  border: 1px solid #1e3a5f;
+}
+.message.user .bubble {
+  background: #0f3460;
+  border-bottom-right-radius: 4px;
+  color: #e0e0e0;
+}
+.message .bubble .timestamp {
+  font-size: 10px;
+  color: #666;
+  margin-top: 6px;
+  text-align: right;
+}
+
+.message.manual-alert .bubble {
+  background: #2d1515;
+  border-color: #5f1e1e;
+  color: #fca5a5;
+  font-weight: 500;
+}
+
+.message .bubble .keyword-hint {
+  display: inline-block;
+  background: #1e3a5f;
+  color: #60a5fa;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  margin: 1px 2px;
+}
+
+/* Input */
+.chat-input {
+  padding: 12px 16px;
+  background: #16213e;
+  border-top: 1px solid #0f3460;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.chat-input input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #0f3460;
+  border-radius: 20px;
+  background: #1a1a2e;
+  color: #e0e0e0;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .2s;
+}
+.chat-input input:focus { border-color: #0f3460; }
+.chat-input input::placeholder { color: #555; }
+.chat-input input:disabled { opacity: .4; }
+.chat-input button {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #0f3460;
+  color: #e0e0e0;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.chat-input button:hover { background: #533483; }
+.chat-input button:disabled { opacity: .3; cursor: default; }
+
+/* Timer bar */
+.manual-timer {
+  background: #2d1515;
+  padding: 8px 16px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #fca5a5;
+  flex-shrink: 0;
+}
+.manual-timer .timer-fill {
+  flex: 1;
+  max-width: 200px;
+  height: 4px;
+  background: #1a1a2e;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.manual-timer .timer-fill span {
+  display: block;
+  height: 100%;
+  background: #fb7185;
+  border-radius: 2px;
+  transition: width 1s linear;
+  width: 100%;
+}
+
+/* Typing indicator */
+.typing {
+  align-self: flex-start;
+  display: none;
+  padding: 10px 16px;
+  background: #16213e;
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  gap: 4px;
+  border: 1px solid #1e3a5f;
+}
+.typing span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #60a5fa;
+  animation: typingB 1.2s ease-in-out infinite;
+}
+.typing span:nth-child(2) { animation-delay: .2s; }
+.typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes typingB { 0%,60%,100%{opacity:.3;transform:scale(1)} 30%{opacity:1;transform:scale(1.3)} }
+
+/* Scroll to bottom */
+.scroll-bottom {
+  position: absolute;
+  bottom: 80px;
+  right: 20px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #0f3460;
+  border: none;
+  color: #e0e0e0;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+  transition: background .2s;
+}
+.scroll-bottom:hover { background: #533483; }
+</style>
+</head>
+<body>
+<div class="chat-container" id="app">
+  <!-- Header -->
+  <div class="chat-header">
+    <div class="avatar">刘</div>
+    <div class="header-info">
+      <div class="header-name">
+        刘天清
+        <span class="mode-badge script" id="modeBadge">脚本</span>
+      </div>
+      <div class="header-status">
+        <span class="status-dot online" id="statusDot"></span>
+        <span id="statusText">在线</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timer bar -->
+  <div class="manual-timer" id="timerBar">
+    <span>⏱ 人工对话剩余</span>
+    <span class="timer-fill"><span id="timerFill"></span></span>
+    <span id="timerCount">3:00</span>
+  </div>
+
+  <!-- Messages -->
+  <div class="chat-messages" id="messages"></div>
+
+  <!-- Typing -->
+  <div class="typing" id="typing"><span></span><span></span><span></span></div>
+
+  <!-- Input -->
+  <div class="chat-input">
+    <input type="text" id="input" placeholder="输入关键词..." maxlength="100" autocomplete="off">
+    <button id="sendBtn">➤</button>
+  </div>
+
+  <button class="scroll-bottom" id="scrollBtn">↓</button>
+</div>
+
+<script>
+// ======== DATA ========
+const KEYWORDS = {
+  '牢董': `【牢董现况】
+董新飞，42岁，前狼堡技术员。
+以山经书店为掩护，化名"董鑫"。
+目的：为儿子董建延筹集留学费用，约80万/年。
+他在怀璧一中旁边开了书店，儿子在一中借读，实则准备出国。
+
+⚠ 此人危险，不要直接接触。`,
+  '技术': `【技术来源】
+董新飞向北境神经科学研究院寻求技术支持，成功获取脑电波诱导技术。
+原理：志愿者佩戴设备做题 → 解题思维和知识点被提取 → 转换为脑电波存档 → 打包成音频文件出售。
+
+提取设备为狼堡时期改良版，非侵入式。`,
+  '受害者': `【已知受害者名单（部分）】
+
+◆ 卖家：
+- 徐雨桐（生物，6次采集，能力下降61%）
+- 赵思航（数学，5次采集）
+- 林婉仪（英语，12次采集，重度衰退，已出现失忆症状）
+
+◆ 买家：约200人，分布在全国各地。
+
+◆ 共同症状：
+- 卖家：学习能力衰退，生活记忆丢失，迟钝
+- 买家：记忆污染（获取他人的记忆碎片）`,
+  '小程序': `【山经海集小程序指引】
+进入路径：公众号菜单"学习资源" → 底部隐藏输入框
+解锁码获取方式：公众号回复"内参"（需要先触发隐藏关键词）
+解锁码格式：HS7-2026 或 JZ-2026
+
+进入后查看"内部资料"分类——那些就是证据。`,
+  '北境': `【北境神经科学研究院】
+向董新飞提供脑电波诱导技术的组织。
+刘天清怀疑北境与狼堡事件有更深层关联。
+
+⚠ 仅限关键时刻使用此情报。
+（在收集足够证据后，回复"北境"将解锁结局c路线——指向帝中蒂的联系方式）`,
+  '帮助': `【可用关键词】
+牢董 - 董新飞详细信息
+技术 - 脑电波诱导技术原理
+受害者 - 已知受害者名单
+小程序 - 山经海集入口指引
+北境 - 北境神经科学研究院
+
+【隐藏指令】
+狼堡往事 - 切换至人工回复（紧急情况使用）
+退出 - 结束当前对话`,
+  '狼堡往事': 'MANUAL_TRIGGER',
+  '退出': 'EXIT'
+};
+
+const MANUAL_REPLIES = [
+  `你触发暗号了。我现在只有3分钟，机房随时有人进来。长话短说。
+
+1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。
+2. 小程序后台有完整的交易数据库，IP指向文化路217号地下层。你能拿到的话，铁证如山。
+3. 那个解锁码HS7-2026进去以后，把所有商品详情页截图——特别是底部那个'数据来源'字段。那是直接证据。
+
+我下次上线时间不确定。尽量通过脚本解决。
+如果真有紧急情况，再发一次暗号。但次数有限——我这边风险很大。
+
+保重。`,
+  `还没走？我快没时间了。
+
+记住：北境的服务器里存着完整的交易记录。你能黑进去的话，所有证据都在那里。
+
+我得关机了。下次暗号见。`
+];
+
+const INITIAL_MESSAGE = `令炉，我知道你老家是怀璧市的。
+我这边收到情报——牢董跑去怀璧了。
+他应该开了家店做掩护，你帮我查查。
+
+我正在帝中蒂封闭培训，手机被收了，电脑也被限制，只能趁午休用机房电脑登lbyz发消息。
+时间不多，我写了个脚本放在这边，你直接回复关键词就行。`;
+
+const SCRIPT_NOTICE = `——以上为基础通知。
+如需查询信息，回复关键词：
+牢董 / 技术 / 受害者 / 小程序 / 北境
+
+如果情况紧急，或你需要我本人介入，发送暗号：狼堡往事`;
+
+const UNKNOWN_REPLY = `未识别关键词。
+回复"帮助"查看可用关键词列表。`;
+const END_REPLY = `对话已结束。如需重新开始，发送任意消息。`;
+
+// ======== STATE ========
+const state = {
+  mode: 'script',        // 'script' | 'manual' | 'ended'
+  manualCount: 0,
+  manualTimer: null,
+  manualTimeLeft: 180,
+  locked: false
+};
+
+// ======== DOM ========
+const $ = id => document.getElementById(id);
+const messagesEl = $('messages');
+const inputEl = $('input');
+const sendBtn = $('sendBtn');
+const typingEl = $('typing');
+const modeBadge = $('modeBadge');
+const statusDot = $('statusDot');
+const statusText = $('statusText');
+const timerBar = $('timerBar');
+const timerFill = $('timerFill');
+const timerCount = $('timerCount');
+const scrollBtn = $('scrollBtn');
+
+// ======== UTILS ========
+function scrollToBottom() {
+  requestAnimationFrame(() => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  });
+}
+
+function timestamp() {
+  const now = new Date();
+  return String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+}
+
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+// ======== RENDER ========
+function addMessage(type, text, extra = {}) {
+  const { isManual = false, isSystem = false } = extra;
+  const div = document.createElement('div');
+  div.className = `message ${type}`;
+  if (isManual) div.classList.add('manual-alert');
+
+  const avatar = document.createElement('div');
+  avatar.className = 'msg-avatar';
+  avatar.textContent = type === 'bot' ? '刘' : '我';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+
+  const ts = document.createElement('div');
+  ts.className = 'timestamp';
+  ts.textContent = timestamp();
+  bubble.appendChild(ts);
+
+  div.appendChild(avatar);
+  div.appendChild(bubble);
+  messagesEl.appendChild(div);
+  scrollToBottom();
+}
+
+function addTypingIndicator(show) {
+  typingEl.style.display = show ? 'flex' : 'none';
+  if (show) scrollToBottom();
+}
+
+function updateModeUI() {
+  if (state.mode === 'script') {
+    modeBadge.textContent = '脚本';
+    modeBadge.className = 'mode-badge script';
+    statusDot.className = 'status-dot online';
+    statusText.textContent = '脚本在线';
+    timerBar.style.display = 'none';
+  } else if (state.mode === 'manual') {
+    modeBadge.textContent = '人工';
+    modeBadge.className = 'mode-badge manual';
+    statusDot.className = 'status-dot warning';
+    statusText.textContent = '人工介入 (限时)';
+    timerBar.style.display = 'flex';
+  } else {
+    modeBadge.textContent = '离线';
+    modeBadge.className = 'mode-badge script';
+    statusDot.className = 'status-dot offline';
+    statusText.textContent = '对话已结束';
+    timerBar.style.display = 'none';
+  }
+}
+
+// ======== TIMER ========
+function startManualTimer() {
+  state.manualTimeLeft = 180;
+  updateTimerDisplay();
+  timerBar.style.display = 'flex';
+  if (state.manualTimer) clearInterval(state.manualTimer);
+  state.manualTimer = setInterval(() => {
+    state.manualTimeLeft--;
+    updateTimerDisplay();
+    if (state.manualTimeLeft <= 0) {
+      endManualMode();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const pct = (state.manualTimeLeft / 180) * 100;
+  timerFill.style.width = pct + '%';
+  const m = Math.floor(state.manualTimeLeft / 60);
+  const s = state.manualTimeLeft % 60;
+  timerCount.textContent = m + ':' + String(s).padStart(2, '0');
+  if (state.manualTimeLeft <= 30) {
+    timerFill.style.background = '#ef4444';
+  } else {
+    timerFill.style.background = '#fb7185';
+  }
+}
+
+function endManualMode() {
+  clearInterval(state.manualTimer);
+  state.manualTimer = null;
+  state.mode = 'script';
+  state.manualCount = 0;
+  updateModeUI();
+  addMessage('bot', '⏱ 人工对话时间已结束。已切回脚本模式。回复关键词继续查询。', { isSystem: true });
+  inputEl.disabled = false;
+  sendBtn.disabled = false;
+  state.locked = false;
+}
+
+// ======== BOT REPLY ========
+async function botReply(text) {
+  state.locked = true;
+  inputEl.disabled = true;
+  sendBtn.disabled = true;
+
+  addTypingIndicator(true);
+  await sleep(600 + Math.random() * 400);
+  addTypingIndicator(false);
+
+  if (state.mode === 'manual') {
+    // In manual mode, the 2 replies are already queued
+    if (state.manualCount < MANUAL_REPLIES.length) {
+      addMessage('bot', MANUAL_REPLIES[state.manualCount], { isManual: true });
+      state.manualCount++;
+      if (state.manualCount >= MANUAL_REPLIES.length) {
+        addMessage('bot', '（刘天清已离线，对话将切回脚本模式）', { isSystem: true });
+        state.mode = 'script';
+        state.manualCount = 0;
+        updateModeUI();
+      }
+    }
+  } else if (state.mode === 'script') {
+    const key = text.trim();
+    const reply = KEYWORDS[key];
+    if (reply === 'MANUAL_TRIGGER') {
+      // Switch to manual mode
+      state.mode = 'manual';
+      state.manualCount = 0;
+      updateModeUI();
+      addMessage('bot', '暗号确认。切换至人工通道。', { isSystem: true });
+      await sleep(500);
+      // Send first manual reply
+      state.locked = false;
+      inputEl.disabled = false;
+      sendBtn.disabled = false;
+      addTypingIndicator(true);
+      await sleep(800);
+      addTypingIndicator(false);
+      addMessage('bot', MANUAL_REPLIES[0], { isManual: true });
+      state.manualCount++;
+      startManualTimer();
+    } else if (reply === 'EXIT') {
+      state.mode = 'ended';
+      updateModeUI();
+      addMessage('bot', END_REPLY, { isSystem: true });
+    } else if (reply) {
+      addMessage('bot', reply);
+    } else {
+      addMessage('bot', UNKNOWN_REPLY);
+    }
+  } else {
+    // ended mode - restart
+    state.mode = 'script';
+    updateModeUI();
+    addMessage('bot', '对话重新开始。回复"帮助"查看可用关键词。', { isSystem: true });
+  }
+
+  if (state.mode !== 'manual') {
+    state.locked = false;
+    inputEl.disabled = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  } else {
+    // In manual mode, re-enable input after each exchange
+    state.locked = false;
+    inputEl.disabled = false;
+    sendBtn.disabled = false;
+    inputEl.focus();
+  }
+}
+
+// ======== SEND ========
+function sendMessage() {
+  const text = inputEl.value.trim();
+  if (!text || state.locked) return;
+  if (state.mode === 'ended') {
+    state.mode = 'script';
+    updateModeUI();
+  }
+  addMessage('user', text);
+  inputEl.value = '';
+  inputEl.disabled = true;
+  sendBtn.disabled = true;
+  botReply(text);
+}
+
+// ======== EVENTS ========
+sendBtn.addEventListener('click', sendMessage);
+inputEl.addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendMessage();
+});
+
+messagesEl.addEventListener('scroll', () => {
+  const el = messagesEl;
+  const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 60;
+  scrollBtn.style.display = isNearBottom ? 'none' : 'flex';
+});
+scrollBtn.addEventListener('click', scrollToBottom);
+
+// ======== INIT ========
+(async function init() {
+  await sleep(500);
+  addTypingIndicator(true);
+  await sleep(1000);
+  addTypingIndicator(false);
+  addMessage('bot', INITIAL_MESSAGE);
+  await sleep(400);
+  addMessage('bot', SCRIPT_NOTICE);
+  inputEl.focus();
+})();
+</script>
+</body>
+</html>
