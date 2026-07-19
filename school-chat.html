@@ -26,7 +26,6 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  position: relative;
 }
 .chat-header {
   background: linear-gradient(135deg, #1a3a5c, #2d5a8a);
@@ -49,8 +48,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background .2s;
   text-decoration: none;
+  transition: background .2s;
 }
 .chat-header .back-btn:hover { background: rgba(255,255,255,0.2); }
 .chat-header .avatar {
@@ -66,11 +65,7 @@ body {
   flex-shrink: 0;
 }
 .chat-header .chat-info { flex: 1; }
-.chat-header .chat-info .name {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 1px;
-}
+.chat-header .chat-info .name { font-size: 15px; font-weight: 600; letter-spacing: 1px; }
 .chat-header .chat-info .status {
   font-size: 11px;
   opacity: 0.6;
@@ -99,32 +94,18 @@ body {
   background: #f5f7fa;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
-.chat-date-divider {
-  text-align: center;
-  font-size: 11px;
-  color: #bbb;
-  margin: 4px 0 8px;
-  position: relative;
-}
-.chat-date-divider::before,
-.chat-date-divider::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 30%;
-  height: 1px;
-  background: #e0e0e0;
-}
-.chat-date-divider::before { left: 0; }
-.chat-date-divider::after { right: 0; }
 .msg-row {
   display: flex;
   gap: 10px;
   max-width: 92%;
   align-items: flex-end;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .3s, transform .3s;
 }
+.msg-row.visible { opacity: 1; transform: translateY(0); }
 .msg-row.incoming { align-self: flex-start; }
 .msg-row.outgoing { align-self: flex-end; flex-direction: row-reverse; }
 .msg-avatar {
@@ -147,7 +128,6 @@ body {
   border-radius: 12px;
   font-size: 14px;
   line-height: 1.7;
-  position: relative;
   word-break: break-word;
 }
 .msg-row.incoming .msg-bubble {
@@ -167,14 +147,16 @@ body {
   font-size: 13px;
   border-left: 3px solid #ccc;
 }
-.msg-row .msg-bubble.url-bubble {
+.msg-row .msg-bubble.link-card {
   background: #eaf3ff;
   color: #2d5a8a;
-  border-left: 3px solid #2d5a8a;
   font-size: 13px;
+  font-weight: 600;
+  border-left: 3px solid #2d5a8a;
   cursor: pointer;
+  transition: background .2s;
 }
-.msg-row .msg-bubble.url-bubble:hover { background: #dce8f8; }
+.msg-row .msg-bubble.link-card:hover { background: #dce8f8; }
 .msg-time {
   font-size: 10px;
   color: #bbb;
@@ -202,10 +184,7 @@ body {
   font-family: inherit;
   background: #f5f7fa;
 }
-.chat-input-area input:focus {
-  border-color: #2d5a8a;
-  background: #fff;
-}
+.chat-input-area input:focus { border-color: #2d5a8a; background: #fff; }
 .chat-input-area .send-btn {
   width: 40px;
   height: 40px;
@@ -266,263 +245,14 @@ body {
     <div class="avatar" style="background:#1a5a3a;">刘</div>
     <div class="chat-info">
       <div class="name">刘天清（刘哥）</div>
-      <div class="status">lbyz 在线 · 脚本自动回复中</div>
+      <div class="status">lbyz 在线</div>
     </div>
     <div class="header-actions">
       <button title="刷新" onclick="scrollToBottom()">↻</button>
     </div>
   </div>
 
-  <div class="chat-messages" id="chatMessages">
-    <div class="chat-date-divider">2026年7月13日</div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">你看看这个书店，有点nb啊 [网页链接]</div>
-        <div class="msg-time">19:22</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble">卧槽</div>
-        <div class="msg-time">19:23</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble">你是怀璧的啊</div>
-        <div class="msg-time">19:23</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble">
-          现在我这边查到dxf可能跑到怀璧了，需要一个人调查一下。
-        </div>
-        <div class="msg-time">19:23</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble">
-          现在家长非得让我去什么弟中弟机构封闭补习，今天就要走了。
-        </div>
-        <div class="msg-time">19:24</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble">
-          我设了一个脚本自动回复你，后面调查就靠你了<br><br>
-          现在可以告诉你已经查到了3个网页 [1] [2] [3]
-        </div>
-        <div class="msg-time">19:24</div>
-      </div>
-    </div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">羊村市那个"蒂中帝"教育？听说特别牢啊。</div>
-        <div class="msg-time">19:25</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble auto-reply">刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报。</div>
-        <div class="msg-time">19:25 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">刘哥你有病啊，直接把所有情报给我不就得了</div>
-        <div class="msg-time">19:26</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble auto-reply">刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报。</div>
-        <div class="msg-time">19:26 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble url-bubble" onclick="alert('📄 [1] 论坛帖子\n\n蜜雪员工吐槽书店太火 +\nHBYZ和某书店勾结的老师名单\n\n（此页面尚未实现）')">
-          📄 [1] 论坛帖子：蜜雪员工吐槽 + 老师名单
-        </div>
-        <div class="msg-time">19:27 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble url-bubble" onclick="alert('📄 [2] 新闻报道\n\n山经书店开业新闻\n店主董老师婉拒采访，店员程加春接受采访\n\n（此页面尚未实现）')">
-          📄 [2] 新闻报道：山经书店开业，店员程加春受访
-        </div>
-        <div class="msg-time">19:27 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble url-bubble" onclick="alert('📄 [3] 公众号文章\n\n山经海籍公众号入口\n\n（此页面尚未实现）')">
-          📄 [3] 公众号：山经海籍
-        </div>
-        <div class="msg-time">19:27 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="chat-date-divider">2026年7月14日</div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">牢董</div>
-        <div class="msg-time">09:12</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble auto-reply">
-          【情报·牢董】<br>
-          董新飞，42岁，前狼堡技术员。<br>
-          以教辅书店为掩护，化名"董鑫"。<br>
-          目的：为儿子留学筹款80万/年。
-        </div>
-        <div class="msg-time">09:12 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">技术</div>
-        <div class="msg-time">09:15</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble auto-reply">
-          【情报·技术】<br>
-          技术来源：北境神经科学研究院。<br>
-          非侵入式脑波采集 + 音频同步。<br>
-          提取设备为狼堡时期改良版。<br>
-          以"学习能力评估"为名，实际提取认知数据。
-        </div>
-        <div class="msg-time">09:15 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">受害者</div>
-        <div class="msg-time">09:18</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble auto-reply">
-          【情报·受害者】<br>
-          徐雨桐（生物，6次采集，能力下降61%）<br>
-          赵思航（数学，5次采集）<br>
-          林婉仪（英语，12次采集，重度衰退）<br>
-          买家约200人。部分出现生活记忆丢失症状。
-        </div>
-        <div class="msg-time">09:18 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">小程序</div>
-        <div class="msg-time">09:22</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble auto-reply">
-          【情报·小程序】<br>
-          进入"山经海集"小程序 → "学习方法"分类<br>
-          → 底部输入解锁码。<br>
-          解锁码需从公众号获取。<br>
-          公众号"山经bookstore"，回复隐藏关键词。
-        </div>
-        <div class="msg-time">09:22 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">北境</div>
-        <div class="msg-time">09:25</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble auto-reply">
-          【情报·北境】<br>
-          北境神经科学研究院——向董新飞提供脑电波诱导技术支持的组织。<br>
-          我怀疑北境与狼堡事件有更深关联。<br><br>
-          —————— 以上为脚本自动回复 ——————<br>
-          如需我本人介入，发送暗号：狼堡往事
-        </div>
-        <div class="msg-time">09:25 · 脚本自动回复</div>
-      </div>
-    </div>
-
-    <div class="msg-row outgoing">
-      <div class="msg-avatar lll">李</div>
-      <div>
-        <div class="msg-bubble">平台</div>
-        <div class="msg-time">09:28</div>
-      </div>
-    </div>
-
-    <div class="msg-row incoming">
-      <div class="msg-avatar ltj">刘</div>
-      <div>
-        <div class="msg-bubble auto-reply">
-          网址：http://shanjing-platform.com [4]<br>
-          我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容 [5]
-        </div>
-        <div class="msg-time">09:28 · 脚本自动回复</div>
-      </div>
-    </div>
-  </div>
+  <div class="chat-messages" id="chatMessages"></div>
 
   <div class="typing-indicator" id="typingIndicator">
     <div class="msg-avatar ltj">刘</div>
@@ -541,25 +271,38 @@ body {
 
 <script>
 (function() {
-  const messagesContainer = document.getElementById('chatMessages');
+  const container = document.getElementById('chatMessages');
   const input = document.getElementById('msgInput');
   const sendBtn = document.getElementById('sendBtn');
   const typing = document.getElementById('typingIndicator');
   let isProcessing = false;
+  let isFirstLoad = true;
 
-  const keywordResponses = {
-    '牢董': '【情报·牢董】\n董新飞，42岁，前狼堡技术员。\n以教辅书店为掩护，化名"董鑫"。\n目的：为儿子留学筹款80万/年。\n\n以上信息已在前次查询中提供，如有新情报将另行通知。',
-    '技术': '【情报·技术】\n技术来源：北境神经科学研究院。\n非侵入式脑波采集 + 音频同步。\n提取设备为狼堡时期改良版。\n以"学习能力评估"为名，实际提取认知数据。\n\n以上信息已在前次查询中提供，如有新情报将另行通知。',
-    '受害者': '【情报·受害者】\n徐雨桐（生物，6次采集，能力下降61%）\n赵思航（数学，5次采集）\n林婉仪（英语，12次采集，重度衰退）\n买家约200人。部分出现生活记忆丢失症状。\n\n以上信息已在前次查询中提供，如有新情报将另行通知。',
-    '小程序': '【情报·小程序】\n进入"山经海集"小程序 → "学习方法"分类\n→ 底部输入解锁码。\n解锁码需从公众号获取。\n公众号"山经bookstore"，回复隐藏关键词。',
-    '北境': '【情报·北境】\n北境神经科学研究院——向董新飞提供脑电波诱导技术支持的组织。\n我怀疑北境与狼堡事件有更深关联。\n\n—————— 以上为脚本自动回复 ——————\n如需我本人介入，发送暗号：狼堡往事',
-    '平台': '网址：http://shanjing-platform.com [4]\n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容 [5]',
-    '帮助': '可用关键词：\n牢董 / 技术 / 受害者 / 小程序 / 北境 / 平台\n\n紧急暗号：狼堡往事（切换人工回复）',
-    '狼堡往事': '⚠ 暗号已触发。正在尝试联系刘天清本人……\n\n—— 脚本暂停 ——\n\n刘天清（人工）：你触发暗号了。我现在只有3分钟，机房随时有人进来。长话短说。\n\n1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。\n2. 那个在线平台的后台有完整的交易数据库，IP指向文化路217号地下层。你能拿到的话，铁证如山。\n3. 论坛里说的那个隐藏服务——从平台的"优秀学员"页面能找到入口。仔细看看。\n\n我下次上线时间不确定。尽量通过脚本解决。\n如果真有紧急情况，再发一次暗号。但次数有限——我这边风险很大。\n\n保重。',
-    '退出': '已退出人工模式。重新输入关键词可继续查询。'
-  };
+  const messages = [
+    { text: '你看看这个书店，有点nb啊[网页1]', type: 'out' },
+    { text: '卧槽', type: 'in' },
+    { text: '你是怀璧的啊', type: 'in' },
+    { text: '现在我这边查到dxf可能跑到怀璧了，需要一个人调查一下。', type: 'in' },
+    { text: '现在家长非得让我去什么弟中弟机构封闭补习，今天就要走了。', type: 'in' },
+    { text: '我设了一个脚本自动回复你，后面调查就靠你了', type: 'in' },
+    { text: '现在可以告诉你已经查到了3个网页[1][2][3]', type: 'in' },
+    { text: '羊村市那个"蒂中帝"教育？听说特别牢啊。', type: 'out' },
+    { text: '刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报。', type: 'in', auto: true },
+    { text: '刘哥你有病啊，直接把所有情报给我不就得了', type: 'out' },
+    { text: '刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报。', type: 'in', auto: true }
+  ];
 
-  function addMessage(text, type, isAutoReply) {
+  const linkPages = [
+    { label: '[1] 论坛帖子：蜜雪员工吐槽 + HBYZ老师名单', url: 'web1-forum.html' },
+    { label: '[2] 新闻报道：山经书店开业，店员程加春受访', url: 'web2-news.html' },
+    { label: '[3] 公众号文章：山经海籍', url: 'web3-mp-article.html' }
+  ];
+
+  function scrollToBottom() {
+    setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
+  }
+
+  function addMsg(text, type, auto) {
     const row = document.createElement('div');
     row.className = 'msg-row ' + (type === 'out' ? 'outgoing' : 'incoming');
 
@@ -567,83 +310,159 @@ body {
     avatar.className = 'msg-avatar ' + (type === 'out' ? 'lll' : 'ltj');
     avatar.textContent = type === 'out' ? '李' : '刘';
 
-    const bubbleWrap = document.createElement('div');
+    const wrap = document.createElement('div');
     const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble';
-    if (isAutoReply) bubble.classList.add('auto-reply');
+    bubble.className = 'msg-bubble' + (auto ? ' auto-reply' : '');
     bubble.textContent = text;
 
     const time = document.createElement('div');
     time.className = 'msg-time';
     const now = new Date();
     time.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-    if (isAutoReply) time.textContent += ' · 脚本自动回复';
+    if (auto) time.textContent += ' · 脚本自动回复';
 
-    bubbleWrap.appendChild(bubble);
-    bubbleWrap.appendChild(time);
+    wrap.appendChild(bubble);
+    wrap.appendChild(time);
     row.appendChild(avatar);
-    row.appendChild(bubbleWrap);
-    messagesContainer.appendChild(row);
+    row.appendChild(wrap);
+    container.appendChild(row);
+
+    setTimeout(() => { row.classList.add('visible'); }, 50);
     scrollToBottom();
   }
 
-  function scrollToBottom() {
-    setTimeout(() => {
-      messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }, 50);
+  function addLinkCard(label, target) {
+    const row = document.createElement('div');
+    row.className = 'msg-row incoming';
+    row.style.maxWidth = '92%';
+
+    const avatar = document.createElement('div');
+    avatar.className = 'msg-avatar ltj';
+    avatar.textContent = '刘';
+
+    const wrap = document.createElement('div');
+    const bubble = document.createElement('div');
+    bubble.className = 'msg-bubble link-card';
+    bubble.textContent = label;
+    bubble.onclick = function() {
+      if (target.url) {
+        window.location.href = target.url;
+      } else if (target.alert) {
+        alert(target.alert);
+      }
+    };
+
+    const time = document.createElement('div');
+    time.className = 'msg-time';
+    const now = new Date();
+    time.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+
+    wrap.appendChild(bubble);
+    wrap.appendChild(time);
+    row.appendChild(avatar);
+    row.appendChild(wrap);
+    container.appendChild(row);
+
+    setTimeout(() => { row.classList.add('visible'); }, 50);
+    scrollToBottom();
   }
 
-  function showTyping(callback) {
+  function playInitialMessages(index) {
+    if (index >= messages.length) {
+      showLinkPages(0);
+      return;
+    }
+    const msg = messages[index];
+    showTyping(msg.type, function() {
+      addMsg(msg.text, msg.type, msg.auto || false);
+      setTimeout(function() {
+        playInitialMessages(index + 1);
+      }, 400 + Math.random() * 300);
+    });
+  }
+
+  function showTyping(sender, callback) {
     typing.classList.add('active');
+    if (sender === 'out') {
+      typing.querySelector('.msg-avatar').className = 'msg-avatar lll';
+      typing.querySelector('.msg-avatar').textContent = '李';
+    } else {
+      typing.querySelector('.msg-avatar').className = 'msg-avatar ltj';
+      typing.querySelector('.msg-avatar').textContent = '刘';
+    }
     scrollToBottom();
-    const delay = 800 + Math.random() * 1200;
-    setTimeout(() => {
+    const delay = 400 + Math.random() * 600;
+    setTimeout(function() {
       typing.classList.remove('active');
       if (callback) callback();
     }, delay);
   }
 
+  function showLinkPages(idx) {
+    if (idx >= linkPages.length) {
+      input.disabled = false;
+      input.focus();
+      return;
+    }
+    showTyping('in', function() {
+      addLinkCard(linkPages[idx].label, linkPages[idx]);
+      setTimeout(function() {
+        showLinkPages(idx + 1);
+      }, 500 + Math.random() * 400);
+    });
+  }
+
+  const keywordResponses = {
+    '牢董': '【情报·牢董】\n董新飞，42岁，前狼堡技术员。\n以教辅书店为掩护，化名"董鑫"。\n目的：为儿子留学筹款80万/年。',
+    '技术': '【情报·技术】\n技术来源：北境神经科学研究院。\n非侵入式脑波采集 + 音频同步。\n提取设备为狼堡时期改良版。\n以"学习能力评估"为名，实际提取认知数据。',
+    '受害者': '【情报·受害者】\n徐雨桐（生物，6次采集，能力下降61%）\n赵思航（数学，5次采集）\n林婉仪（英语，12次采集，重度衰退）\n买家约200人。部分出现生活记忆丢失症状。',
+    '小程序': '【情报·小程序】\n进入"山经海集"小程序 → "学习方法"分类\n→ 底部输入解锁码。\n解锁码需从公众号获取。\n公众号"山经bookstore"，回复隐藏关键词。',
+    '北境': '【情报·北境】\n北境神经科学研究院——向董新飞提供脑电波诱导技术支持的组织。\n我怀疑北境与狼堡事件有更深关联。\n\n如需我本人介入，发送暗号：狼堡往事',
+    '平台': '网址：http://shanjing-platform.com [4]\n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容 [5]。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
+    '帮助': '可用关键词：\n牢董 / 技术 / 受害者 / 小程序 / 北境 / 平台\n\n发送"平台"可获取在线服务平台网址\n\n紧急暗号：狼堡往事',
+    '狼堡往事': '⚠ 暗号已触发。正在尝试联系刘天清本人……\n\n—— 脚本暂停 ——\n\n刘天清（人工）：你触发暗号了。我现在只有3分钟，机房随时有人进来。长话短说。\n\n1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。\n2. 那个在线平台的后台有完整的交易数据库，IP指向文化路217号地下层。你能拿到的话，铁证如山。\n3. 论坛里说的那个隐藏服务——从平台的"优秀学员"页面能找到入口。仔细看看。\n\n我下次上线时间不确定。尽量通过脚本解决。\n如果真有紧急情况，再发一次暗号。但次数有限——我这边风险很大。\n\n保重。',
+    '退出': '已退出人工模式。重新输入关键词可继续查询。'
+  };
+
   function handleSend() {
-    if (isProcessing) return;
+    if (isProcessing || input.disabled) return;
     const text = input.value.trim();
     if (!text) return;
 
-    addMessage(text, 'out');
+    addMsg(text, 'out');
     input.value = '';
     isProcessing = true;
 
-    const matched = Object.keys(keywordResponses).find(k => text.includes(k));
+    const matched = Object.keys(keywordResponses).find(function(k) { return text.includes(k); });
     const lowerText = text.toLowerCase();
 
     if (text === '退出') {
-      showTyping(() => {
-        addMessage(keywordResponses['退出'], 'in', true);
+      showTyping('in', function() {
+        addMsg(keywordResponses['退出'], 'in', true);
         isProcessing = false;
       });
       return;
     }
-
     if (text === '狼堡往事' || lowerText.includes('狼堡往事')) {
-      showTyping(() => {
-        addMessage(keywordResponses['狼堡往事'], 'in', false);
+      showTyping('in', function() {
+        addMsg(keywordResponses['狼堡往事'], 'in', false);
         isProcessing = false;
       });
       return;
     }
-
     if (matched) {
-      showTyping(() => {
-        addMessage(keywordResponses[matched], 'in', true);
+      showTyping('in', function() {
+        addMsg(keywordResponses[matched], 'in', true);
         isProcessing = false;
       });
     } else if (lowerText.includes('帮助') || lowerText.includes('关键词')) {
-      showTyping(() => {
-        addMessage(keywordResponses['帮助'], 'in', true);
+      showTyping('in', function() {
+        addMsg(keywordResponses['帮助'], 'in', true);
         isProcessing = false;
       });
     } else {
-      showTyping(() => {
-        addMessage('指令无法识别。回复"帮助"查看可用关键词。', 'in', true);
+      showTyping('in', function() {
+        addMsg('指令无法识别。回复"帮助"查看可用关键词。', 'in', true);
         isProcessing = false;
       });
     }
@@ -654,7 +473,8 @@ body {
     if (e.key === 'Enter') handleSend();
   });
 
-  scrollToBottom();
+  input.disabled = true;
+  playInitialMessages(0);
 })();
 </script>
 </body>

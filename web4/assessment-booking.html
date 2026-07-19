@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>评估预约 · 山经书店</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px 12px;
+}
+.wrap {
+  max-width: 640px;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.bar {
+  background: linear-gradient(135deg, #1a3a5c, #2d5a8a);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bar a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; }
+.bar a:hover { color: #fff; }
+.bar .t { flex: 1; font-size: 14px; font-weight: 600; letter-spacing: 1px; }
+.content { padding: 24px 20px; }
+.content h2 { font-size: 18px; color: #1a3a5c; margin-bottom: 4px; }
+.content .sub { font-size: 13px; color: #999; margin-bottom: 20px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 6px; }
+.form-group label .req { color: #c0392b; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 10px 14px;
+  border: 1px solid #d0d0d0; border-radius: 8px;
+  font-size: 14px; outline: none; transition: border-color .2s;
+  font-family: inherit;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #2d5a8a; }
+.form-group textarea { height: 80px; resize: vertical; }
+.form-row { display: flex; gap: 12px; }
+.form-row .form-group { flex: 1; }
+.form-group .hint { font-size: 11px; color: #bbb; margin-top: 4px; }
+.submit-btn {
+  width: 100%; padding: 12px;
+  background: #2d5a8a; color: #fff;
+  border: none; border-radius: 8px;
+  font-size: 15px; font-weight: 600; cursor: pointer;
+  transition: background .2s; font-family: inherit;
+}
+.submit-btn:hover { background: #1a3a5c; }
+.submit-status { margin-top: 12px; font-size: 13px; text-align: center; min-height: 20px; }
+.submit-status.success { color: #27ae60; }
+.submit-status.error { color: #c0392b; }
+.agreement {
+  margin: 16px 0;
+  padding: 14px; background: #f8f9fb; border-radius: 8px;
+  font-size: 12px; color: #999; line-height: 1.6;
+}
+.agreement input { margin-right: 6px; }
+.foot { padding: 14px; text-align: center; font-size: 11px; color: #ccc; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <a href="web4-platform.html">←</a>
+    <span class="t">评估预约</span>
+  </div>
+  <div class="content">
+    <h2>学习能力评估 · 预约登记</h2>
+    <p class="sub">填写以下信息，我们将在一周内短信通知您到店评估的时间安排。</p>
+
+    <form id="bookingForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>姓名 <span class="req">*</span></label>
+          <input type="text" id="name" required placeholder="请输入真实姓名">
+        </div>
+        <div class="form-group">
+          <label>性别</label>
+          <select id="gender">
+            <option value="">请选择</option><option>男</option><option>女</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>在读学校 <span class="req">*</span></label>
+        <input type="text" id="school" required placeholder="如：怀璧一中">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>年级 <span class="req">*</span></label>
+          <select id="grade" required>
+            <option value="">请选择</option>
+            <option>高一</option><option>高二</option><option>高三</option><option>复读</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>选科</label>
+          <select id="track">
+            <option value="">请选择</option>
+            <option>物化生</option><option>物化政</option><option>物化地</option>
+            <option>物生地</option><option>历政地</option><option>历政生</option>
+            <option>理科</option><option>文科</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>薄弱学科 <span class="req">*</span></label>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="语文"> 语文
+          </label>
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="数学"> 数学
+          </label>
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="英语"> 英语
+          </label>
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="物理"> 物理
+          </label>
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="化学"> 化学
+          </label>
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="生物"> 生物
+          </label>
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="历史"> 历史
+          </label>
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="地理"> 地理
+          </label>
+          <label style="font-weight:400;font-size:13px;display:flex;align-items:center;gap:4px;width:calc(33% - 6px);min-width:70px;">
+            <input type="checkbox" name="weak" value="政治"> 政治
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>手机号 <span class="req">*</span></label>
+        <input type="tel" id="phone" required placeholder="用于接收评估通知短信">
+        <div class="hint">我们将通过短信通知您评估时间安排</div>
+      </div>
+      <div class="form-group">
+        <label>备注（选填）</label>
+        <textarea id="note" placeholder="如有特殊情况请在此说明"></textarea>
+      </div>
+      <div class="agreement">
+        <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;">
+          <input type="checkbox" id="agree">
+          <span>我已阅读并同意 <a href="#" style="color:#2d5a8a;" onclick="alert('《数据采集知情同意书》\n\n本人确认：已充分了解评估过程中将采集脑电波数据用于学习能力分析；自愿参与本次评估，无任何强迫；已知晓评估过程中可能出现轻微疲劳等正常反应。')">《数据采集知情同意书》</a></span>
+        </label>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">提交预约</button>
+      <div class="submit-status" id="submitStatus"></div>
+    </form>
+  </div>
+  <div class="foot">山经书店在线服务平台 · 评估预约</div>
+</div>
+<script>
+document.getElementById('bookingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const status = document.getElementById('submitStatus');
+  const name = document.getElementById('name').value.trim();
+  const school = document.getElementById('school').value.trim();
+  const grade = document.getElementById('grade').value;
+  const phone = document.getElementById('phone').value.trim();
+  const agree = document.getElementById('agree').checked;
+  if (!name || !school || !grade || !phone || !agree) {
+    status.className = 'submit-status error';
+    status.textContent = '请填写所有必填项并同意协议。';
+    return;
+  }
+  btn.disabled = true; btn.textContent = '提交中…';
+  setTimeout(function() {
+    btn.textContent = '已提交 ✓';
+    status.className = 'submit-status success';
+    status.textContent = '预约成功！我们将在3个工作日内短信通知您评估时间。您的专属ID:855741964';
+    document.getElementById('bookingForm').querySelectorAll('input, select, textarea, button').forEach(function(el) {
+      if (el.type !== 'checkbox' || el.id === 'agree') el.disabled = true;
+    });
+  }, 1200);
+});
+</script>
+</body>
+</html>

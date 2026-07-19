@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>怀璧本地论坛 · 闲聊区</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: #e4e8ec;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px 12px;
+}
+.wrap {
+  max-width: 640px;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+.head {
+  background: linear-gradient(135deg, #2d5a8a, #1a3a5c);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.head a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; }
+.head a:hover { color: #fff; }
+.head .t { flex: 1; font-size: 14px; font-weight: 600; letter-spacing: 1px; }
+.head .sub { font-size: 11px; opacity: 0.4; }
+
+.topic { padding: 20px; border-bottom: 1px solid #eee; }
+.topic .ttl { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.topic .txt { font-size: 14px; line-height: 1.8; color: #555; }
+.topic .txt p { margin-bottom: 6px; }
+
+.floor {
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f2f2f2;
+}
+.floor:last-child { border-bottom: none; }
+.av {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.cont { flex: 1; min-width: 0; }
+.cont .meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.cont .meta .name { font-size: 13px; font-weight: 600; color: #333; }
+.cont .meta .time { font-size: 11px; color: #bbb; }
+.cont .meta .tag {
+  font-size: 10px; color: #fff; background: #2d5a8a;
+  padding: 1px 6px; border-radius: 4px;
+}
+.cont .meta .tag.lz { background: #e67e22; }
+.cont .txt { font-size: 13px; line-height: 1.7; color: #555; }
+
+.name-list {
+  background: #f8f8f8;
+  border-left: 3px solid #b44;
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  margin: 8px 0;
+  font-size: 13px;
+  line-height: 1.9;
+}
+.name-list .hl { color: #c0392b; font-weight: 700; }
+.name-list .note { color: #999; font-size: 12px; }
+
+.foot {
+  padding: 14px;
+  text-align: center;
+  font-size: 11px;
+  color: #ccc;
+  border-top: 1px solid #f2f2f2;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <a href="school-chat.html">←</a>
+    <span class="t">怀璧本地论坛</span>
+    <span class="sub">闲聊区</span>
+  </div>
+
+  <div class="topic">
+    <div class="ttl">隔壁新开的书店也太火了吧</div>
+    <div class="txt">
+      <p>我在文化路蜜雪冰城上班，旁边新开了家山经书店，从早到晚门口全是人。</p>
+      <p>好多学生和家长在排队，搞得我们店门口都堵住了。一个卖书的怎么比卖奶茶的还火啊？</p>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#5dade2;">C</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">ccc</span>
+        <span class="time">06-10 14:20</span>
+      </div>
+      <div class="txt">笑死 我也看到了 队排超级长 我以为发什么呢</div>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#e67e22;">lz</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">蜜雪冰城文化路店</span>
+        <span class="tag lz">楼主</span>
+        <span class="time">06-10 14:35</span>
+      </div>
+      <div class="txt">对啊 关键他们也不买书 就进去戴个头套做测试 不知道在干嘛</div>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#27ae60;">一</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">一中打工人</span>
+        <span class="time">06-10 16:02</span>
+      </div>
+      <div class="txt">听说是那个书店有那个什么评估 我们班也有好多人去了</div>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#8e44ad;">。</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">。。。</span>
+        <span class="time">06-10 18:30</span>
+      </div>
+      <div class="txt">我同学也去了 说做完还给50块购物券 感觉还不错 我也准备去</div>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#2d5a8a;">你</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">你说的对</span>
+        <span class="time">06-11 09:15</span>
+      </div>
+      <div class="txt">我听说是因为有老师让去买书 只有那家店能买到 不知道真的假的</div>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#e74c3c;">嗨</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">嗨呀</span>
+        <span class="time">06-11 10:40</span>
+      </div>
+      <div class="txt">真的假的 哪个老师啊 这也太黑了</div>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#f39c12;">列</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">列个名单</span>
+        <span class="time">06-12 11:15</span>
+      </div>
+      <div class="txt">既然大家都在说 那我把我查到的列出来吧
+        <div class="name-list">
+          · 王某（数学组）<br>
+          · <span class="hl">姜游亮（生物组）</span> — 据说他最积极<br>
+          · 刘某（英语组）<br>
+          · 赵某（物理组）<br>
+          <span class="note">注：同学间整理的，仅供参考</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#1abc9c;">啊</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">啊这</span>
+        <span class="time">06-12 14:05</span>
+      </div>
+      <div class="txt">姜游亮？？我们生物老师也叫这个 好家伙</div>
+    </div>
+  </div>
+
+  <div class="floor">
+    <div class="av" style="background:#95a5a6;">好</div>
+    <div class="cont">
+      <div class="meta">
+        <span class="name">好家伙</span>
+        <span class="time">06-13 19:30</span>
+      </div>
+      <div class="txt">有没有人扒一下书店老板是谁啊 能让这么多老师帮着推 有点东西</div>
+    </div>
+  </div>
+
+  <div class="foot">怀璧本地论坛 bbs.huaibi.cn · 仅代表用户个人观点</div>
+</div>
+</body>
+</html>

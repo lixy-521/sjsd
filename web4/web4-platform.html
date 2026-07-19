@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>山经书店在线服务平台</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px 12px;
+}
+.wrap {
+  max-width: 640px;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.bar {
+  background: linear-gradient(135deg, #1a3a5c, #2d5a8a);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bar a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; }
+.bar a:hover { color: #fff; }
+.bar .t { flex: 1; font-size: 15px; font-weight: 600; letter-spacing: 1px; }
+.banner {
+  background: linear-gradient(135deg, #e8f0f8, #d4e2f0);
+  padding: 28px 20px;
+  text-align: center;
+}
+.banner h1 { font-size: 20px; color: #1a3a5c; letter-spacing: 3px; font-weight: 600; }
+.banner p { font-size: 13px; color: #6a8aaa; margin-top: 6px; }
+.nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 20px;
+}
+.nav-card {
+  padding: 18px 14px;
+  background: #f5f8fc;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+  border: 1px solid transparent;
+}
+.nav-card:hover { background: #e8f0f8; border-color: #c0d4e8; transform: translateY(-2px); }
+.nav-card .icon { font-size: 28px; margin-bottom: 6px; }
+.nav-card .label { font-size: 14px; font-weight: 600; color: #333; }
+.nav-card .desc { font-size: 11px; color: #999; margin-top: 4px; }
+.nav-card.hidden-service { border: 1px dashed #c0392b; background: #fdf2f2; }
+.nav-card.hidden-service .label { color: #c0392b; }
+.nav-card.hidden-service .desc { color: #c0392b; }
+
+.section { padding: 20px; border-top: 1px solid #eee; }
+.section h3 { font-size: 16px; color: #1a3a5c; margin-bottom: 12px; }
+.student-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.student-item {
+  padding: 8px 14px;
+  background: #f5f8fc;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #444;
+  cursor: pointer;
+  transition: background .2s;
+  text-decoration: none;
+}
+.student-item:hover { background: #e8f0f8; color: #1a3a5c; }
+.student-item .badge {
+  display: inline-block;
+  font-size: 10px;
+  background: #2d5a8a;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+.foot {
+  padding: 14px;
+  text-align: center;
+  font-size: 11px;
+  color: #ccc;
+  border-top: 1px solid #eee;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <a href="school-chat.html">←</a>
+    <span class="t">山经书店 · 在线服务平台</span>
+  </div>
+  <div class="banner">
+    <h1>山经书店在线服务平台</h1>
+    <p>评估预约 · 报告下载 · 志愿者服务</p>
+  </div>
+
+  <div class="nav-grid">
+    <a class="nav-card" href="assessment-booking.html" style="text-decoration:none;">
+      <div class="icon">📋</div>
+      <div class="label">评估预约</div>
+      <div class="desc">在线填写预约信息</div>
+    </a>
+    <a class="nav-card" href="assessment-report.html" style="text-decoration:none;">
+      <div class="icon">📄</div>
+      <div class="label">报告下载</div>
+      <div class="desc">查看评估报告</div>
+    </a>
+    <div class="nav-card" onclick="alert('🤝 志愿者服务\n\n参与学习能力评估项目，每次可获得50元超市购物券。\n\n活动介绍：佩戴脑波监测设备完成各学科测试题，每次约2小时。\n\n要求：成绩优秀，某学科特长生优先。\n\n报名方式：滑到页面底部点击"志愿者报名"按钮。\n\n奖励领取：每次评估结束后当场发放超市购物券。')">
+      <div class="icon">🤝</div>
+      <div class="label">志愿者服务</div>
+      <div class="desc">报名/奖励领取</div>
+    </div>
+    <div class="nav-card" onclick="document.getElementById('studentSection').scrollIntoView({behavior:'smooth'})">
+      <div class="icon">⭐</div>
+      <div class="label">优秀学员</div>
+      <div class="desc">成功案例展示</div>
+    </div>
+  </div>
+
+  <div class="section" id="studentSection">
+    <h3>⭐ 优秀学员</h3>
+    <div class="student-list">
+      <a class="student-item" onclick="alert('吴昊博 · 高二\n\n评估学科：物理\n评估前成绩：班级中等\n评估后：发现认知碎片化问题，针对性训练后物理成绩提升至班级前10。\n\n"分析结果显示该生物理学科认知模式偏碎片化，知识点之间缺乏有效连接。"')">吴昊博</a>
+      <a class="student-item" onclick="alert('李杨梓麟 · 高二\n\n评估学科：数学\n评估前：数学成绩波动大\n评估后：认知整合能力提升，成绩稳定在年级前30%。\n\n"记忆提取能力较好，但认知整合偏弱，需加强系统串联。"')">李杨梓麟</a>
+      <a class="student-item" onclick="alert('王宇涵 · 高一\n\n评估学科：英语\n评估前：英语偏科严重\n评估后：找到适合的记忆方法，词汇量显著提升。\n\n"该生视觉型认知偏好，建议以阅读记忆为主。"')">王宇涵</a>
+      <a class="student-item" onclick="alert('林晚 · 高三\n\n评估学科：生物（遗传学）\n评估前：二模生物71分\n评估后：针对性复习，高考生物94分，总分686分（全校第一）。\n\n"逻辑推理和神经响应指标优秀，但遗传学部分认知模式碎片化。评估后调整复习策略，效果显著。"')">林晚 <span class="badge">686分</span></a>
+      <a class="student-item" href="report-chenmuxun.html">陈牧循 <span class="badge">含链接</span></a>
+      <a class="student-item" onclick="alert('罗晋铭 · 高二\n\n评估学科：化学\n评估前：有机化学部分薄弱\n评估后：认知模式优化，化学成绩从班级中游进入前10。\n\n"该生有机化学部分的认知路径存在跳跃，经过引导后形成连续认知链。"')">罗晋铭</a>
+    </div>
+  </div>
+
+  <div class="nav-card hidden-service" style="margin:0 20px 20px;border-radius:10px;padding:14px;text-align:center;cursor:pointer;" onclick="alert('⚙ 后台管理登录\n\n此入口需要用户名和密码。\n根据论坛线索，姜游亮老师可能拥有该系统的登录账号。\n用户名格式推测与教师身份有关。\n\n（此功能待实现）')">
+    <div class="label">⚙ 后台管理登录</div>
+    <div class="desc">仅限授权人员 · 线索：姜游亮有账号</div>
+  </div>
+
+  <div style="padding:0 20px 20px;">
+    <div style="background:#fdf2f2;border:1px solid #f0d0d0;border-radius:8px;padding:12px 16px;font-size:12px;color:#888;line-height:1.7;">
+      <strong style="color:#c0392b;">💡 提示：</strong>刘天清让你调查这个平台藏了什么服务。看看优秀学员的报告里有没有线索。
+    </div>
+  </div>
+
+  <div class="foot">山经书店在线服务平台 v1.2</div>
+</div>
+</body>
+</html>
