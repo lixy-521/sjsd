@@ -295,6 +295,7 @@ body {
     } catch (e) {}
   }
 
+  // 开场消息（蒂中帝原文保留，不改动）
   const messages = [
     { text: '你看看这个书店，有点nb啊', type: 'out' },
     { text: '卧槽', type: 'in' },
@@ -304,18 +305,18 @@ body {
     { text: '我设了一个脚本自动回复你，后面调查就靠你了', type: 'in' },
     { text: '现在可以告诉你已经查到了3个网页[1][2][3]', type: 'in' },
     { text: '羊村市那个"蒂中帝"教育？听说特别牢啊。', type: 'out' },
-    { text: '刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报。', type: 'in', auto: true },
+    { text: '刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报（主要是网页）。', type: 'in', auto: true },
     { text: '刘哥你有病啊，直接把所有情报给我不就得了', type: 'out' },
-    { text: '刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报。', type: 'in', auto: true }
+    { text: '刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报（主要是网页）。', type: 'in', auto: true }
   ];
+
+  const LINK_INDEX = 7; // 3个网页链接插在第7条消息（"现在可以告诉你…"）之后、"羊村市那个蒂中帝…"之前
 
   const linkPages = [
     { label: '[1] 论坛帖子：蜜雪员工吐槽 + HBYZ老师名单', url: 'web1-forum.html' },
     { label: '[2] 新闻报道：山经书店开业，店员程加春受访', url: 'web2-news.html' },
     { label: '[3] 公众号文章：山经书店盛大开业！', url: 'https://mp.weixin.qq.com/s/ppy6ssqktADWf2HS9bmYDQ' }
   ];
-
-  
 
   function scrollToBottom() {
     setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
@@ -408,25 +409,6 @@ body {
     scrollToBottom();
   }
 
-  function playInitialMessages(index) {
-    if (index >= messages.length) {
-      input.disabled = false;
-      input.focus();
-      return;
-    }
-    if (index === 7) {
-      showLinkPages(0);
-      return;
-    }
-    const msg = messages[index];
-    showTyping(msg.type, function() {
-      addMsg(msg.text, msg.type, msg.auto || false, true, msg.link || null);
-      setTimeout(function() {
-        playInitialMessages(index + 1);
-      }, 400 + Math.random() * 300);
-    });
-  }
-
   function showTyping(sender, callback) {
     typing.classList.add('active');
     if (sender === 'out') {
@@ -444,9 +426,40 @@ body {
     }, delay);
   }
 
+  // 播放一条消息，然后播放下一条（不含链接插入判断）
+  function playOne(index) {
+    if (index >= messages.length) {
+      input.disabled = false;
+      input.focus();
+      return;
+    }
+    const msg = messages[index];
+    showTyping(msg.type, function() {
+      addMsg(msg.text, msg.type, msg.auto || false, true, msg.link || null);
+      setTimeout(function() {
+        playOne(index + 1);
+      }, 400 + Math.random() * 300);
+    });
+  }
+
+  // 逐条播放开场消息；遇到 LINK_INDEX 时先插入3个网页链接，再继续
+  function playInitialMessages(index) {
+    if (index >= messages.length) {
+      input.disabled = false;
+      input.focus();
+      return;
+    }
+    if (index === LINK_INDEX) {
+      showLinkPages(0);
+      return;
+    }
+    playOne(index);
+  }
+
+  // 依次显示3个链接卡片，全部显示完后，继续播放 LINK_INDEX 及之后的消息
   function showLinkPages(idx) {
     if (idx >= linkPages.length) {
-      playInitialMessages(7);
+      playOne(LINK_INDEX);
       return;
     }
     showTyping('in', function() {
@@ -465,7 +478,7 @@ body {
     '北境': '【情报·北境】\n北境神经科学研究院——向董新飞提供脑电波诱导技术支持的组织。\n我怀疑北境与狼堡事件有更深关联。\n\n如需我本人介入，发送暗号：狼堡往事',
     '平台': '网址：http://shanjing-platform.com [4]\n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容 [5]。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
     '帮助': '可用关键词：\n牢董 / 技术 / 受害者 / 小程序 / 北境 / 平台\n\n发送"平台"可获取在线服务平台网址\n\n紧急暗号：狼堡往事',
-    '狼堡往事': '⚠ 暗号已触发。正在尝试联系刘天清本人……\n\n—— 脚本暂停 ——\n\n刘天清（人工）：你触发暗号了。我现在只有3分钟，机房随时有人进来。长话短说。\n\n1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。\n2. 那个在线平台的后台有完整的交易数据库，IP指向北城东路217号地下层。你能拿到的话，铁证如山。\n3. 论坛里说的那个隐藏服务——从平台的"优秀学员"页面能找到入口。仔细看看。\n\n我下次上线时间不确定。尽量通过脚本解决。\n如果真有紧急情况，再发一次暗号。但次数有限——我这边风险很大。\n\n保重。',
+    '狼堡往事': '⚠ 暗号已触发。正在尝试联系刘天清本人……\n\n—— 脚本暂停 ——\n\n刘天清（人工）：你触发暗号了。我现在只有3分钟，机房随时有人进来。长话短说。\n\n1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。\n2. 那个在线平台的后台有完整的交易数据库，IP指向文化路217号地下层。你能拿到的话，铁证如山。\n3. 论坛里说的那个隐藏服务——从平台的"优秀学员"页面能找到入口。仔细看看。\n\n我下次上线时间不确定。尽量通过脚本解决。\n如果真有紧急情况，再发一次暗号。但次数有限——我这边风险很大。\n\n保重。',
     '退出': '已退出人工模式。重新输入关键词可继续查询。'
   };
 
