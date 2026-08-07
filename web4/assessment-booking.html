@@ -186,9 +186,22 @@ document.getElementById('bookingForm').addEventListener('submit', function(e) {
   }
   btn.disabled = true; btn.textContent = '提交中…';
   setTimeout(function() {
+    var record = {
+      name: name,
+      school: school,
+      grade: grade,
+      phone: phone,
+      id: '855741964',
+      bookedAt: new Date().toLocaleString('zh-CN')
+    };
+    try {
+      var records = JSON.parse(localStorage.getItem('shanjing_booking') || '[]');
+      records.push(record);
+      localStorage.setItem('shanjing_booking', JSON.stringify(records));
+    } catch (err) {}
     btn.textContent = '已提交 ✓';
     status.className = 'submit-status success';
-    status.textContent = '预约成功！我们将在3个工作日内短信通知您评估时间。您的专属ID:855741964';
+    status.textContent = '预约成功！我们将在3个工作日内短信通知您评估时间。您的专属ID:855741964。预约信息已记录，评估完成后可在"报告下载"中查询。';
     document.getElementById('bookingForm').querySelectorAll('input, select, textarea, button').forEach(function(el) {
       if (el.type !== 'checkbox' || el.id === 'agree') el.disabled = true;
     });

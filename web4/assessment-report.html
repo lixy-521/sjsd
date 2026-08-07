@@ -128,7 +128,7 @@ body {
         </div>
         <div class="form-group">
           <label>手机号后四位</label>
-          <input type="text" id="searchPhone" placeholder="如：5858" maxlength="4">
+          <input type="text" id="searchPhone" placeholder="预约时填写的手机号后四位" maxlength="4">
         </div>
       </div>
       <button class="search-btn" id="searchBtn">查询</button>
@@ -179,6 +179,14 @@ body {
   <div class="foot">山经书店在线服务平台 · 评估报告</div>
 </div>
 <script>
+function getBookingRecords() {
+  try {
+    return JSON.parse(localStorage.getItem('shanjing_booking') || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
 document.getElementById('searchBtn').addEventListener('click', function() {
   const name = document.getElementById('searchName').value.trim();
   const phone = document.getElementById('searchPhone').value.trim();
@@ -190,6 +198,23 @@ document.getElementById('searchBtn').addEventListener('click', function() {
     status.textContent = '请输入姓名或手机号后四位';
     return;
   }
+
+  const records = getBookingRecords();
+  const matchedRecord = records.find(function(r) {
+    const nameOk = r.name === name;
+    const phoneOk = phone && r.phone.slice(-4) === phone;
+    return nameOk || phoneOk;
+  });
+
+  // 已通过预约表单登记，可用登记的姓名/手机号核验
+  if (matchedRecord) {
+    list.style.display = 'block';
+    status.className = 'search-status';
+    status.textContent = '查询成功，以下为您的评估报告：' + (matchedRecord.name ? '（' + matchedRecord.name + '）' : '');
+    return;
+  }
+
+  // 剧情内置数据：徐雨桐（姓名/拼音/手机后四位5858）
   if ((name.toLowerCase() === 'xuyutong' || name === '徐雨桐') || phone === '5858') {
     list.style.display = 'block';
     status.className = 'search-status';

@@ -1039,8 +1039,8 @@ lbyz关键词"平台" → 获得平台网址[4] + 论坛帖子[5]
 | ③ `web3-mp-article.html` | 山经海籍公众号入口页。显示公众号基本信息、文章列表（A-H）和自定义菜单。可跳转到 mp-articles.html 查看全部文章 |
 | ④ `mp-articles.html` | 山经海籍公众号全部文章列表。8篇文章[A]-[H]，其中[B]和[H]标记为已删除。可展开查看文章内容 |
 | ⑤ `web4-platform.html` | 山经书店在线服务平台。包含评估预约→assessment-booking.html、报告下载→assessment-report.html、志愿者服务→volunteer.html、优秀学员6人（各指向独立报告页）、后台管理登录入口、认知强化服务入口 |
-| ⑥ `assessment-booking.html` | 评估预约表单。含姓名/学校/年级/选科/薄弱学科/手机号等字段，需同意《数据采集知情同意书》，提交后显示预约成功和专属ID |
-| ⑦ `assessment-report.html` | 评估报告查询/下载。支持按姓名+手机号后四位查询（测试：徐雨桐/5858），展示徐雨桐2次报告。示例报告（吴昊博、李杨梓麟、林晚、陈牧循）均可跳转独立报告页 |
+| ⑥ `assessment-booking.html` | 评估预约表单。含姓名/学校/年级/选科/薄弱学科/手机号等字段，需同意《数据采集知情同意书》，提交后显示预约成功和专属ID，并**将姓名+手机号存入localStorage**（键：shanjing_booking）供报告查询核验 |
+| ⑦ `assessment-report.html` | 评估报告查询/下载。核验方式：①优先匹配**预约表单登记的姓名/手机号后四位**（localStorage）②剧情内置数据徐雨桐（姓名/拼音xuyutong/手机后四位5858）。示例报告（吴昊博、李杨梓麟、林晚、陈牧循）均可跳转独立报告页 |
 | ⑦' `volunteer.html` | 志愿者服务页面（活动介绍/志愿者报名/奖励领取三个Tab）。报名需同意《志愿者授权协议》，奖励按次发放50元购物券 |
 | ⑧ `report-chenmuxun.html` | 陈牧循的第二次评估报告。含个人信息、分析数据图表、分析结果。底部有隐藏的"认知强化服务"链接 → cognitive-service.html |
 | ⑧'' `report-wuhaobo.html` / `report-liyangzilin.html` / `report-wangyuhan.html` / `report-linwan.html` / `report-luojinming.html` | 其余5位优秀学员的独立评估报告页，均为标准5段结构（个人信息/个人描述/分析数据/分析结果/综合结论） |
