@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>认知强化服务 · 山经书店</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: #0a0a0a;
+  color: #c8c8c8;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px 12px;
+}
+.wrap {
+  max-width: 640px;
+  width: 100%;
+  background: #0e0e0e;
+  border: 1px solid #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+.bar {
+  background: #0a0a0a;
+  color: #999;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.bar a { color: #666; text-decoration: none; font-size: 13px; }
+.bar a:hover { color: #aaa; }
+.bar .t { flex: 1; font-size: 13px; letter-spacing: 2px; color: #888; }
+.bar .t .red { color: #8b0000; }
+
+.banner {
+  padding: 32px 20px 20px;
+  text-align: center;
+  border-bottom: 1px solid #1a1a1a;
+}
+.banner .badge {
+  display: inline-block;
+  font-size: 10px;
+  color: #8b0000;
+  border: 1px solid #8b0000;
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: 2px;
+  margin-bottom: 14px;
+}
+.banner h1 {
+  font-size: 22px;
+  color: #cc8888;
+  letter-spacing: 4px;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.banner p { font-size: 13px; color: #666; letter-spacing: 1px; }
+
+.content { padding: 24px 20px; }
+.section-title {
+  font-size: 13px;
+  color: #555;
+  letter-spacing: 3px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid #1a1a1a;
+}
+
+/* 介绍 */
+.intro-box {
+  background: #0c0c0c;
+  border: 1px solid #1a1a1a;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.intro-box h3 {
+  font-size: 15px;
+  color: #999;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.intro-box p {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.9;
+  margin-bottom: 10px;
+}
+.intro-box .paper-link {
+  display: block;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  color: #8b9cc8;
+  text-decoration: none;
+  font-size: 13px;
+  transition: border-color .2s;
+}
+.intro-box .paper-link:hover { border-color: #4a5a88; color: #aabbee; }
+.intro-box .paper-link .pl-title { font-weight: 600; }
+.intro-box .paper-link .pl-desc { display: block; font-size: 11px; color: #555; margin-top: 4px; }
+.intro-box .warn-note {
+  margin-top: 12px;
+  font-size: 11px;
+  color: #5c4040;
+  line-height: 1.6;
+}
+
+/* 报告查询 */
+.query-box {
+  background: #0c0c0c;
+  border: 1px solid #1a1a1a;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.query-box h3 {
+  font-size: 15px;
+  color: #999;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+.form-group { margin-bottom: 12px; }
+.form-group label { display: block; font-size: 12px; color: #666; margin-bottom: 5px; letter-spacing: 1px; }
+.form-group input {
+  width: 100%;
+  padding: 10px 14px;
+  background: #0a0a0a;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #bbb;
+  outline: none;
+  font-family: inherit;
+  letter-spacing: 1px;
+}
+.form-group input:focus { border-color: #4a5a88; }
+.form-group input::placeholder { color: #444; }
+.query-btn {
+  width: 100%;
+  padding: 11px;
+  background: #5c0000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+  font-family: inherit;
+  letter-spacing: 2px;
+}
+.query-btn:hover { background: #8b0000; }
+.query-status { margin-top: 10px; font-size: 12px; text-align: center; min-height: 18px; }
+.query-status.error { color: #cc6666; }
+.query-status.success { color: #6a8a6a; }
+
+.result-box {
+  display: none;
+  margin-top: 14px;
+  border: 1px solid #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.result-box.visible { display: block; }
+.result-item {
+  display: block;
+  padding: 12px 16px;
+  border-bottom: 1px solid #1a1a1a;
+  text-decoration: none;
+  transition: background .2s;
+}
+.result-item:last-child { border-bottom: none; }
+.result-item:hover { background: #0a0a0a; }
+.result-item .ri-name { font-size: 14px; color: #aaa; font-weight: 600; }
+.result-item .ri-name .tag { font-size: 10px; color: #8b0000; margin-left: 6px; }
+.result-item .ri-meta { font-size: 11px; color: #555; margin-top: 4px; }
+.result-item .ri-meta .id { color: #8b9cc8; }
+
+.hint-box {
+  margin-top: 24px;
+  padding: 14px 16px;
+  background: #0a0a0a;
+  border: 1px dashed #2a2a2a;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #666;
+  line-height: 1.8;
+}
+.hint-box strong { color: #8b8b8b; }
+
+.foot {
+  padding: 14px;
+  text-align: center;
+  font-size: 11px;
+  color: #333;
+  border-top: 1px solid #1a1a1a;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <a href="web4-platform.html">←</a>
+    <span class="t">COGNITIVE SERVICE <span class="red">// 认知强化</span></span>
+  </div>
+
+  <div class="banner">
+    <div class="badge">⚠ 内部服务 · 需服务ID</div>
+    <h1>认知强化服务</h1>
+    <p>COGNITIVE ENHANCEMENT SERVICE</p>
+  </div>
+
+  <div class="content">
+    <div class="section-title">// 服务介绍</div>
+    <div class="intro-box">
+      <h3>什么是认知强化服务</h3>
+      <p>认知强化服务基于脑波诱导技术，将源学生的学科认知模式编码为特定频率音频，通过听觉刺激使使用者大脑模仿源学生的神经路径，从而快速建立高效的认知模式。</p>
+      <p>与传统学习不同，本服务跳过"理解-练习-巩固"的过程，直接将目标学科的思维路径同步给使用者。效果是传统学习的3-5倍。</p>
+      <a class="paper-link" href="#" onclick="alert('📄 北境科技官网相关论文\n\n《记忆提取和注入操作的可行性探究》\n\n由北境科技安和实验室写作。\n主要作者：陈昱、张纬云、乔维莉。\n\n内容涉及记忆抽取相关技术和实际操作。\n\n（论文页面待实现）');return false;">
+        <span class="pl-title">[7] 北境科技官网相关论文存档</span>
+        <span class="pl-desc">《记忆提取和注入操作的可行性探究》 · 安和实验室</span>
+      </a>
+      <div class="warn-note">※ 本服务仅面向特定合作对象，需要服务ID验证后方可使用。</div>
+    </div>
+
+    <div class="section-title">// 报告查询</div>
+    <div class="query-box">
+      <h3>认知强化服务报告查询</h3>
+      <div class="form-group">
+        <label>服务ID</label>
+        <input type="text" id="serviceId" placeholder="请输入服务ID，如 CMX-CS-20260615" autocomplete="off">
+      </div>
+      <button class="query-btn" id="queryBtn">查询报告</button>
+      <div class="query-status" id="queryStatus"></div>
+      <div class="result-box" id="resultBox">
+        <a class="result-item" href="../service-cognitives.html">
+          <div class="ri-name">认知强化服务报告 <span class="tag">CMX-CS-20260615</span></div>
+          <div class="ri-meta">姓名：陈牧循 · 服务日期：2026-06-15 · 源数据：XYT-20260220</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="hint-box">
+      <strong>如何获取服务ID：</strong>部分评估报告中会提供关联的认知强化服务链接，链接内含服务ID。
+      例如陈牧循同学的第二次评估报告。<br>
+      输入正确服务ID后即可查看完整的认知强化服务记录。
+    </div>
+  </div>
+
+  <div class="foot">山经书店在线服务平台 · 认知强化服务</div>
+</div>
+<script>
+(function() {
+  const input = document.getElementById('serviceId');
+  const btn = document.getElementById('queryBtn');
+  const status = document.getElementById('queryStatus');
+  const resultBox = document.getElementById('resultBox');
+
+  btn.addEventListener('click', function() {
+    const val = input.value.trim().toUpperCase();
+    if (!val) {
+      status.className = 'query-status error';
+      status.textContent = '请输入服务ID';
+      return;
+    }
+    if (val === 'CMX-CS-20260615' || val === 'CMX-CS-20260615'.toUpperCase()) {
+      status.className = 'query-status success';
+      status.textContent = '查询成功，以下为匹配的服务记录：';
+      resultBox.classList.add('visible');
+    } else {
+      status.className = 'query-status error';
+      status.textContent = '未找到该服务ID对应的记录，请检查后重试。';
+      resultBox.classList.remove('visible');
+    }
+  });
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') btn.click();
+  });
+})();
+</script>
+</body>
+</html>

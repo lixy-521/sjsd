@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>评估报告 · 罗晋铭</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px 12px;
+}
+.wrap {
+  max-width: 640px;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.bar {
+  background: linear-gradient(135deg, #1a3a5c, #2d5a8a);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bar a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; }
+.bar a:hover { color: #fff; }
+.bar .t { flex: 1; font-size: 14px; font-weight: 600; }
+.bar .sub { font-size: 11px; opacity: 0.4; }
+.report { padding: 24px 20px; }
+.report h1 { font-size: 20px; color: #222; margin-bottom: 4px; }
+.report .subtitle { font-size: 13px; color: #999; margin-bottom: 20px; }
+.section { margin-bottom: 20px; }
+.section h3 {
+  font-size: 15px;
+  color: #1a3a5c;
+  border-left: 3px solid #1a3a5c;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+.section p, .section .txt { font-size: 14px; line-height: 1.8; color: #555; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.info-item { font-size: 14px; color: #555; }
+.info-item .k { color: #999; }
+.data-bar { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.data-bar .lbl { font-size: 13px; color: #666; min-width: 60px; }
+.data-bar .bar-bg { flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+.data-bar .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(to right, #2d5a8a, #4a8ac4); }
+.data-bar .val { font-size: 12px; color: #999; min-width: 30px; text-align: right; }
+.foot { padding: 14px; text-align: center; font-size: 11px; color: #ccc; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <a href="web4-platform.html">←</a>
+    <span class="t">评估报告</span>
+    <span class="sub">优秀学员</span>
+  </div>
+  <div class="report">
+    <h1>学习能力评估报告</h1>
+    <div class="subtitle">报告编号：LJM-20260612-01 · 生成日期：2026-06-12</div>
+
+    <div class="section">
+      <h3>个人信息</h3>
+      <div class="info-grid">
+        <div class="info-item"><span class="k">姓名：</span>罗晋铭</div>
+        <div class="info-item"><span class="k">性别：</span>男</div>
+        <div class="info-item"><span class="k">学校：</span>怀璧一中</div>
+        <div class="info-item"><span class="k">年级：</span>高二</div>
+        <div class="info-item"><span class="k">评估次数：</span>第1次</div>
+        <div class="info-item"><span class="k">评估学科：</span>化学</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>个人描述</h3>
+      <p>该生化学成绩处于班级中游，有机化学部分尤为薄弱。自述"有机反应机理记不住，推断题完全没思路"，反复记忆收效甚微。</p>
+    </div>
+
+    <div class="section">
+      <h3>分析数据</h3>
+      <div class="data-bar"><span class="lbl">逻辑推理</span><div class="bar-bg"><div class="bar-fill" style="width:75%"></div></div><span class="val">75%</span></div>
+      <div class="data-bar"><span class="lbl">记忆提取</span><div class="bar-bg"><div class="bar-fill" style="width:80%"></div></div><span class="val">80%</span></div>
+      <div class="data-bar"><span class="lbl">认知整合</span><div class="bar-bg"><div class="bar-fill" style="width:69%"></div></div><span class="val">69%</span></div>
+      <div class="data-bar"><span class="lbl">神经响应</span><div class="bar-bg"><div class="bar-fill" style="width:76%"></div></div><span class="val">76%</span></div>
+    </div>
+
+    <div class="section">
+      <h3>分析结果</h3>
+      <p>该生有机化学部分的认知路径存在跳跃，知识点之间缺乏连续的逻辑链条，导致反应机理和推断题无法形成完整思路。</p>
+    </div>
+
+    <div class="section">
+      <h3>综合结论</h3>
+      <p>建议以反应机理为主线串联知识点。评估后认知模式优化，化学成绩已从班级中游进入前10。</p>
+    </div>
+  </div>
+  <div class="foot">山经书店在线服务平台 · 评估报告</div>
+</div>
+</body>
+</html>
