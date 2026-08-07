@@ -278,7 +278,7 @@ body {
   const typing = document.getElementById('typingIndicator');
   let isProcessing = false;
 
-  const STORAGE_KEY = 'lbyz_chat_history';
+  const STORAGE_KEY = 'lbyz_chat_history_v2';
   let history = loadHistory();
 
   function loadHistory() {
@@ -301,7 +301,7 @@ body {
     { text: '卧槽', type: 'in' },
     { text: '你是怀璧的啊', type: 'in' },
     { text: '现在我这边查到dxf可能跑到怀璧了，需要一个人调查一下。', type: 'in' },
-    { text: '现在家长非得让我去什么弟中弟机构封闭补习，今天就要走了。', type: 'in' },
+    { text: '现在家长非得让我去什么蒂中帝机构封闭补习，今天就要走了。', type: 'in' },
     { text: '我设了一个脚本自动回复你，后面调查就靠你了', type: 'in' },
     { text: '现在可以告诉你已经查到了3个网页[1][2][3]', type: 'in' },
     { text: '羊村市那个"蒂中帝"教育？听说特别牢啊。', type: 'out' },
@@ -426,48 +426,48 @@ body {
     }, delay);
   }
 
-  // 播放一条消息，然后播放下一条（不含链接插入判断）
-  function playOne(index) {
-    if (index >= messages.length) {
+  // 构建线性播放队列：消息 + 链接卡片按顺序排好，只按 index 推进，杜绝循环
+  function buildQueue() {
+    const queue = [];
+    for (let i = 0; i < messages.length; i++) {
+      if (i === LINK_INDEX) {
+        linkPages.forEach(function(p) {
+          queue.push({ kind: 'link', page: p });
+        });
+      }
+      queue.push({ kind: 'msg', msg: messages[i] });
+    }
+    return queue;
+  }
+
+  function playQueue(index) {
+    if (index >= queue.length) {
       input.disabled = false;
       input.focus();
       return;
     }
-    const msg = messages[index];
-    showTyping(msg.type, function() {
-      addMsg(msg.text, msg.type, msg.auto || false, true, msg.link || null);
-      setTimeout(function() {
-        playOne(index + 1);
-      }, 400 + Math.random() * 300);
-    });
+    const item = queue[index];
+    if (item.kind === 'link') {
+      showTyping('in', function() {
+        addLinkCard(item.page.label, item.page, true);
+        setTimeout(function() {
+          playQueue(index + 1);
+        }, 500 + Math.random() * 400);
+      });
+    } else {
+      showTyping(item.msg.type, function() {
+        addMsg(item.msg.text, item.msg.type, item.msg.auto || false, true, item.msg.link || null);
+        setTimeout(function() {
+          playQueue(index + 1);
+        }, 400 + Math.random() * 300);
+      });
+    }
   }
 
-  // 逐条播放开场消息；遇到 LINK_INDEX 时先插入3个网页链接，再继续
-  function playInitialMessages(index) {
-    if (index >= messages.length) {
-      input.disabled = false;
-      input.focus();
-      return;
-    }
-    if (index === LINK_INDEX) {
-      showLinkPages(0);
-      return;
-    }
-    playOne(index);
-  }
-
-  // 依次显示3个链接卡片，全部显示完后，继续播放 LINK_INDEX 及之后的消息
-  function showLinkPages(idx) {
-    if (idx >= linkPages.length) {
-      playOne(LINK_INDEX);
-      return;
-    }
-    showTyping('in', function() {
-      addLinkCard(linkPages[idx].label, linkPages[idx], true);
-      setTimeout(function() {
-        showLinkPages(idx + 1);
-      }, 500 + Math.random() * 400);
-    });
+  // 首次播放：生成一次队列，之后只推进，绝不回头
+  const queue = buildQueue();
+  function playInitialMessages() {
+    playQueue(0);
   }
 
   const keywordResponses = {
@@ -542,7 +542,7 @@ body {
     history = [];
     container.innerHTML = '';
     input.disabled = true;
-    playInitialMessages(0);
+    playInitialMessages();
   };
 
   sendBtn.addEventListener('click', handleSend);
@@ -556,7 +556,7 @@ body {
     input.focus();
   } else {
     input.disabled = true;
-    playInitialMessages(0);
+    playInitialMessages();
   }
 })();
 </script>
