@@ -66,6 +66,7 @@ body {
 .search-btn:hover { background: #1a3a5c; }
 .search-status { margin-top: 8px; font-size: 12px; text-align: center; min-height: 18px; }
 .search-status.error { color: #c0392b; }
+.search-status.success { color: #27ae60; }
 
 .report-list { margin-top: 16px; }
 .report-item {
@@ -206,11 +207,11 @@ document.getElementById('searchBtn').addEventListener('click', function() {
     return nameOk || phoneOk;
   });
 
-  // 已通过预约表单登记，可用登记的姓名/手机号核验
+  // 已通过预约表单登记，可用登记的姓名/手机号核验 —— 显示"等待测评"状态
   if (matchedRecord) {
-    list.style.display = 'block';
-    status.className = 'search-status';
-    status.textContent = '查询成功，以下为您的评估报告：' + (matchedRecord.name ? '（' + matchedRecord.name + '）' : '');
+    list.style.display = 'none';
+    status.className = 'search-status success';
+    status.textContent = '查询成功，等待测评。' + (matchedRecord.name ? '（' + matchedRecord.name + '）' : '');
     return;
   }
 
