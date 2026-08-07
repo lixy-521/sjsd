@@ -248,6 +248,7 @@ body {
       <div class="status">lbyz 在线</div>
     </div>
     <div class="header-actions">
+      <button title="清空记录" onclick="clearHistory()" style="font-size:13px;">🗑</button>
       <button title="刷新" onclick="scrollToBottom()">↻</button>
     </div>
   </div>
@@ -276,10 +277,26 @@ body {
   const sendBtn = document.getElementById('sendBtn');
   const typing = document.getElementById('typingIndicator');
   let isProcessing = false;
-  let isFirstLoad = true;
+
+  const STORAGE_KEY = 'lbyz_chat_history';
+  let history = loadHistory();
+
+  function loadHistory() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+  function saveHistory() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    } catch (e) {}
+  }
 
   const messages = [
-    { text: '你看看这个书店，有点nb啊[网页1]', type: 'out' },
+    { text: '你看看这个书店，有点nb啊', type: 'out' },
     { text: '卧槽', type: 'in' },
     { text: '你是怀璧的啊', type: 'in' },
     { text: '现在我这边查到dxf可能跑到怀璧了，需要一个人调查一下。', type: 'in' },
@@ -295,14 +312,21 @@ body {
   const linkPages = [
     { label: '[1] 论坛帖子：蜜雪员工吐槽 + HBYZ老师名单', url: 'web1-forum.html' },
     { label: '[2] 新闻报道：山经书店开业，店员程加春受访', url: 'web2-news.html' },
-    { label: '[3] 公众号文章：山经海籍', url: 'web3-mp-article.html' }
+    { label: '[3] 公众号文章：山经书店盛大开业！', url: 'https://mp.weixin.qq.com/s/ppy6ssqktADWf2HS9bmYDQ' }
   ];
+
+  
 
   function scrollToBottom() {
     setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
   }
 
-  function addMsg(text, type, auto) {
+  function timeStr() {
+    const now = new Date();
+    return String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+  }
+
+  function addMsg(text, type, auto, persist, link) {
     const row = document.createElement('div');
     row.className = 'msg-row ' + (type === 'out' ? 'outgoing' : 'incoming');
 
@@ -313,12 +337,20 @@ body {
     const wrap = document.createElement('div');
     const bubble = document.createElement('div');
     bubble.className = 'msg-bubble' + (auto ? ' auto-reply' : '');
-    bubble.textContent = text;
+    if (link) {
+      bubble.appendChild(document.createTextNode(text));
+      const a = document.createElement('span');
+      a.textContent = link.label;
+      a.style.cssText = 'color:#0b5d34;font-weight:700;text-decoration:underline;cursor:pointer;';
+      a.onclick = function() { window.location.href = link.url; };
+      bubble.appendChild(a);
+    } else {
+      bubble.textContent = text;
+    }
 
     const time = document.createElement('div');
     time.className = 'msg-time';
-    const now = new Date();
-    time.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    time.textContent = timeStr();
     if (auto) time.textContent += ' · 脚本自动回复';
 
     wrap.appendChild(bubble);
@@ -327,11 +359,16 @@ body {
     row.appendChild(wrap);
     container.appendChild(row);
 
-    setTimeout(() => { row.classList.add('visible'); }, 50);
+    if (persist) {
+      history.push({ kind: 'msg', text: text, type: type, auto: !!auto, link: link || null, time: timeStr() });
+      saveHistory();
+    }
+
+    row.classList.add('visible');
     scrollToBottom();
   }
 
-  function addLinkCard(label, target) {
+  function addLinkCard(label, target, persist) {
     const row = document.createElement('div');
     row.className = 'msg-row incoming';
     row.style.maxWidth = '92%';
@@ -354,8 +391,7 @@ body {
 
     const time = document.createElement('div');
     time.className = 'msg-time';
-    const now = new Date();
-    time.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    time.textContent = timeStr();
 
     wrap.appendChild(bubble);
     wrap.appendChild(time);
@@ -363,18 +399,28 @@ body {
     row.appendChild(wrap);
     container.appendChild(row);
 
-    setTimeout(() => { row.classList.add('visible'); }, 50);
+    if (persist) {
+      history.push({ kind: 'link', label: label, url: target.url || null, alert: target.alert || null, time: timeStr() });
+      saveHistory();
+    }
+
+    row.classList.add('visible');
     scrollToBottom();
   }
 
   function playInitialMessages(index) {
     if (index >= messages.length) {
+      input.disabled = false;
+      input.focus();
+      return;
+    }
+    if (index === 7) {
       showLinkPages(0);
       return;
     }
     const msg = messages[index];
     showTyping(msg.type, function() {
-      addMsg(msg.text, msg.type, msg.auto || false);
+      addMsg(msg.text, msg.type, msg.auto || false, true, msg.link || null);
       setTimeout(function() {
         playInitialMessages(index + 1);
       }, 400 + Math.random() * 300);
@@ -400,12 +446,11 @@ body {
 
   function showLinkPages(idx) {
     if (idx >= linkPages.length) {
-      input.disabled = false;
-      input.focus();
+      playInitialMessages(7);
       return;
     }
     showTyping('in', function() {
-      addLinkCard(linkPages[idx].label, linkPages[idx]);
+      addLinkCard(linkPages[idx].label, linkPages[idx], true);
       setTimeout(function() {
         showLinkPages(idx + 1);
       }, 500 + Math.random() * 400);
@@ -420,7 +465,7 @@ body {
     '北境': '【情报·北境】\n北境神经科学研究院——向董新飞提供脑电波诱导技术支持的组织。\n我怀疑北境与狼堡事件有更深关联。\n\n如需我本人介入，发送暗号：狼堡往事',
     '平台': '网址：http://shanjing-platform.com [4]\n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容 [5]。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
     '帮助': '可用关键词：\n牢董 / 技术 / 受害者 / 小程序 / 北境 / 平台\n\n发送"平台"可获取在线服务平台网址\n\n紧急暗号：狼堡往事',
-    '狼堡往事': '⚠ 暗号已触发。正在尝试联系刘天清本人……\n\n—— 脚本暂停 ——\n\n刘天清（人工）：你触发暗号了。我现在只有3分钟，机房随时有人进来。长话短说。\n\n1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。\n2. 那个在线平台的后台有完整的交易数据库，IP指向文化路217号地下层。你能拿到的话，铁证如山。\n3. 论坛里说的那个隐藏服务——从平台的"优秀学员"页面能找到入口。仔细看看。\n\n我下次上线时间不确定。尽量通过脚本解决。\n如果真有紧急情况，再发一次暗号。但次数有限——我这边风险很大。\n\n保重。',
+    '狼堡往事': '⚠ 暗号已触发。正在尝试联系刘天清本人……\n\n—— 脚本暂停 ——\n\n刘天清（人工）：你触发暗号了。我现在只有3分钟，机房随时有人进来。长话短说。\n\n1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。\n2. 那个在线平台的后台有完整的交易数据库，IP指向北城东路217号地下层。你能拿到的话，铁证如山。\n3. 论坛里说的那个隐藏服务——从平台的"优秀学员"页面能找到入口。仔细看看。\n\n我下次上线时间不确定。尽量通过脚本解决。\n如果真有紧急情况，再发一次暗号。但次数有限——我这边风险很大。\n\n保重。',
     '退出': '已退出人工模式。重新输入关键词可继续查询。'
   };
 
@@ -429,7 +474,7 @@ body {
     const text = input.value.trim();
     if (!text) return;
 
-    addMsg(text, 'out');
+    addMsg(text, 'out', false, true);
     input.value = '';
     isProcessing = true;
 
@@ -438,43 +483,68 @@ body {
 
     if (text === '退出') {
       showTyping('in', function() {
-        addMsg(keywordResponses['退出'], 'in', true);
+        addMsg(keywordResponses['退出'], 'in', true, true);
         isProcessing = false;
       });
       return;
     }
     if (text === '狼堡往事' || lowerText.includes('狼堡往事')) {
       showTyping('in', function() {
-        addMsg(keywordResponses['狼堡往事'], 'in', false);
+        addMsg(keywordResponses['狼堡往事'], 'in', false, true);
         isProcessing = false;
       });
       return;
     }
     if (matched) {
       showTyping('in', function() {
-        addMsg(keywordResponses[matched], 'in', true);
+        addMsg(keywordResponses[matched], 'in', true, true);
         isProcessing = false;
       });
     } else if (lowerText.includes('帮助') || lowerText.includes('关键词')) {
       showTyping('in', function() {
-        addMsg(keywordResponses['帮助'], 'in', true);
+        addMsg(keywordResponses['帮助'], 'in', true, true);
         isProcessing = false;
       });
     } else {
       showTyping('in', function() {
-        addMsg('指令无法识别。回复"帮助"查看可用关键词。', 'in', true);
+        addMsg('指令无法识别。回复"帮助"查看可用关键词。', 'in', true, true);
         isProcessing = false;
       });
     }
   }
+
+  function renderHistory() {
+    history.forEach(function(entry) {
+      if (entry.kind === 'link') {
+        addLinkCard(entry.label, { url: entry.url, alert: entry.alert }, false);
+      } else {
+        addMsg(entry.text, entry.type, entry.auto, false, entry.link || null);
+      }
+    });
+  }
+
+  window.clearHistory = function() {
+    if (!confirm('确定清空所有聊天记录吗？')) return;
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    history = [];
+    container.innerHTML = '';
+    input.disabled = true;
+    playInitialMessages(0);
+  };
 
   sendBtn.addEventListener('click', handleSend);
   input.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') handleSend();
   });
 
-  input.disabled = true;
-  playInitialMessages(0);
+  if (history.length > 0) {
+    renderHistory();
+    input.disabled = false;
+    input.focus();
+  } else {
+    input.disabled = true;
+    playInitialMessages(0);
+  }
 })();
 </script>
 </body>
