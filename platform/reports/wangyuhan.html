@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>评估报告 · 王宇涵</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px 12px;
+}
+.wrap {
+  max-width: 640px;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.bar {
+  background: linear-gradient(135deg, #1a3a5c, #2d5a8a);
+  color: #fff;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bar a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 13px; }
+.bar a:hover { color: #fff; }
+.bar .t { flex: 1; font-size: 14px; font-weight: 600; }
+.bar .sub { font-size: 11px; opacity: 0.4; }
+.report { padding: 24px 20px; }
+.report h1 { font-size: 20px; color: #222; margin-bottom: 4px; }
+.report .subtitle { font-size: 13px; color: #999; margin-bottom: 20px; }
+.section { margin-bottom: 20px; }
+.section h3 {
+  font-size: 15px;
+  color: #1a3a5c;
+  border-left: 3px solid #1a3a5c;
+  padding-left: 10px;
+  margin-bottom: 10px;
+}
+.section p, .section .txt { font-size: 14px; line-height: 1.8; color: #555; }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.info-item { font-size: 14px; color: #555; }
+.info-item .k { color: #999; }
+.data-bar { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.data-bar .lbl { font-size: 13px; color: #666; min-width: 60px; }
+.data-bar .bar-bg { flex: 1; height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+.data-bar .bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(to right, #2d5a8a, #4a8ac4); }
+.data-bar .val { font-size: 12px; color: #999; min-width: 30px; text-align: right; }
+.foot { padding: 14px; text-align: center; font-size: 11px; color: #ccc; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <a href="../index.html">←</a>
+    <span class="t">评估报告</span>
+    <span class="sub">优秀学员</span>
+  </div>
+  <div class="report">
+    <h1>学习能力评估报告</h1>
+    <div class="subtitle">报告编号：WYH-20260605-01 · 生成日期：2026-06-05</div>
+
+    <div class="section">
+      <h3>个人信息</h3>
+      <div class="info-grid">
+        <div class="info-item"><span class="k">姓名：</span>王宇涵</div>
+        <div class="info-item"><span class="k">性别：</span>女</div>
+        <div class="info-item"><span class="k">学校：</span>怀璧一中</div>
+        <div class="info-item"><span class="k">年级：</span>高一</div>
+        <div class="info-item"><span class="k">评估次数：</span>第1次</div>
+        <div class="info-item"><span class="k">评估学科：</span>英语</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>个人描述</h3>
+      <p>该生英语偏科严重，词汇量薄弱，背单词效率低。自述"背了就忘，第二天全忘光"，对英语学习缺乏信心。</p>
+    </div>
+
+    <div class="section">
+      <h3>分析数据</h3>
+      <div class="data-bar"><span class="lbl">逻辑推理</span><div class="bar-bg"><div class="bar-fill" style="width:70%"></div></div><span class="val">70%</span></div>
+      <div class="data-bar"><span class="lbl">记忆提取</span><div class="bar-bg"><div class="bar-fill" style="width:64%"></div></div><span class="val">64%</span></div>
+      <div class="data-bar"><span class="lbl">认知整合</span><div class="bar-bg"><div class="bar-fill" style="width:72%"></div></div><span class="val">72%</span></div>
+      <div class="data-bar"><span class="lbl">神经响应</span><div class="bar-bg"><div class="bar-fill" style="width:68%"></div></div><span class="val">68%</span></div>
+    </div>
+
+    <div class="section">
+      <h3>分析结果</h3>
+      <p>该生认知偏好为视觉型，记忆提取指标偏低，但认知整合能力尚可。死记硬背的单词记忆方式与其认知模式不匹配，导致效率低下。</p>
+    </div>
+
+    <div class="section">
+      <h3>综合结论</h3>
+      <p>建议以阅读记忆为主，结合视觉联想记忆。评估后找到适合的记忆方法，词汇量显著提升，英语偏科情况改善。</p>
+    </div>
+  </div>
+  <div class="foot">山经书店在线服务平台 · 评估报告</div>
+</div>
+</body>
+</html>

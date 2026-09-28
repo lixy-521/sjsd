@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>个人中心 · 山经海集</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:#e9e9e9;color:#333}
+a{text-decoration:none;color:inherit}
+.phone{max-width:420px;min-height:100vh;margin:0 auto;background:#f5f5f5;position:relative;padding-bottom:70px;box-shadow:0 0 24px rgba(0,0,0,.06)}
+.mp-nav{position:sticky;top:0;z-index:50;height:52px;background:#fff;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 8px;gap:4px}
+.mp-nav .back{min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:20px;border-radius:50%;color:#333}
+.mp-nav .title{flex:1;text-align:center;font-size:16px;font-weight:600}
+.capsule{display:flex;align-items:center;gap:7px;border:1px solid #e6e6e6;border-radius:16px;padding:5px 10px;background:#f7f7f7;font-size:14px;color:#555;line-height:1}
+.capsule .dv{width:1px;height:14px;background:#e0e0e0}
+.user{background:linear-gradient(135deg,#07c160,#0a9e55);color:#fff;padding:22px 18px;display:flex;align-items:center;gap:14px}
+.user .ava{width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600}
+.user .un{font-size:17px;font-weight:600}
+.user .uid{font-size:11px;opacity:.85;margin-top:5px}
+.stats{display:flex;background:#fff;margin:-1px 0 0}
+.stats a{flex:1;text-align:center;padding:14px 0;border-right:1px solid #f2f2f2}
+.stats a:last-child{border-right:none}
+.stats .num{font-size:17px;font-weight:700;color:#333}
+.stats .lb{font-size:11px;color:#999;margin-top:4px}
+.card{background:#fff;border-radius:12px;margin:10px;overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:14px;border-bottom:1px solid #f4f4f4;font-size:14px}
+.row:last-child{border-bottom:none}
+.row .ic{width:24px;text-align:center;font-size:16px}
+.row .lb{flex:1}
+.row .rt{font-size:12px;color:#bbb}
+.row .arrow{color:#ccc}
+.order{background:#fff;border-radius:12px;margin:10px;padding:14px}
+.order .oh{display:flex;justify-content:space-between;font-size:11px;color:#999;margin-bottom:10px}
+.order .oh .st{color:#07c160}
+.order .ob{display:flex;gap:12px;align-items:center}
+.order .oc{width:46px;height:60px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:600;text-align:center;line-height:1.3;background:linear-gradient(135deg,#1f8a4c,#37b06a)}
+.order .oi{flex:1}
+.order .ot{font-size:13px;font-weight:600}
+.order .od{font-size:11px;color:#aaa;margin-top:5px}
+.order .op{color:#e54d42;font-weight:700;font-size:14px;margin-top:5px}
+.sec{display:flex;align-items:center;justify-content:space-between;margin:16px 14px 8px}
+.sec h3{font-size:15px;font-weight:600}
+.sec .more{font-size:12px;color:#999}
+.tabbar{position:fixed;left:0;right:0;bottom:0;max-width:420px;margin:0 auto;height:58px;background:#fff;border-top:1px solid #ececec;display:flex;z-index:60}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;color:#999}
+.tabbar a .ic{font-size:18px;line-height:1}
+.tabbar a.active{color:#07c160}
+.foot{text-align:center;font-size:11px;color:#c8c8c8;padding:10px 0 4px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="mp-nav">
+    <a class="back" href="home.html" title="返回">←</a>
+    <span class="title">个人中心</span>
+    <span class="capsule">···<span class="dv"></span>⊙</span>
+  </header>
+
+  <div class="user">
+    <div class="ava">李</div>
+    <div>
+      <div class="un">李令炉</div>
+      <div class="uid">山经海集 ID：sjhj_****5858</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <a href="profile.html"><div class="num">3</div><div class="lb">订单</div></a>
+    <a href="profile.html"><div class="num">5</div><div class="lb">收藏</div></a>
+    <a href="profile.html"><div class="num">2</div><div class="lb">优惠券</div></a>
+  </div>
+
+  <div class="sec"><h3>我的订单</h3><a class="more" href="profile.html">全部 ›</a></div>
+  <div class="order">
+    <div class="oh"><span>订单号 SJ20260328001</span><span class="st">已完成</span></div>
+    <div class="ob">
+      <div class="oc">高考生物<br>必刷题</div>
+      <div class="oi">
+        <div class="ot">高考生物必刷题（2026版）</div>
+        <div class="od">2026-03-28 下单 · 数量 ×1</div>
+        <div class="op">¥68</div>
+      </div>
+      <a class="more" href="book-1.html" style="font-size:12px;color:#07c160">再次购买</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <a class="row" href="profile.html"><span class="ic">📦</span><span class="lb">我的订单</span><span class="rt">全部订单</span><span class="arrow">›</span></a>
+    <a class="row" href="profile.html"><span class="ic">⭐</span><span class="lb">我的收藏</span><span class="rt">5 件</span><span class="arrow">›</span></a>
+    <a class="row" href="profile.html"><span class="ic">🕘</span><span class="lb">浏览历史</span><span class="arrow">›</span></a>
+  </div>
+
+  <div class="card">
+    <a class="row" href="service.html"><span class="ic">🔐</span><span class="lb">服务ID查询</span><span class="rt">定向服务</span><span class="arrow">›</span></a>
+    <a class="row" href="chat.html"><span class="ic">💬</span><span class="lb">在线客服</span><span class="rt">9:00—21:00</span><span class="arrow">›</span></a>
+    <a class="row" href="study.html"><span class="ic">✏️</span><span class="lb">学习方法</span><span class="arrow">›</span></a>
+    <a class="row" href="profile.html"><span class="ic">⚙️</span><span class="lb">设置</span><span class="arrow">›</span></a>
+  </div>
+
+  <div class="foot">山经海集 v2.3.1 · 山经书店官方小程序</div>
+
+  <nav class="tabbar">
+    <a href="home.html"><span class="ic">🏠</span>首页</a>
+    <a href="category.html"><span class="ic">📚</span>分类</a>
+    <a href="study.html"><span class="ic">✏️</span>学习方法</a>
+    <a href="profile.html" class="active"><span class="ic">👤</span>我的</a>
+  </nav>
+</div>
+</body>
+</html>

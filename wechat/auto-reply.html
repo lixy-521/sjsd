@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>关键词自动回复测试 · 山经海籍</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #ededed; color: #333;
+}
+a { color: #576b95; }
+
+.phone { max-width: 640px; margin: 0 auto; height: 100vh; display: flex; flex-direction: column; background: #ededed; }
+
+.topbar {
+  flex-shrink: 0; height: 46px;
+  background: #ededed; border-bottom: 1px solid #e0e0e0;
+  display: flex; align-items: center; padding: 0 14px;
+}
+.topbar .back { font-size: 22px; line-height: 1; color: #333; margin-right: 10px; text-decoration: none; }
+.topbar .tt { flex: 1; text-align: center; font-size: 15px; color: #333; margin-right: 32px; }
+.topbar .more { color: #888; font-size: 18px; }
+
+.msgs {
+  flex: 1; overflow-y: auto; padding: 16px 14px 20px;
+  -webkit-overflow-scrolling: touch;
+}
+.row { display: flex; margin-bottom: 16px; align-items: flex-start; gap: 8px; }
+.row.me { flex-direction: row-reverse; }
+.avatar {
+  width: 36px; height: 36px; border-radius: 6px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 15px; font-weight: 700;
+}
+.avatar.bot { background: linear-gradient(135deg,#07c160,#0aa350); }
+.avatar.me { background: #8a9bb0; }
+.bubble {
+  max-width: 76%; padding: 10px 13px; border-radius: 8px;
+  font-size: 15px; line-height: 1.65; word-break: break-word;
+  background: #fff; position: relative;
+}
+.row.me .bubble { background: #95ec69; }
+.bubble .sys { font-size: 12px; color: #999; }
+
+.card {
+  display: block; margin-top: 10px; padding: 10px 12px;
+  border: 1px solid #e5e5e5; border-radius: 6px; background: #fafafa;
+  text-decoration: none; color: #222; font-size: 14px;
+}
+.card:hover { background: #f2f2f2; }
+.card .ct { font-weight: 600; }
+.card .cd { display: block; font-size: 12px; color: #999; margin-top: 4px; line-height: 1.5; }
+.card .bad { color: #c0392b; }
+
+.mapbox {
+  margin-top: 10px; border: 1px solid #dcdcdc; border-radius: 6px;
+  background: #eef1f4; overflow: hidden;
+}
+.mapbox .road {
+  height: 30px; background: #d9dde2; color: #7a8794;
+  font-size: 11px; display: flex; align-items: center; padding: 0 10px;
+  letter-spacing: 4px;
+}
+.mapbox .shop {
+  padding: 16px 12px; text-align: center; background: #f7f9fb;
+}
+.mapbox .shop .pin { font-size: 26px; }
+.mapbox .shop .nm { font-size: 13px; color: #333; font-weight: 600; margin-top: 4px; }
+.mapbox .gate {
+  background: #fdf6e3; border-top: 1px dashed #e0c98a;
+  padding: 8px 12px; font-size: 12px; color: #a8741f; text-align: center;
+}
+.bubble .link { font-weight: 600; }
+
+.quick {
+  flex-shrink: 0; padding: 6px 12px 0; background: #ededed;
+  display: flex; gap: 8px; overflow-x: auto; white-space: nowrap;
+}
+.quick button {
+  flex-shrink: 0; font-family: inherit; font-size: 12px;
+  border: 1px solid #d5d5d5; background: #fff; color: #576b95;
+  border-radius: 14px; padding: 4px 12px; cursor: pointer;
+}
+.quick button:hover { background: #f2f2f2; }
+
+.inputbar {
+  flex-shrink: 0; display: flex; gap: 8px; padding: 10px 12px;
+  background: #f7f7f7; border-top: 1px solid #e0e0e0;
+}
+.inputbar input {
+  flex: 1; border: 1px solid #d5d5d5; border-radius: 6px;
+  padding: 10px 12px; font-size: 15px; font-family: inherit; outline: none;
+  background: #fff;
+}
+.inputbar input:focus { border-color: #07c160; }
+.inputbar button {
+  border: none; background: #07c160; color: #fff;
+  border-radius: 6px; padding: 0 20px; font-size: 15px; font-weight: 600;
+  font-family: inherit; cursor: pointer;
+}
+.inputbar button:active { background: #06ad55; }
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="topbar">
+    <a class="back" href="home.html">←</a>
+    <span class="tt">山经海籍</span>
+    <span class="more">⋯</span>
+  </div>
+
+  <div class="msgs" id="msgs"></div>
+
+  <div class="quick" id="quick"></div>
+
+  <div class="inputbar">
+    <input type="text" id="input" placeholder="发送关键词…" autocomplete="off">
+    <button id="send">发送</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  var msgs = document.getElementById('msgs');
+  var input = document.getElementById('input');
+  var sendBtn = document.getElementById('send');
+  var xytCount = 0;
+
+  function addUser(text) {
+    var row = document.createElement('div');
+    row.className = 'row me';
+    row.innerHTML = '<div class="avatar me">我</div><div class="bubble"></div>';
+    row.querySelector('.bubble').textContent = text;
+    msgs.appendChild(row);
+    scrollDown();
+  }
+
+  function addBot(html) {
+    var row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = '<div class="avatar bot">山</div><div class="bubble">' + html + '</div>';
+    msgs.appendChild(row);
+    scrollDown();
+  }
+
+  function scrollDown() {
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  /* ---- 回复内容 ---- */
+  var cardA = '<a class="card" href="article-a.html"><span class="ct">📋 能力评估服务火热开放</span><span class="cd">二楼学习评估室开放免费学习能力评估，欢迎预约到店。</span></a>';
+  var cardB = '<a class="card" href="article-b.html"><span class="ct">📄 山经书店在线服务平台正式上线</span><span class="cd bad">该内容已被发布者删除，无法查看。</span></a>';
+  var cardE = '<a class="card" href="article-e.html"><span class="ct">📱 小程序上线，可在线订书</span><span class="cd">「山经海集」小程序上线，教辅在线下单。</span></a>';
+  var cardG = '<a class="card" href="article-g.html"><span class="ct">🤝 志愿者第二轮招募</span><span class="cd">学习能力研究项目志愿者第二轮招募。</span></a>';
+  var cardH = '<a class="card" href="article-h.html"><span class="ct">📄 新服务上线</span><span class="cd bad">该内容已被发布者删除，无法查看。</span></a>';
+
+  var mapBlock =
+    '<div class="mapbox">' +
+      '<div class="road">北 城 东 路 ↗</div>' +
+      '<div class="shop"><div class="pin">📍</div><div class="nm">山经书店 · 北城东路173号</div></div>' +
+      '<div class="gate">店后方：一处未标注的入口（地图上未显示）</div>' +
+    '</div>';
+
+  var helpText =
+    '可用关键词：<br>' +
+    '评估 / 平台 / 小程序 / 志愿者 / 注入<br>' +
+    '合作 / 二楼 / 北城东路173号 / 论文 / 实验<br>' +
+    '认知负荷 / 极限 / XYT / 实验室 / 不属于自己的记忆<br>' +
+    '山经海集 / 内参 / 2999 / 认知同步 / 原理 / 满分作文<br>' +
+    '北境 / 牢董 / 建延 / 数据 / 狼堡';
+
+  /* 关键词按匹配优先级排列（长/特异的在前），包含匹配、大小写不敏感 */
+  var rules = [
+    ['不属于自己的记忆', function () {
+      return 'XYT-20260208-H02 数据包文件名（第2次采集，已售出12份）。';
+    }],
+    ['北城东路173号', function () {
+      return '已为您定位到店地址：怀璧市山海街道北城东路173号。' + mapBlock +
+             '<br>另外提醒：书店后方还有一个未标注的入口，地图上没有显示。';
+    }],
+    ['认知负荷', function () {
+      return '认知负荷的极限是可以突破的。回复"极限"。';
+    }],
+    ['认知同步', function () {
+      return '认知同步技术能将高效学习模式直接传输给使用者。效果是传统学习的3-5倍。回复"原理"了解更多。';
+    }],
+    ['满分作文', function () {
+      return '你发现了一个隐藏的入口。解锁码：JZ-2026。';
+    }],
+    ['山经海集', function () {
+      return '小程序入口在菜单中。回复"内参"获取更多权限。';
+    }],
+    ['实验室', function () {
+      return '某些记忆会在同步过程中残留。这是正常现象，通常在一周内消退。如有持续不适，请停止使用并联系客服。';
+    }],
+    ['小程序', function () { return cardE; }],
+    ['志愿者', function () { return cardG; }],
+    ['帮助', function () { return helpText; }],
+    ['平台', function () { return cardB; }],
+    ['合作', function () {
+      return '已识别合作身份，正在跳转后台…<br><a class="link" href="../admin/login.html">进入合作人员后台 →</a>';
+    }],
+    ['评估', function () { return cardA; }],
+    ['注入', function () { return cardH; }],
+    ['二楼', function () {
+      return '二楼是学习能力评估室，帮助学生诊断学习问题。';
+    }],
+    ['论文', function () {
+      return '抱歉，该论文目前仅限内部参考。回复"实验"了解更多。';
+    }],
+    ['实验', function () {
+      return '我们的实验采用的是非侵入式脑波采集技术，安全无副作用。如果你有兴趣参与，欢迎到店咨询。';
+    }],
+    ['极限', function () {
+      return '已定位到小程序商品页：<br><a class="card" href="../miniprogram/internal.html"><span class="ct">🔒 内部资料</span><span class="cd">该分类需权限方可查看。</span></a>';
+    }],
+    ['内参', function () {
+      return '解锁码：HS7-2026。进入小程序"学习方法"分类，在底部输入此解锁码。';
+    }],
+    ['北境', function () {
+      return '本店与北境神经科学研究院无业务往来。<br><a class="link" href="../northland/lab.html">北境科技官网 →</a>';
+    }],
+    ['2999', function () {
+      return '价格不同的商品对应不同的学习方式。具体区别请到店咨询。';
+    }],
+    ['原理', function () {
+      return '基于神经可塑性原理，通过特定频率的脑波音频引导大脑建立高效认知路径。目前该技术处于内部测试阶段。';
+    }],
+    ['牢董', function () { return '查无此人。'; }],
+    ['建延', function () { return '暂无相关信息。'; }],
+    ['数据', function () { return '您的问题超出我的回答范围。请到店咨询。'; }],
+    ['狼堡', function () { return '本店历史中不包含您提到的地名。'; }],
+    ['xyt', function () {
+      xytCount++;
+      if (xytCount === 1) {
+        return '该编号暂无对应信息。';
+      }
+      return '编号 XYT-20260125，采集日期：2026年1月25日，学科：生物，数据质量评级：A+。该数据已被打包使用17次。';
+    }]
+  ];
+
+  var fallback = '未查询到相关的内容。发送调查相关信息可以获得更多情报（主要是网页）。';
+
+  function getReply(text) {
+    var t = text.toLowerCase();
+    for (var i = 0; i < rules.length; i++) {
+      if (t.indexOf(rules[i][0].toLowerCase()) !== -1) {
+        return rules[i][1]();
+      }
+    }
+    return fallback;
+  }
+
+  function send() {
+    var text = input.value.trim();
+    if (!text) { return; }
+    addUser(text);
+    input.value = '';
+    var reply = getReply(text);
+
+    var typing = document.createElement('div');
+    typing.className = 'row';
+    typing.innerHTML = '<div class="avatar bot">山</div><div class="bubble" style="color:#bbb;">正在输入…</div>';
+    msgs.appendChild(typing);
+    scrollDown();
+
+    setTimeout(function () {
+      msgs.removeChild(typing);
+      addBot(reply);
+    }, 480);
+  }
+
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') { send(); }
+  });
+
+  /* 快捷示例 */
+  var examples = ['帮助', '评估', '平台', '合作', 'XYT', '认知负荷', '满分作文', '北境'];
+  var quick = document.getElementById('quick');
+  examples.forEach(function (k) {
+    var b = document.createElement('button');
+    b.textContent = k;
+    b.addEventListener('click', function () { input.value = k; send(); });
+    quick.appendChild(b);
+  });
+
+  /* 欢迎语 */
+  addBot('欢迎关注「山经海籍」。<br>这里是关键词自动回复测试。<br>发送关键词即可获取相关内容，发送"帮助"查看可用关键词。');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>北境科技安和实验室 · 官方网站</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: #0a0e14;
+  color: #b8c4cc;
+  min-height: 100vh;
+  padding: 20px 12px 40px;
+}
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  background: #0e141c;
+  border: 1px solid #16202c;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 50px rgba(0,0,0,0.55);
+}
+/* header */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: #090d12;
+  border-bottom: 1px solid #16202c;
+  font-family: "Courier New", monospace;
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  color: #40596a;
+}
+.topbar .clock { margin-left: auto; color: #3fa9c9; }
+.topbar .iso { color: #8b0000; }
+
+header.main {
+  padding: 30px 28px;
+  background: linear-gradient(135deg, #0b1520 0%, #0e141c 60%);
+  border-bottom: 1px solid #16202c;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.logo-mark {
+  width: 58px; height: 58px;
+  flex: 0 0 58px;
+  border: 1px solid #24506a;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, #12283a, #0b1119);
+  position: relative;
+}
+.logo-mark::before {
+  content: 'N';
+  font-family: "Courier New", monospace;
+  font-size: 26px;
+  color: #3fa9c9;
+  letter-spacing: 0;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border: 1px solid #1c3242;
+  border-radius: 6px;
+}
+.brand h1 { font-size: 21px; color: #d6e4ec; letter-spacing: 3px; font-weight: 600; }
+.brand .en {
+  font-family: "Courier New", monospace;
+  font-size: 10.5px;
+  letter-spacing: 2px;
+  color: #3fa9c9;
+  margin-top: 5px;
+}
+.brand .sub { font-size: 11.5px; color: #5d7787; margin-top: 7px; letter-spacing: 1px; }
+.header-meta {
+  margin-left: auto;
+  text-align: right;
+  font-family: "Courier New", monospace;
+  font-size: 10.5px;
+  color: #4d6b7d;
+  line-height: 1.9;
+}
+.header-meta .cy { color: #3fa9c9; }
+
+/* nav */
+nav {
+  display: flex;
+  gap: 2px;
+  background: #0b1119;
+  border-bottom: 1px solid #16202c;
+  padding: 0 20px;
+  flex-wrap: wrap;
+}
+nav a {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: #6c8391;
+  text-decoration: none;
+  letter-spacing: 1px;
+  border-bottom: 2px solid transparent;
+  transition: color .2s, border-color .2s;
+}
+nav a:hover { color: #9fd0e2; }
+
+/* main grid */
+main { padding: 30px 28px 10px; }
+.section { margin-bottom: 42px; scroll-margin-top: 16px; }
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.section-title .zh { font-size: 17px; color: #cfe0ea; letter-spacing: 3px; font-weight: 600; }
+.section-title .en {
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #3fa9c9;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  border-top: 1px solid #16202c;
+}
+
+/* 成果展示 */
+.latest-note {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #4d6b7d;
+  margin-bottom: 16px;
+}
+.latest-note b { color: #3fa9c9; font-weight: 600; }
+.article-list { border: 1px solid #16202c; border-radius: 8px; overflow: hidden; }
+.article-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: #0b1119;
+  border-bottom: 1px solid #16202c;
+  text-decoration: none;
+  color: inherit;
+  transition: background .2s;
+  text-align: left;
+  width: 100%;
+  border-left: none; border-right: none; border-top: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+.article-item:last-child { border-bottom: none; }
+.article-item:hover { background: #101a24; }
+.article-item .ai-date {
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #4d6b7d;
+  flex: 0 0 92px;
+}
+.article-item .ai-title { font-size: 13.5px; color: #a4b6c2; flex: 1; line-height: 1.6; }
+.article-item .ai-tag {
+  font-size: 10px;
+  font-family: "Courier New", monospace;
+  color: #5d7787;
+  border: 1px solid #1c2836;
+  border-radius: 4px;
+  padding: 2px 8px;
+  letter-spacing: 1px;
+  flex: 0 0 auto;
+}
+.article-item.is-paper .ai-title { color: #9fd0e2; }
+.article-item.is-paper .ai-tag { color: #3fa9c9; border-color: #24506a; }
+.article-item .ai-arrow { color: #3a5566; font-size: 14px; flex: 0 0 auto; }
+.article-item:hover .ai-arrow { color: #3fa9c9; }
+
+.deleted-panel {
+  display: none;
+  padding: 34px 20px;
+  text-align: center;
+  background: #0b1119;
+  border: 1px dashed #2a1a1a;
+  border-radius: 8px;
+  margin-top: 14px;
+}
+.deleted-panel.visible { display: block; }
+.deleted-panel .dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  border: 1px solid #8b0000;
+  border-radius: 50%;
+  color: #8b0000;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+.deleted-panel .msg { font-size: 15px; color: #b06a6a; letter-spacing: 2px; }
+.deleted-panel .sub { font-size: 11.5px; color: #5a4040; margin-top: 8px; font-family: "Courier New", monospace; }
+.deleted-panel .close {
+  margin-top: 16px;
+  background: #12181f;
+  border: 1px solid #2a3542;
+  color: #7f96a4;
+  padding: 7px 18px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.deleted-panel .close:hover { color: #9fd0e2; border-color: #3fa9c9; }
+
+/* 人员介绍 */
+.people-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+}
+.person {
+  background: #0b1119;
+  border: 1px solid #16202c;
+  border-radius: 8px;
+  padding: 18px 16px;
+  text-align: center;
+  transition: border-color .2s, transform .1s;
+}
+.person:hover { border-color: #24506a; transform: translateY(-2px); }
+.person .avatar {
+  width: 48px; height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  border: 1px solid #24506a;
+  background: radial-gradient(circle at 50% 35%, #14293a, #0b1119);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Courier New", monospace;
+  font-size: 17px;
+  color: #3fa9c9;
+}
+.person .p-role {
+  display: inline-block;
+  font-size: 10px;
+  font-family: "Courier New", monospace;
+  letter-spacing: 1px;
+  padding: 2px 9px;
+  border-radius: 10px;
+  margin-bottom: 9px;
+}
+.person .role-director { color: #d6b86a; border: 1px solid #5c4a1a; background: #161006; }
+.person .role-deputy { color: #9fd0e2; border: 1px solid #24506a; background: #0c1a24; }
+.person .role-researcher { color: #8ba0ad; border: 1px solid #23313f; background: #0d131b; }
+.person .p-name { font-size: 15px; color: #cfe0ea; letter-spacing: 2px; }
+.person .p-field { font-size: 11px; color: #5d7787; margin-top: 6px; line-height: 1.6; }
+
+/* 研究平台 */
+.platform-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 24px;
+  background: linear-gradient(135deg, #0d1a24, #0b1119);
+  border: 1px solid #1c3242;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+}
+.platform-card:hover { border-color: #3fa9c9; background: linear-gradient(135deg, #102430, #0d141c); }
+.platform-card .pc-icon {
+  width: 46px; height: 46px;
+  flex: 0 0 46px;
+  border: 1px solid #24506a;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #3fa9c9;
+  background: #0b1119;
+}
+.platform-card .pc-body { flex: 1; }
+.platform-card .pc-title { font-size: 15px; color: #cfe0ea; letter-spacing: 2px; margin-bottom: 6px; }
+.platform-card .pc-desc { font-size: 12px; color: #6c8391; line-height: 1.7; }
+.platform-card .pc-arrow { color: #3fa9c9; font-size: 20px; }
+
+footer {
+  margin-top: 20px;
+  padding: 20px 28px;
+  border-top: 1px solid #16202c;
+  background: #090d12;
+  font-family: "Courier New", monospace;
+  font-size: 10.5px;
+  color: #3a5464;
+  line-height: 2;
+}
+footer a { color: #3fa9c9; text-decoration: none; }
+footer a:hover { color: #6fd0ea; }
+footer .row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+
+@media (max-width: 560px) {
+  header.main { gap: 14px; }
+  .header-meta { margin-left: 0; text-align: left; }
+  main { padding: 24px 16px 6px; }
+  .article-item .ai-date { flex-basis: 76px; font-size: 10px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <span>NORTHLAND TECH · ANHE LABORATORY</span>
+    <span class="clock" id="clock">--:--:--</span>
+    <span class="iso">ISO-ANHE</span>
+  </div>
+
+  <header class="main">
+    <div class="logo-mark"></div>
+    <div class="brand">
+      <h1>北境科技·安和实验室</h1>
+      <div class="en">ANHE LABORATORY · NORTHLAND TECHNOLOGIES</div>
+      <div class="sub">认知工程 / 神经路径编码 / 记忆与学习研究</div>
+    </div>
+    <div class="header-meta">
+      <div>EST. <span class="cy">2024</span></div>
+      <div>INTERNAL · 外部公开版</div>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#results">成果展示</a>
+    <a href="#people">人员介绍</a>
+    <a href="#platform">研究平台</a>
+  </nav>
+
+  <main>
+    <!-- 成果展示 -->
+    <section class="section" id="results">
+      <div class="section-title">
+        <span class="zh">成果展示</span>
+        <span class="en">PUBLICATIONS</span>
+      </div>
+      <div class="latest-note">最新文章发布于 <b>2025-11-14</b></div>
+      <div class="article-list" id="articleList">
+        <a class="article-item" href="javascript:void(0)">
+          <span class="ai-date">2025-11-14</span>
+          <span class="ai-title">神经可塑性在青少年学习记忆中的应用观察</span>
+          <span class="ai-tag">综述</span>
+          <span class="ai-arrow">›</span>
+        </a>
+        <a class="article-item" href="javascript:void(0)">
+          <span class="ai-date">2025-10-02</span>
+          <span class="ai-title">脑电信号噪声抑制算法的工程优化</span>
+          <span class="ai-tag">工程</span>
+          <span class="ai-arrow">›</span>
+        </a>
+        <a class="article-item" href="javascript:void(0)">
+          <span class="ai-date">2025-09-18</span>
+          <span class="ai-title">安和实验室 2025 年度开放日活动纪实</span>
+          <span class="ai-tag">动态</span>
+          <span class="ai-arrow">›</span>
+        </a>
+        <button class="article-item is-paper" id="paperItem" type="button">
+          <span class="ai-date">2025-08-27</span>
+          <span class="ai-title">《记忆提取和注入操作的可行性探究》</span>
+          <span class="ai-tag">论文</span>
+          <span class="ai-arrow">›</span>
+        </button>
+      </div>
+
+      <div class="deleted-panel" id="deletedPanel">
+        <div class="dot">!</div>
+        <div class="msg">本文章已删除</div>
+        <div class="sub">The article you requested is no longer available.</div>
+        <button class="close" id="deletedClose" type="button">返回列表</button>
+      </div>
+    </section>
+
+    <!-- 人员介绍 -->
+    <section class="section" id="people">
+      <div class="section-title">
+        <span class="zh">人员介绍</span>
+        <span class="en">OUR TEAM</span>
+      </div>
+      <div class="people-grid">
+        <div class="person">
+          <div class="avatar">张</div>
+          <div class="p-role role-director">主任</div>
+          <div class="p-name">张纬云</div>
+          <div class="p-field">认知工程 · 实验室统筹</div>
+        </div>
+        <div class="person">
+          <div class="avatar">陈</div>
+          <div class="p-role role-deputy">副主任</div>
+          <div class="p-name">陈昱</div>
+          <div class="p-field">认知科学 · 技术路线</div>
+        </div>
+        <div class="person">
+          <div class="avatar">乔</div>
+          <div class="p-role role-deputy">副主任</div>
+          <div class="p-name">乔维莉</div>
+          <div class="p-field">神经工程 · 对外合作</div>
+        </div>
+        <div class="person">
+          <div class="avatar">赵</div>
+          <div class="p-role role-researcher">研究员</div>
+          <div class="p-name">赵筠</div>
+          <div class="p-field">认知负荷建模</div>
+        </div>
+        <div class="person">
+          <div class="avatar">李</div>
+          <div class="p-role role-researcher">研究员</div>
+          <div class="p-name">李芝梧</div>
+          <div class="p-field">记忆碎片特征分析</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 研究平台 -->
+    <section class="section" id="platform">
+      <div class="section-title">
+        <span class="zh">研究平台</span>
+        <span class="en">RESEARCH PLATFORM</span>
+      </div>
+      <a class="platform-card" href="platform-login.html">
+        <div class="pc-icon">⌘</div>
+        <div class="pc-body">
+          <div class="pc-title">安和实验室研究平台</div>
+          <div class="pc-desc">设备远程监控与项目数据入口。仅限实验室内部及签约合作方登录使用。</div>
+        </div>
+        <div class="pc-arrow">→</div>
+      </a>
+    </section>
+  </main>
+
+  <footer>
+    <div class="row">
+      <span>北境科技安和实验室 © 2024–2025</span>
+      <span>地址：北境科技园区 C 座 4 层</span>
+      <span>内部技术支持：<a href="platform-login.html">研究平台入口</a></span>
+    </div>
+    <div class="row">
+      <span>本网站内容仅用于学术交流，不构成任何商业承诺</span>
+      <span>备案号：NLD-ANHE-0000-0000</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function() {
+  var clock = document.getElementById('clock');
+  function tick() {
+    var d = new Date();
+    var p = function(n) { return n < 10 ? '0' + n : '' + n; };
+    clock.textContent = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' +
+      p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  var paperItem = document.getElementById('paperItem');
+  var panel = document.getElementById('deletedPanel');
+  var closeBtn = document.getElementById('deletedClose');
+
+  paperItem.addEventListener('click', function() {
+    panel.classList.add('visible');
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+  closeBtn.addEventListener('click', function() {
+    panel.classList.remove('visible');
+  });
+})();
+</script>
+</body>
+</html>

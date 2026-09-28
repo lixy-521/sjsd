@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山经书店内部后台 · 姜游亮</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "SimSun", "宋体", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.65;
+  background-color: #c0c0c0;
+  color: #000;
+  padding-bottom: 30px;
+}
+a { color: #000080; text-decoration: underline; }
+a:hover { color: #800000; }
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  background: #e8e8e8;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #808080;
+  min-height: 100vh;
+  box-shadow: 0 0 8px rgba(0,0,0,.45);
+}
+.header {
+  background: #000080;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.header .en { display: block; font-size: 10px; font-weight: normal; color: #a0a0c8; letter-spacing: 2px; }
+.notice {
+  background: #ffffcc;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  color: #800000;
+  font-size: 12px;
+  padding: 3px 0;
+}
+.userbar {
+  background: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  padding: 5px 12px;
+  font-size: 12px;
+  overflow: hidden;
+}
+.userbar .right { float: right; }
+.menu {
+  background: #d4d0c8;
+  border-bottom: 2px solid #808080;
+  padding: 5px 8px;
+}
+.menu a {
+  display: inline-block;
+  padding: 3px 11px;
+  margin: 2px 1px;
+  border: 1px solid #808080;
+  background: #e8e8e8;
+  text-decoration: none;
+  font-size: 13px;
+  color: #000080;
+}
+.menu a.active, .menu a:hover { background: #000080; color: #fff; border-color: #000080; }
+.main { padding: 14px; }
+h2 {
+  font-size: 15px;
+  margin: 0 0 12px;
+  padding: 4px 8px;
+  background: #d4d0c8;
+  border: 1px solid #808080;
+  border-left: 4px solid #000080;
+}
+h3 { font-size: 14px; margin: 14px 0 8px; color: #800000; }
+fieldset {
+  border: 1px solid #808080;
+  background: #f2f2f2;
+  margin: 0 0 12px;
+  padding: 10px 14px;
+}
+legend { font-size: 13px; font-weight: bold; color: #000080; padding: 0 4px; }
+table.grid { border-collapse: collapse; width: 100%; background: #fff; margin: 6px 0 12px; }
+table.grid th, table.grid td {
+  border: 1px solid #808080;
+  padding: 3px 7px;
+  font-size: 13px;
+  text-align: left;
+  vertical-align: top;
+}
+table.grid th { background: #d4d0c8; font-weight: bold; }
+table.grid tr:nth-child(even) td { background: #f8f8f8; }
+input[type=text], input[type=password] {
+  font-family: inherit;
+  font-size: 13px;
+  border: 2px inset #d4d0c8;
+  background: #fff;
+  padding: 3px 6px;
+}
+button {
+  font-family: inherit;
+  font-size: 13px;
+  border: 2px outset #d4d0c8;
+  background: #d4d0c8;
+  padding: 3px 12px;
+  cursor: pointer;
+}
+button:hover { background: #e0dcd4; }
+button:active { border-style: inset; }
+.deny {
+  color: #800000;
+  font-weight: bold;
+  border: 2px dashed #800000;
+  background: #fff0f0;
+  padding: 22px;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 15px;
+}
+.log {
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #808080;
+  padding: 8px 10px;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+.report { background: #fffef0; border: 1px solid #808080; padding: 10px 14px; font-size: 13px; }
+.report p { margin: 6px 0; text-indent: 2em; }
+.section { display: none; }
+.section.active { display: block; }
+.note { font-size: 12px; color: #555; }
+.tag { color: #800000; font-weight: bold; }
+.footer {
+  border-top: 1px solid #808080;
+  background: #d4d0c8;
+  color: #444;
+  font-size: 11px;
+  text-align: center;
+  padding: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">山经书店内部后台管理系统
+    <span class="en">SHANJING BOOKSTORE - INTERNAL ADMIN SYSTEM</span>
+  </div>
+  <div class="notice">
+    <marquee scrollamount="3">系统公告：评估数据属内部资料，严禁截图外传。近期后台出现异常登录记录，请各位操作人核查本人操作报告。</marquee>
+  </div>
+
+  <div class="userbar">
+    <span>当前用户：<b>姜游亮</b>（jiangyoulian） ｜ 角色：合作老师</span>
+    <span class="right"><a href="login.html">注销 / 切换账号</a></span>
+  </div>
+
+  <div class="menu">
+    <a href="#" data-target="eval" class="active">评估服务后台</a>
+    <a href="#" data-target="vol">志愿者能力数据库</a>
+    <a href="#" data-target="cog">认知强化服务</a>
+    <a href="#" data-target="remote">远程操作</a>
+    <a href="#" data-target="report">个人操作报告</a>
+    <a href="#" data-target="sys">系统操作记录</a>
+  </div>
+
+  <div class="main">
+
+    <!-- 评估服务后台 -->
+    <div class="section active" id="eval">
+      <h2>评估服务后台 · 全部评估记录</h2>
+      <fieldset>
+        <legend>条件查询</legend>
+        <label>姓名：<input type="text" id="qName" placeholder="输入姓名关键字"></label>
+        <button type="button" id="qBtn">查 询</button>
+        <button type="button" id="qClear">显示全部</button>
+        <span class="note">（仅本账号权限范围内的记录）</span>
+      </fieldset>
+      <table class="grid">
+        <thead>
+          <tr>
+            <th>记录号</th><th>姓名</th><th>学校</th><th>年级</th><th>评估项目</th><th>评估日期</th><th>操作人</th><th>状态</th>
+          </tr>
+        </thead>
+        <tbody id="evalBody">
+          <tr><td>PG-2026-0101</td><td>吴昊博</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-01-08</td><td>董--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0104</td><td>李杨梓麟</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-01-19</td><td>姜--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0106</td><td>王宇涵</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-02-02</td><td>姜--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0109</td><td>林晚</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-02-20</td><td>陈--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0111</td><td>陈牧循</td><td>怀璧一中</td><td>高二</td><td>学科能力评估（关联认知强化）</td><td>2026-02-26</td><td>董--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0112</td><td>罗晋铭</td><td>怀璧二中</td><td>高三</td><td>学科能力评估</td><td>2026-03-01</td><td>陈--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0113</td><td>徐雨桐</td><td>怀璧一中</td><td>高二</td><td>生物学科评估（第6次）</td><td>2026-03-15</td><td>陈--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0114</td><td>周晓雨</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-03-18</td><td>董--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0115</td><td>赵思航</td><td>怀璧一中</td><td>高三</td><td>数学学科评估（第5次）</td><td>2026-03-20</td><td>陈--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0116</td><td>林婉仪</td><td>怀璧一中</td><td>高三</td><td>英语学科评估（第12次）</td><td>2026-03-22</td><td>陈--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0117</td><td>刘天清</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-04-02</td><td>董--</td><td>已完成</td></tr>
+        </tbody>
+      </table>
+      <p class="note">操作人字段显示为姓名缩写（如“董--”“陈--”），完整操作人信息需更高权限查看。</p>
+    </div>
+
+    <!-- 志愿者能力数据库 -->
+    <div class="section" id="vol">
+      <h2>志愿者能力数据库</h2>
+      <div class="deny">✕ 权限不足</div>
+      <p class="note">该模块需要“数据库访问权限”，当前账号（合作老师）无权访问。如有需要请联系店长开通。</p>
+    </div>
+
+    <!-- 认知强化服务 -->
+    <div class="section" id="cog">
+      <h2>认知强化服务</h2>
+      <div class="deny">✕ 权限不足</div>
+      <p class="note">该模块需要“技术操作权限”，当前账号无权访问。</p>
+    </div>
+
+    <!-- 远程操作 -->
+    <div class="section" id="remote">
+      <h2>远程操作</h2>
+      <div class="deny">✕ 权限不足</div>
+      <p class="note">该模块需要“远程终端权限”，当前账号无权访问。</p>
+    </div>
+
+    <!-- 个人操作报告 -->
+    <div class="section" id="report">
+      <h2>个人操作报告 · 姜游亮</h2>
+      <fieldset>
+        <legend>报告记录时间：2026-06</legend>
+        <div class="report">
+          <p>我本来只是通过这个后台核对学生的评估预约，帮一些家长看看成绩分析。最近越看越觉得不对劲。</p>
+          <p>评估记录里有个操作人署名“陈--”。我认得，那是陈超武——我们学校原来的物理老师。他前阵子已经从怀璧一中辞职，去了羊村市那个“蒂中帝教育”当老师了。人都走了，账号却还天天在后台里操作，好几份评估单上都是他的名字。</p>
+          <p>还有“舒巍”“余皎颖”，也都是从怀璧一中过去的，居然全都挂在操作记录里。教数学的老舒，教英语的小余，一个个都在这个后台里当操作人。</p>
+          <p>店长（大家都叫他 dxf）最近老往远程操作的权限菜单里钻，还让我别多问。他以前只关心书卖得好不好，最近成天盯着什么“抽取”“同步”“注入”，<span class="tag">我觉得他肯定在干一些怪事</span>。</p>
+          <p>我就是个生物老师，只想安稳教书。再这样下去，我打算把这个账号退掉。</p>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- 系统操作记录 -->
+    <div class="section" id="sys">
+      <h2>系统操作记录 · 本账号相关</h2>
+      <div class="log">2026-01-19 09:12:44  jiangyoulian   登录系统成功（IP 10.20.3.17）
+2026-01-19 09:15:02  jiangyoulian   查询评估记录 PG-2026-0104
+2026-02-02 10:03:21  jiangyoulian   查询评估记录 PG-2026-0106
+2026-02-02 10:05:33  jiangyoulian   申请导出报告（被拒绝：权限不足）
+2026-02-26 16:40:18  jiangyoulian   查询评估记录 PG-2026-0111
+2026-03-15 14:22:09  jiangyoulian   尝试访问【志愿者能力数据库】（拒绝：权限不足）
+2026-03-15 14:22:31  jiangyoulian   尝试访问【远程操作】（拒绝：权限不足）
+2026-04-02 08:58:47  jiangyoulian   查询评估记录 PG-2026-0117
+2026-05-11 11:11:11  chenchaowu    登录系统成功（IP 10.20.9.88）
+2026-05-11 11:30:52  dongxinfei    修改远程操作权限配置
+2026-06-03 22:47:05  dongxinfei    登录系统成功（IP 10.20.1.2）
+2026-06-03 22:51:19  dongxinfei    访问【远程操作 · 山经-蒂中帝联合提取项目】
+2026-06-04 01:15:37  chenchaowu    访问【志愿者能力抽取数据库】
+2026-06-04 01:19:48  chenchaowu    执行抽取操作（对象：PG-2026-0117）
+2026-06-04 01:26:10  chenchaowu    执行记忆抹除操作（对象：PG-2026-0117）
+2026-06-05 07:00:00  system        系统自动备份完成</div>
+    </div>
+
+  </div>
+
+  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync　｜ 本页所有内容仅供剧情演示</div>
+</div>
+
+<script>
+(function () {
+  var links = document.querySelectorAll('.menu a');
+  var sections = document.querySelectorAll('.section');
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var t = a.getAttribute('data-target');
+      links.forEach(function (x) { x.classList.remove('active'); });
+      a.classList.add('active');
+      sections.forEach(function (s) { s.classList.toggle('active', s.id === t); });
+      window.scrollTo(0, 0);
+    });
+  });
+
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#evalBody tr'));
+  var qName = document.getElementById('qName');
+  document.getElementById('qBtn').addEventListener('click', function () {
+    var k = qName.value.trim();
+    rows.forEach(function (r) {
+      r.style.display = (!k || r.children[1].textContent.indexOf(k) > -1) ? '' : 'none';
+    });
+  });
+  document.getElementById('qClear').addEventListener('click', function () {
+    qName.value = '';
+    rows.forEach(function (r) { r.style.display = ''; });
+  });
+  qName.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') document.getElementById('qBtn').click();
+  });
+})();
+</script>
+</body>
+</html>

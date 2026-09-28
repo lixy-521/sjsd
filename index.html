@@ -2,565 +2,186 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>lbyz · 校园即时通讯</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>山经书店 · 消失的买家</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
-  background: #e8ecf0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-}
-.chat-app {
-  width: 480px;
-  max-width: 100%;
-  height: 90vh;
-  max-height: 820px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.chat-header {
-  background: linear-gradient(135deg, #1a3a5c, #2d5a8a);
-  color: #fff;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-}
-.chat-header .back-btn {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: #fff;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: background .2s;
-}
-.chat-header .back-btn:hover { background: rgba(255,255,255,0.2); }
-.chat-header .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-.chat-header .chat-info { flex: 1; }
-.chat-header .chat-info .name { font-size: 15px; font-weight: 600; letter-spacing: 1px; }
-.chat-header .chat-info .status {
-  font-size: 11px;
-  opacity: 0.6;
-  margin-top: 2px;
-}
-.chat-header .header-actions { display: flex; gap: 6px; }
-.chat-header .header-actions button {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: #fff;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background .2s;
-}
-.chat-header .header-actions button:hover { background: rgba(255,255,255,0.2); }
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px 16px;
-  background: #f5f7fa;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-.msg-row {
-  display: flex;
-  gap: 10px;
-  max-width: 92%;
-  align-items: flex-end;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity .3s, transform .3s;
-}
-.msg-row.visible { opacity: 1; transform: translateY(0); }
-.msg-row.incoming { align-self: flex-start; }
-.msg-row.outgoing { align-self: flex-end; flex-direction: row-reverse; }
-.msg-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-}
-.msg-avatar.ltj { background: #2d5a8a; }
-.msg-avatar.lll { background: #27ae60; }
-.msg-bubble {
-  padding: 10px 14px;
-  border-radius: 12px;
-  font-size: 14px;
-  line-height: 1.7;
-  word-break: break-word;
-}
-.msg-row.incoming .msg-bubble {
-  background: #fff;
-  color: #333;
-  border-bottom-left-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-.msg-row.outgoing .msg-bubble {
-  background: #2d5a8a;
-  color: #fff;
-  border-bottom-right-radius: 4px;
-}
-.msg-row .msg-bubble.auto-reply {
-  background: #f0f0f0;
-  color: #666;
-  font-size: 13px;
-  border-left: 3px solid #ccc;
-}
-.msg-row .msg-bubble.link-card {
-  background: #eaf3ff;
-  color: #2d5a8a;
-  font-size: 13px;
-  font-weight: 600;
-  border-left: 3px solid #2d5a8a;
-  cursor: pointer;
-  transition: background .2s;
-}
-.msg-row .msg-bubble.link-card:hover { background: #dce8f8; }
-.msg-time {
-  font-size: 10px;
-  color: #bbb;
-  margin-top: 4px;
-  padding: 0 4px;
-}
-.msg-row.outgoing .msg-time { text-align: right; }
-.chat-input-area {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-top: 1px solid #e8e8e8;
-  background: #fff;
-  flex-shrink: 0;
-}
-.chat-input-area input {
-  flex: 1;
-  padding: 10px 14px;
-  border: 1px solid #ddd;
-  border-radius: 24px;
-  font-size: 14px;
-  outline: none;
-  transition: border-color .2s;
-  font-family: inherit;
-  background: #f5f7fa;
-}
-.chat-input-area input:focus { border-color: #2d5a8a; background: #fff; }
-.chat-input-area .send-btn {
-  width: 40px;
-  height: 40px;
-  background: #2d5a8a;
-  color: #fff;
-  border: none;
-  border-radius: 50%;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background .2s, transform .1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.chat-input-area .send-btn:hover { background: #1a3a5c; }
-.chat-input-area .send-btn:active { transform: scale(.92); }
-.typing-indicator {
-  display: none;
-  align-self: flex-start;
-  gap: 10px;
-  align-items: flex-end;
-  max-width: 88%;
-}
-.typing-indicator.active { display: flex; }
-.typing-indicator .msg-bubble {
-  background: #fff;
-  padding: 12px 16px;
-  border-bottom-left-radius: 4px;
-}
-.typing-dots {
-  display: flex;
-  gap: 4px;
-  padding: 2px 0;
-}
-.typing-dots span {
-  width: 7px;
-  height: 7px;
-  background: #bbb;
-  border-radius: 50%;
-  animation: typingBounce 1.2s ease-in-out infinite;
-}
-.typing-dots span:nth-child(2) { animation-delay: .2s; }
-.typing-dots span:nth-child(3) { animation-delay: .4s; }
-@keyframes typingBounce {
-  0%, 60%, 100% { transform: translateY(0); opacity: .4; }
-  30% { transform: translateY(-6px); opacity: 1; }
-}
-.chat-messages::-webkit-scrollbar { width: 4px; }
-.chat-messages::-webkit-scrollbar-track { background: transparent; }
-.chat-messages::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+        background: #0d0f12;
+        color: #c9c9c9;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 32px 16px;
+        background-image:
+            radial-gradient(circle at 20% 0%, rgba(45, 90, 138, 0.18), transparent 45%),
+            radial-gradient(circle at 85% 100%, rgba(139, 0, 0, 0.16), transparent 40%);
+    }
+
+    .wrap {
+        width: 100%;
+        max-width: 620px;
+    }
+
+    .title-block {
+        text-align: center;
+        padding: 40px 0 28px;
+    }
+    .title-block .kicker {
+        font-size: 11px;
+        letter-spacing: 6px;
+        color: #5c6b7a;
+        margin-bottom: 18px;
+    }
+    .title-block h1 {
+        font-size: 34px;
+        letter-spacing: 6px;
+        font-weight: 300;
+        color: #e2e2e2;
+        margin-bottom: 12px;
+    }
+    .title-block h1 .accent { color: #b03030; }
+    .title-block .sub {
+        font-size: 13px;
+        letter-spacing: 3px;
+        color: #6f7c8a;
+    }
+    .title-block .en {
+        margin-top: 8px;
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: #3f4a56;
+        font-family: "Courier New", monospace;
+    }
+
+    .lines {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    .line-card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        background: #14181e;
+        border: 1px solid #1f2530;
+        border-radius: 12px;
+        padding: 18px 20px;
+        transition: border-color .2s, transform .12s, background .2s;
+        position: relative;
+        overflow: hidden;
+    }
+    .line-card:hover {
+        border-color: #2d5a8a;
+        background: #161b22;
+        transform: translateY(-2px);
+    }
+    .line-card .tag {
+        display: inline-block;
+        font-size: 10px;
+        letter-spacing: 2px;
+        color: #3fa9c9;
+        border: 1px solid #23495a;
+        border-radius: 4px;
+        padding: 2px 8px;
+        margin-bottom: 10px;
+    }
+    .line-card .name {
+        font-size: 17px;
+        font-weight: 600;
+        color: #dfe4ea;
+        letter-spacing: 1px;
+        margin-bottom: 6px;
+    }
+    .line-card .desc {
+        font-size: 12px;
+        color: #79838f;
+        line-height: 1.7;
+    }
+    .line-card .arrow {
+        position: absolute;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #3a4450;
+        font-size: 18px;
+        transition: color .2s, right .2s;
+    }
+    .line-card:hover .arrow { color: #3fa9c9; right: 14px; }
+
+    .tips {
+        margin-top: 26px;
+        padding: 14px 18px;
+        background: #111419;
+        border: 1px dashed #232a34;
+        border-radius: 10px;
+        font-size: 12px;
+        color: #6a7480;
+        line-height: 1.9;
+    }
+    .tips strong { color: #9aa4b0; }
+    .tips .kw {
+        color: #b03030;
+        font-family: "Courier New", monospace;
+    }
+
+    .foot {
+        text-align: center;
+        margin-top: 28px;
+        font-size: 11px;
+        color: #3a424c;
+        letter-spacing: 1px;
+        line-height: 1.9;
+    }
 </style>
 </head>
 <body>
-<div class="chat-app">
-  <div class="chat-header">
-    <a class="back-btn" href="school-login.html" title="退出">←</a>
-    <div class="avatar" style="background:#1a5a3a;">刘</div>
-    <div class="chat-info">
-      <div class="name">刘天清（刘哥）</div>
-      <div class="status">lbyz 在线</div>
+<div class="wrap">
+    <div class="title-block">
+        <div class="kicker">ARG · 认知数据交易调查</div>
+        <h1>山经书店 · <span class="accent">消失的买家</span></h1>
+        <div class="sub">有些教辅，不教你知识，教你成为别人。</div>
+        <div class="en">SHANJING BOOKSTORE / YOUR BRAIN, THEIR PROFIT</div>
     </div>
-    <div class="header-actions">
-      <button title="清空记录" onclick="clearHistory()" style="font-size:13px;">🗑</button>
-      <button title="刷新" onclick="scrollToBottom()">↻</button>
+
+    <div class="lines">
+        <a class="line-card" href="school/login.html">
+            <span class="tag">主线 · 调查</span>
+            <div class="name">lbyz 校园通</div>
+            <div class="desc">刘天清从蒂中帝发来消息，说有个人跑到了怀璧。登录怀璧一中学生门户，接收他的情报。</div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a class="line-card" href="diary/index.html">
+            <span class="tag">暗线 · 身份</span>
+            <div class="name">我是谁</div>
+            <div class="desc">一个只有搜索框的页面。输入那个名字，看看记忆的两面。</div>
+            <span class="arrow">→</span>
+        </a>
+
+        <a class="line-card" href="platform/index.html">
+            <span class="tag">支线 · 平台</span>
+            <div class="name">山经书店在线服务平台</div>
+            <div class="desc">评估预约、报告下载、志愿者服务。平台里藏着一个不对外公开的服务。</div>
+            <span class="arrow">→</span>
+        </a>
     </div>
-  </div>
 
-  <div class="chat-messages" id="chatMessages"></div>
-
-  <div class="typing-indicator" id="typingIndicator">
-    <div class="msg-avatar ltj">刘</div>
-    <div class="msg-bubble">
-      <div class="typing-dots">
-        <span></span><span></span><span></span>
-      </div>
+    <div class="tips">
+        <strong>调查提示：</strong>公众号里的「平台」「注入」两条关键词返回的文章已被删除。
+        拿到平台网址后，试试在 lbyz 里发送 <span class="kw">平台</span>；
+        想找隐藏入口，去看看某个学员的评估报告。<br>
+        公众号关键词：<span class="kw">评估 / 平台 / 小程序 / 志愿者 / 注入 / 合作</span>。
     </div>
-  </div>
 
-  <div class="chat-input-area">
-    <input type="text" id="msgInput" placeholder="输入消息..." autocomplete="off" spellcheck="false">
-    <button class="send-btn" id="sendBtn">→</button>
-  </div>
+    <div class="foot">
+        本页面为虚构剧情，人物、机构、事件均属虚构。<br>
+        山经书店 · 北城东路173号
+    </div>
 </div>
-
-<script>
-(function() {
-  const container = document.getElementById('chatMessages');
-  const input = document.getElementById('msgInput');
-  const sendBtn = document.getElementById('sendBtn');
-  const typing = document.getElementById('typingIndicator');
-  let isProcessing = false;
-
-  const STORAGE_KEY = 'lbyz_chat_history_v2';
-  let history = loadHistory();
-
-  function loadHistory() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch (e) {
-      return [];
-    }
-  }
-  function saveHistory() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-    } catch (e) {}
-  }
-
-  // 开场消息（蒂中帝原文保留，不改动）
-  const messages = [
-    { text: '你看看这个书店，有点nb啊', type: 'out' },
-    { text: '卧槽', type: 'in' },
-    { text: '你是怀璧的啊', type: 'in' },
-    { text: '现在我这边查到dxf可能跑到怀璧了，需要一个人调查一下。', type: 'in' },
-    { text: '现在家长非得让我去什么蒂中帝机构封闭补习，今天就要走了。', type: 'in' },
-    { text: '我设了一个脚本自动回复你，后面调查就靠你了', type: 'in' },
-    { text: '现在可以告诉你已经查到了3个网页[1][2][3]', type: 'in' },
-    { text: '羊村市那个"蒂中帝"教育？听说特别牢啊。', type: 'out' },
-    { text: '刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报（主要是网页）。', type: 'in', auto: true },
-    { text: '刘哥你有病啊，直接把所有情报给我不就得了', type: 'out' },
-    { text: '刘天清的回复小助手：未查询到相关的内容。发送调查相关信息可以获得更多情报（主要是网页）。', type: 'in', auto: true }
-  ];
-
-  const LINK_INDEX = 7; // 3个网页链接插在第7条消息（"现在可以告诉你…"）之后、"羊村市那个蒂中帝…"之前
-
-  const linkPages = [
-    { label: '[1] 论坛帖子：蜜雪员工吐槽 + HBYZ老师名单', url: 'web1-forum.html' },
-    { label: '[2] 新闻报道：山经书店开业，店员程加春受访', url: 'web2-news.html' },
-    { label: '[3] 公众号文章：山经书店盛大开业！', url: 'https://mp.weixin.qq.com/s/ppy6ssqktADWf2HS9bmYDQ' }
-  ];
-
-  function scrollToBottom() {
-    setTimeout(() => { container.scrollTop = container.scrollHeight; }, 50);
-  }
-
-  function timeStr() {
-    const now = new Date();
-    return String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-  }
-
-  function addMsg(text, type, auto, persist, link) {
-    const row = document.createElement('div');
-    row.className = 'msg-row ' + (type === 'out' ? 'outgoing' : 'incoming');
-
-    const avatar = document.createElement('div');
-    avatar.className = 'msg-avatar ' + (type === 'out' ? 'lll' : 'ltj');
-    avatar.textContent = type === 'out' ? '李' : '刘';
-
-    const wrap = document.createElement('div');
-    const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble' + (auto ? ' auto-reply' : '');
-    if (link) {
-      bubble.appendChild(document.createTextNode(text));
-      const a = document.createElement('span');
-      a.textContent = link.label;
-      a.style.cssText = 'color:#0b5d34;font-weight:700;text-decoration:underline;cursor:pointer;';
-      a.onclick = function() { window.location.href = link.url; };
-      bubble.appendChild(a);
-    } else {
-      bubble.textContent = text;
-    }
-
-    const time = document.createElement('div');
-    time.className = 'msg-time';
-    time.textContent = timeStr();
-    if (auto) time.textContent += ' · 脚本自动回复';
-
-    wrap.appendChild(bubble);
-    wrap.appendChild(time);
-    row.appendChild(avatar);
-    row.appendChild(wrap);
-    container.appendChild(row);
-
-    if (persist) {
-      history.push({ kind: 'msg', text: text, type: type, auto: !!auto, link: link || null, time: timeStr() });
-      saveHistory();
-    }
-
-    row.classList.add('visible');
-    scrollToBottom();
-  }
-
-  function addLinkCard(label, target, persist) {
-    const row = document.createElement('div');
-    row.className = 'msg-row incoming';
-    row.style.maxWidth = '92%';
-
-    const avatar = document.createElement('div');
-    avatar.className = 'msg-avatar ltj';
-    avatar.textContent = '刘';
-
-    const wrap = document.createElement('div');
-    const bubble = document.createElement('div');
-    bubble.className = 'msg-bubble link-card';
-    bubble.textContent = label;
-    bubble.onclick = function() {
-      if (target.url) {
-        window.location.href = target.url;
-      } else if (target.alert) {
-        alert(target.alert);
-      }
-    };
-
-    const time = document.createElement('div');
-    time.className = 'msg-time';
-    time.textContent = timeStr();
-
-    wrap.appendChild(bubble);
-    wrap.appendChild(time);
-    row.appendChild(avatar);
-    row.appendChild(wrap);
-    container.appendChild(row);
-
-    if (persist) {
-      history.push({ kind: 'link', label: label, url: target.url || null, alert: target.alert || null, time: timeStr() });
-      saveHistory();
-    }
-
-    row.classList.add('visible');
-    scrollToBottom();
-  }
-
-  function showTyping(sender, callback) {
-    typing.classList.add('active');
-    if (sender === 'out') {
-      typing.querySelector('.msg-avatar').className = 'msg-avatar lll';
-      typing.querySelector('.msg-avatar').textContent = '李';
-    } else {
-      typing.querySelector('.msg-avatar').className = 'msg-avatar ltj';
-      typing.querySelector('.msg-avatar').textContent = '刘';
-    }
-    scrollToBottom();
-    const delay = 400 + Math.random() * 600;
-    setTimeout(function() {
-      typing.classList.remove('active');
-      if (callback) callback();
-    }, delay);
-  }
-
-  // 构建线性播放队列：消息 + 链接卡片按顺序排好，只按 index 推进，杜绝循环
-  function buildQueue() {
-    const queue = [];
-    for (let i = 0; i < messages.length; i++) {
-      if (i === LINK_INDEX) {
-        linkPages.forEach(function(p) {
-          queue.push({ kind: 'link', page: p });
-        });
-      }
-      queue.push({ kind: 'msg', msg: messages[i] });
-    }
-    return queue;
-  }
-
-  function playQueue(index) {
-    if (index >= queue.length) {
-      input.disabled = false;
-      input.focus();
-      return;
-    }
-    const item = queue[index];
-    if (item.kind === 'link') {
-      showTyping('in', function() {
-        addLinkCard(item.page.label, item.page, true);
-        setTimeout(function() {
-          playQueue(index + 1);
-        }, 500 + Math.random() * 400);
-      });
-    } else {
-      showTyping(item.msg.type, function() {
-        addMsg(item.msg.text, item.msg.type, item.msg.auto || false, true, item.msg.link || null);
-        setTimeout(function() {
-          playQueue(index + 1);
-        }, 400 + Math.random() * 300);
-      });
-    }
-  }
-
-  // 首次播放：生成一次队列，之后只推进，绝不回头
-  const queue = buildQueue();
-  function playInitialMessages() {
-    playQueue(0);
-  }
-
-  const keywordResponses = {
-    '牢董': '【情报·牢董】\n董新飞，42岁，前狼堡技术员。\n以教辅书店为掩护，化名"董鑫"。\n目的：为儿子留学筹款80万/年。',
-    '技术': '【情报·技术】\n技术来源：北境神经科学研究院。\n非侵入式脑波采集 + 音频同步。\n提取设备为狼堡时期改良版。\n以"学习能力评估"为名，实际提取认知数据。',
-    '受害者': '【情报·受害者】\n徐雨桐（生物，6次采集，能力下降61%）\n赵思航（数学，5次采集）\n林婉仪（英语，12次采集，重度衰退）\n买家约200人。部分出现生活记忆丢失症状。',
-    '小程序': '【情报·小程序】\n进入"山经海集"小程序 → "学习方法"分类\n→ 底部输入解锁码。\n解锁码需从公众号获取。\n公众号"山经bookstore"，回复隐藏关键词。',
-    '北境': '【情报·北境】\n北境神经科学研究院——向董新飞提供脑电波诱导技术支持的组织。\n我怀疑北境与狼堡事件有更深关联。\n\n如需我本人介入，发送暗号：狼堡往事',
-    '平台': '网址：https://lixy-521.github.io/sjsd/web4/web4-platform.html \n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
-    '山经书店在线服务平台': '网址：https://lixy-521.github.io/sjsd/web4/web4-platform.html \n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
-    '在线服务平台': '网址：https://lixy-521.github.io/sjsd/web4/web4-platform.html \n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
-    '帮助': '发现比较关键的信息就发给我',
-    '狼堡往事': '⚠ 暗号已触发。正在尝试联系刘天清本人……\n\n—— 脚本暂停 ——\n\n刘天清（人工）：你触发暗号了。我现在只有3分钟，机房随时有人进来。长话短说。\n\n1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。\n2. 那个在线平台的后台有完整的交易数据库，IP指向北城东路173号地下层。你能拿到的话，铁证如山。\n3. 论坛里说的那个隐藏服务——从平台的"优秀学员"页面能找到入口。仔细看看。\n\n我下次上线时间不确定。尽量通过脚本解决。\n如果真有紧急情况，再发一次暗号。但次数有限——我这边风险很大。\n\n保重。',
-    '退出': '已退出人工模式。重新输入关键词可继续查询。'
-  };
-
-  function handleSend() {
-    if (isProcessing || input.disabled) return;
-    const text = input.value.trim();
-    if (!text) return;
-
-    addMsg(text, 'out', false, true);
-    input.value = '';
-    isProcessing = true;
-
-    const matched = Object.keys(keywordResponses).find(function(k) { return text.includes(k); });
-    const lowerText = text.toLowerCase();
-
-    if (text === '退出') {
-      showTyping('in', function() {
-        addMsg(keywordResponses['退出'], 'in', true, true);
-        isProcessing = false;
-      });
-      return;
-    }
-    if (text === '狼堡往事' || lowerText.includes('狼堡往事')) {
-      showTyping('in', function() {
-        addMsg(keywordResponses['狼堡往事'], 'in', false, true);
-        isProcessing = false;
-      });
-      return;
-    }
-    if (matched) {
-      showTyping('in', function() {
-        addMsg(keywordResponses[matched], 'in', true, true);
-        isProcessing = false;
-      });
-    } else if (lowerText.includes('帮助') || lowerText.includes('关键词')) {
-      showTyping('in', function() {
-        addMsg(keywordResponses['帮助'], 'in', true, true);
-        isProcessing = false;
-      });
-    } else {
-      showTyping('in', function() {
-        addMsg('指令无法识别。试试回复"帮助"。', 'in', true, true);
-        isProcessing = false;
-      });
-    }
-  }
-
-  function renderHistory() {
-    history.forEach(function(entry) {
-      if (entry.kind === 'link') {
-        addLinkCard(entry.label, { url: entry.url, alert: entry.alert }, false);
-      } else {
-        addMsg(entry.text, entry.type, entry.auto, false, entry.link || null);
-      }
-    });
-  }
-
-  window.clearHistory = function() {
-    if (!confirm('确定清空所有聊天记录吗？')) return;
-    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-    history = [];
-    container.innerHTML = '';
-    input.disabled = true;
-    playInitialMessages();
-  };
-
-  sendBtn.addEventListener('click', handleSend);
-  input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') handleSend();
-  });
-
-  if (history.length > 0) {
-    renderHistory();
-    input.disabled = false;
-    input.focus();
-  } else {
-    input.disabled = true;
-    playInitialMessages();
-  }
-})();
-</script>
 </body>
 </html>

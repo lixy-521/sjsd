@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>山经海集</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"PingFang SC","Microsoft YaHei",-apple-system,sans-serif;background:#e9e9e9;color:#333}
+a{text-decoration:none;color:inherit}
+.phone{max-width:420px;min-height:100vh;margin:0 auto;background:#f5f5f5;position:relative;padding-bottom:66px;box-shadow:0 0 24px rgba(0,0,0,.06)}
+.mp-nav{position:sticky;top:0;z-index:50;height:52px;background:#fff;border-bottom:1px solid #eee;display:flex;align-items:center;padding:0 8px;gap:4px}
+.mp-nav .back{min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:20px;border-radius:50%;color:#333}
+.mp-nav .back:active{background:#f0f0f0}
+.mp-nav .title{flex:1;text-align:center;font-size:16px;font-weight:600}
+.capsule{display:flex;align-items:center;gap:7px;border:1px solid #e6e6e6;border-radius:16px;padding:5px 10px;background:#f7f7f7;font-size:14px;color:#555;line-height:1}
+.capsule .dv{width:1px;height:14px;background:#e0e0e0}
+.tabbar{position:fixed;left:0;right:0;bottom:0;max-width:420px;margin:0 auto;height:58px;background:#fff;border-top:1px solid #ececec;display:flex;z-index:60}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11px;color:#999}
+.tabbar a .ic{font-size:18px;line-height:1}
+.tabbar a.active{color:#07c160}
+.search{margin:10px 10px 0;height:36px;background:#fff;border-radius:18px;display:flex;align-items:center;padding:0 14px;color:#bbb;font-size:13px}
+.carousel{position:relative;height:142px;margin:10px;border-radius:12px;overflow:hidden;background:#07c160}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 22px;color:#fff;opacity:0;animation:fade 9s infinite}
+.slide h2{font-size:19px;font-weight:600;letter-spacing:.5px}
+.slide p{font-size:12px;opacity:.9;margin-top:6px}
+.slide .badge{position:absolute;top:16px;right:18px;font-size:10px;background:rgba(255,255,255,.25);padding:2px 8px;border-radius:10px}
+.s1{background:linear-gradient(135deg,#07c160,#0a9e55);animation-delay:0s}
+.s2{background:linear-gradient(135deg,#2d5a8a,#4a86b8);animation-delay:3s}
+.s3{background:linear-gradient(135deg,#e54d42,#f08a5d);animation-delay:6s}
+@keyframes fade{0%{opacity:0}5%{opacity:1}28%{opacity:1}33%{opacity:0}100%{opacity:0}}
+.dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px;z-index:5}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.5)}
+.dots i:first-child{background:#fff}
+.card{background:#fff;border-radius:12px;margin:10px;padding:6px}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);padding:16px 6px}
+.cat{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:12px;color:#444}
+.cat .ci{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#fff}
+.ci1{background:linear-gradient(135deg,#07c160,#3ad07f)}
+.ci2{background:linear-gradient(135deg,#2d5a8a,#5b93c4)}
+.ci3{background:linear-gradient(135deg,#f0a020,#f7c46c)}
+.ci4{background:linear-gradient(135deg,#555,#8a8a8a)}
+.sec{display:flex;align-items:center;justify-content:space-between;margin:16px 14px 8px}
+.sec h3{font-size:15px;font-weight:600}
+.sec .more{font-size:12px;color:#07c160}
+.book{display:flex;gap:12px;align-items:center;background:#fff;border-radius:12px;margin:0 10px 10px;padding:12px;transition:transform .1s}
+.book:active{transform:scale(.99)}
+.bc{width:64px;height:84px;border-radius:6px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;font-size:12px;font-weight:600;line-height:1.35;flex:0 0 auto;letter-spacing:.5px}
+.b1{background:linear-gradient(135deg,#1f8a4c,#37b06a)}
+.b2{background:linear-gradient(135deg,#2d5a8a,#4a86b8)}
+.b3{background:linear-gradient(135deg,#4a3f6b,#7a6aa8)}
+.b4{background:linear-gradient(135deg,#b0452f,#d6704f)}
+.b5{background:linear-gradient(135deg,#8a6d1f,#c2a248)}
+.bi{flex:1;min-width:0}
+.bt{font-size:14px;font-weight:600;color:#222;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bd{font-size:11px;color:#999;margin:6px 0}
+.bp{display:flex;align-items:baseline;justify-content:space-between}
+.price{color:#e54d42;font-weight:700;font-size:16px}
+.price small{font-size:11px;font-weight:400}
+.sales{font-size:11px;color:#bbb}
+.tag{display:inline-block;font-size:10px;color:#07c160;border:1px solid #07c160;border-radius:3px;padding:0 4px;margin-left:4px;vertical-align:1px;font-weight:400}
+.foot{text-align:center;font-size:11px;color:#c8c8c8;padding:12px 0 4px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="mp-nav">
+    <a class="back" href="../wechat/article-e.html" title="返回">←</a>
+    <span class="title">山经海集</span>
+    <span class="capsule">···<span class="dv"></span>⊙</span>
+  </header>
+
+  <div class="search"><span>🔍 搜索教辅 / 试卷 / 学习资料</span></div>
+
+  <div class="carousel">
+    <div class="slide s1"><span class="badge">开学季</span><h2>山经书店 · 开学季</h2><p>全场教辅 满200减30 · 怀璧本地当日送达</p></div>
+    <div class="slide s2"><span class="badge">新学期</span><h2>各科教辅 全面上新</h2><p>2026版同步更新 · 山经书店独家推荐</p></div>
+    <div class="slide s3"><span class="badge">限时促销</span><h2>真题试卷 5折起</h2><p>中高考全真模拟卷 现货充足</p></div>
+    <div class="dots"><i></i><i></i><i></i></div>
+  </div>
+
+  <div class="card cats">
+    <a class="cat" href="category.html"><span class="ci ci1">📖</span><span>各科教辅</span></a>
+    <a class="cat" href="category.html"><span class="ci ci2">📝</span><span>真题试卷</span></a>
+    <a class="cat" href="study.html"><span class="ci ci3">✏️</span><span>学习方法</span></a>
+    <a class="cat" href="study.html"><span class="ci ci4">🔒</span><span>内部资料</span></a>
+  </div>
+
+  <div class="sec"><h3>热门推荐</h3><a class="more" href="category.html">全部 ›</a></div>
+
+  <a class="book" href="book-1.html">
+    <div class="bc b1">高考生物<br>必刷题</div>
+    <div class="bi">
+      <div class="bt">高考生物必刷题（2026版）<span class="tag">独家</span></div>
+      <div class="bd">生物 · 高三一轮复习 · 附赠知识图谱折页</div>
+      <div class="bp"><span class="price">¥68</span><span class="sales">已售 1.2万+</span></div>
+    </div>
+  </a>
+
+  <a class="book" href="book-2.html">
+    <div class="bc b2">怀璧县<br>中考模拟卷</div>
+    <div class="bi">
+      <div class="bt">怀璧县中考全真模拟卷</div>
+      <div class="bd">真题试卷 · 初三 · 附赠考场分布图</div>
+      <div class="bp"><span class="price">¥49</span><span class="sales">已售 8621</span></div>
+    </div>
+  </a>
+
+  <a class="book" href="book-3.html">
+    <div class="bc b3">认知科学<br>与高效学习</div>
+    <div class="bi">
+      <div class="bt">认知科学与高效学习方法</div>
+      <div class="bd">学习方法 · 陈昱 著 · 二手书（含手写笔记）</div>
+      <div class="bp"><span class="price">¥45</span><span class="sales">已售 337</span></div>
+    </div>
+  </a>
+
+  <a class="book" href="book-4.html">
+    <div class="bc b4">5年高考<br>3年模拟</div>
+    <div class="bi">
+      <div class="bt">5年高考3年模拟·生物</div>
+      <div class="bd">生物 · 附赠核心知识点记忆音频</div>
+      <div class="bp"><span class="price">¥79</span><span class="sales">已售 2.4万+</span></div>
+    </div>
+  </a>
+
+  <a class="book" href="book-5.html">
+    <div class="bc b5">高考满分<br>作文精选</div>
+    <div class="bi">
+      <div class="bt">高考满分作文精选</div>
+      <div class="bd">语文 · 高中全年级 · 名师点评</div>
+      <div class="bp"><span class="price">¥39</span><span class="sales">已售 1.8万+</span></div>
+    </div>
+  </a>
+
+  <div class="foot">山经海集 · 山经书店官方小程序</div>
+
+  <nav class="tabbar">
+    <a href="home.html" class="active"><span class="ic">🏠</span>首页</a>
+    <a href="category.html"><span class="ic">📚</span>分类</a>
+    <a href="study.html"><span class="ic">✏️</span>学习方法</a>
+    <a href="profile.html"><span class="ic">👤</span>我的</a>
+  </nav>
+</div>
+</body>
+</html>

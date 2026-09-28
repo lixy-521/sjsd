@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>怀璧本地论坛 · 闲聊区 · 山经书店到底藏了什么服务</title>
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+        background: #f2f2f2;
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .wrap {
+        max-width: 640px;
+        width: 100%;
+        background: #fff;
+        min-height: 100vh;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .head {
+        background: #f6f6f6;
+        border-bottom: 1px solid #e0e0e0;
+        padding: 10px 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        color: #666;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    .head a { color: #2d5a8a; text-decoration: none; font-size: 13px; }
+    .head .sep { color: #ccc; }
+    .head .t { flex: 1; font-weight: 600; color: #333; font-size: 14px; }
+    .head .sub { font-size: 11px; color: #999; background: #e8e8e8; padding: 2px 8px; border-radius: 10px; }
+
+    .topic {
+        padding: 16px 14px;
+        border-bottom: 4px solid #f2f2f2;
+        background: #fff;
+    }
+    .topic .ttl { font-size: 18px; font-weight: 700; color: #222; margin-bottom: 8px; line-height: 1.4; }
+    .topic .meta {
+        font-size: 11px; color: #999; margin-bottom: 12px;
+        display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    }
+    .topic .meta .user { color: #2d5a8a; }
+    .topic .txt { font-size: 14px; line-height: 1.8; color: #444; }
+    .topic .txt p { margin-bottom: 6px; }
+
+    /* 楼层 */
+    .floor {
+        padding: 12px 14px;
+        border-bottom: 1px solid #f0f0f0;
+        background: #fff;
+        display: flex;
+        gap: 10px;
+    }
+    .floor:last-of-type { border-bottom: none; }
+    .av {
+        width: 32px; height: 32px; border-radius: 4px; background: #ddd;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 12px; color: #888; flex-shrink: 0; font-weight: 600;
+    }
+    .cont { flex: 1; min-width: 0; }
+    .cont .meta { display: flex; align-items: center; gap: 6px; margin-bottom: 2px; flex-wrap: wrap; }
+    .cont .meta .name { font-size: 12px; color: #2d5a8a; font-weight: 600; }
+    .cont .meta .time { font-size: 10px; color: #bbb; }
+    .cont .meta .lz-tag {
+        font-size: 10px; color: #fff; background: #aaa;
+        padding: 1px 6px; border-radius: 8px; font-weight: 600;
+    }
+    .cont .txt { font-size: 13px; line-height: 1.7; color: #555; word-break: break-word; }
+
+    /* 嵌套回复：层级即回复关系 */
+    .reply {
+        marginLeft: 0;
+        border-left: 2px solid #eaeaea;
+        padding-left: 10px;
+        margin-top: 10px;
+    }
+    .reply .reply { border-left-color: #dedede; }
+    .reply-line {
+        display: flex; gap: 8px; margin-top: 8px;
+    }
+    .reply-line > .bullet { color: #c9c9c9; flex-shrink: 0; font-size: 12px; line-height: 1.7; }
+    .reply-line .who { color: #2d5a8a; font-weight: 600; font-size: 12px; }
+    .reply-line .say { font-size: 13px; color: #555; }
+
+    .quote {
+        background: #f7f7f7;
+        border-left: 2px solid #ccc;
+        padding: 8px 12px;
+        margin: 8px 0;
+        font-size: 12px;
+        line-height: 1.9;
+        border-radius: 0 4px 4px 0;
+        color: #666;
+    }
+    .quote .hl { color: #c0392b; font-weight: 600; }
+
+    .link-note {
+        margin-top: 10px;
+        font-size: 12px;
+        background: #eef4fb;
+        border-left: 2px solid #2d5a8a;
+        padding: 8px 12px;
+        border-radius: 0 4px 4px 0;
+    }
+    .link-note a { color: #2d5a8a; font-weight: 600; }
+
+    .foot {
+        padding: 16px; text-align: center; font-size: 10px; color: #ccc;
+        background: #fafafa; border-top: 1px solid #f0f0f0;
+    }
+    .foot a { color: #bbb; text-decoration: none; }
+</style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="head">
+            <a href="#">怀璧本地论坛</a>
+            <span class="sep">›</span>
+            <span class="t">闲聊区</span>
+            <span class="sub">日常</span>
+        </div>
+
+        <!-- 主帖 -->
+        <div class="topic">
+            <div class="ttl">山经书店到底藏了什么服务？懂哥进</div>
+            <div class="meta">
+                <span class="user">匿名</span>
+                <span>·</span>
+                <span>06-15 20:41</span>
+                <span>·</span>
+                <span>只看楼主</span>
+            </div>
+            <div class="txt">
+                <p>听老师说山经有一个很 nb 的服务，能特别快提分？是真的吗？</p>
+            </div>
+        </div>
+
+        <!-- 回复树 -->
+        <div class="floor">
+            <div class="av">A</div>
+            <div class="cont">
+                <div class="meta"><span class="name">匿名</span><span class="time">06-15 20:52</span></div>
+                <div class="txt">
+                    <div class="reply-line"><span class="bullet">└</span><span><span class="who">B同学：</span><span class="say">你说那个评估？我们班有个人每周做这个评估都没啥用。</span></span></div>
+
+                    <div class="reply" style="margin-left:14px;">
+                        <div class="reply-line"><span class="bullet">└</span><span><span class="who">C同学：</span><span class="say">评估顶多是查一下知识漏洞，不可能那么快提分。</span></span></div>
+                        <div class="reply-line"><span class="bullet">└</span><span><span class="who">A同学：</span><span class="say">不是评估。</span></span></div>
+                    </div>
+
+                    <div class="reply" style="margin-left:14px;">
+                        <div class="reply-line"><span class="bullet">└</span><span><span class="who">D同学：</span><span class="say">他们那个在线平台有个隐藏服务，好像不能直接进去。</span></span></div>
+
+                        <div class="reply" style="margin-left:14px;">
+                            <div class="reply-line"><span class="bullet">└</span><span><span class="who">A同学：</span><span class="say">咋进去啊</span></span></div>
+                            <div class="reply-line"><span class="bullet">└</span><span><span class="who">D同学：</span><span class="say">你线下去问一下，我也不知道</span></span></div>
+                            <div class="reply-line"><span class="bullet">└</span><span><span class="who">E同学：</span><span class="say">公众号上面以前说过啥强化服务，现在貌似删了</span></span></div>
+
+                            <div class="reply" style="margin-left:14px;">
+                                <div class="reply-line"><span class="bullet">└</span><span><span class="who">F同学：</span><span class="say">我看小程序上面还有啊，但是要花钱。</span></span></div>
+                                <div class="reply-line"><span class="bullet">└</span><span><span class="who">G同学：</span><span class="say">你们看看有个人的报告里面有个链接。</span></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reply" style="margin-left:14px;">
+                        <div class="reply-line"><span class="bullet">└</span><span><span class="who">F同学：</span><span class="say">你们老师是谁啊</span></span></div>
+                        <div class="reply" style="margin-left:14px;">
+                            <div class="reply-line"><span class="bullet">└</span><span><span class="who">A同学：</span><span class="say">老姜</span></span></div>
+                            <div class="reply" style="margin-left:14px;">
+                                <div class="reply-line"><span class="bullet">└</span><span><span class="who">F同学：</span><span class="say">一中这边确实就他是跟山经那边关系深。</span></span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="link-note">
+                        结合论坛帖 <a href="post-1.html">《隔壁新开的书店也太火了吧》</a> 里的名单，可以确认「老姜」的真名。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 补充楼层 -->
+        <div class="floor">
+            <div class="av">H</div>
+            <div class="cont">
+                <div class="meta"><span class="name">H</span><span class="time">06-16 09:03</span></div>
+                <div class="txt">报告里的链接……我怎么点进去要输什么服务ID</div>
+            </div>
+        </div>
+        <div class="floor">
+            <div class="av">小</div>
+            <div class="cont">
+                <div class="meta"><span class="name">小透明</span><span class="time">06-16 10:22</span></div>
+                <div class="txt">那个服务好像不在平台明面上，得从某个人的评估报告里点进去。</div>
+            </div>
+        </div>
+
+        <div class="foot">
+            <div>怀璧本地论坛 bbs.huaibi.cn</div>
+            <div style="margin-top:4px;">仅代表用户个人观点，不代表本站立场</div>
+            <div style="margin-top:8px;">
+                <a href="post-1.html">← 返回列表帖</a> · <a href="#">手机版</a> · <a href="#">联系我们</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山经书店内部后台 · 陈超武</title>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "SimSun", "宋体", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.65;
+  background-color: #c0c0c0;
+  color: #000;
+  padding-bottom: 30px;
+}
+a { color: #000080; text-decoration: underline; }
+a:hover { color: #800000; }
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  background: #e8e8e8;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #808080;
+  min-height: 100vh;
+  box-shadow: 0 0 8px rgba(0,0,0,.45);
+}
+.header {
+  background: #000080;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.header .en { display: block; font-size: 10px; font-weight: normal; color: #a0a0c8; letter-spacing: 2px; }
+.notice {
+  background: #ffffcc;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  color: #800000;
+  font-size: 12px;
+  padding: 3px 0;
+}
+.userbar {
+  background: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  padding: 5px 12px;
+  font-size: 12px;
+  overflow: hidden;
+}
+.userbar .right { float: right; }
+.menu {
+  background: #d4d0c8;
+  border-bottom: 2px solid #808080;
+  padding: 5px 8px;
+}
+.menu a {
+  display: inline-block;
+  padding: 3px 11px;
+  margin: 2px 1px;
+  border: 1px solid #808080;
+  background: #e8e8e8;
+  text-decoration: none;
+  font-size: 13px;
+  color: #000080;
+}
+.menu a.active, .menu a:hover { background: #000080; color: #fff; border-color: #000080; }
+.main { padding: 14px; }
+h2 {
+  font-size: 15px;
+  margin: 0 0 12px;
+  padding: 4px 8px;
+  background: #d4d0c8;
+  border: 1px solid #808080;
+  border-left: 4px solid #000080;
+}
+h3 { font-size: 14px; margin: 14px 0 8px; color: #800000; }
+fieldset {
+  border: 1px solid #808080;
+  background: #f2f2f2;
+  margin: 0 0 12px;
+  padding: 10px 14px;
+}
+legend { font-size: 13px; font-weight: bold; color: #000080; padding: 0 4px; }
+table.grid { border-collapse: collapse; width: 100%; background: #fff; margin: 6px 0 12px; }
+table.grid th, table.grid td {
+  border: 1px solid #808080;
+  padding: 3px 7px;
+  font-size: 13px;
+  text-align: left;
+  vertical-align: top;
+}
+table.grid th { background: #d4d0c8; font-weight: bold; }
+table.grid tr:nth-child(even) td { background: #f8f8f8; }
+tr.pick { cursor: pointer; }
+tr.pick:hover td { background: #e6e6ff; }
+input[type=text], input[type=password], select, textarea {
+  font-family: inherit;
+  font-size: 13px;
+  border: 2px inset #d4d0c8;
+  background: #fff;
+  padding: 3px 6px;
+}
+textarea { width: 100%; }
+button {
+  font-family: inherit;
+  font-size: 13px;
+  border: 2px outset #d4d0c8;
+  background: #d4d0c8;
+  padding: 3px 12px;
+  cursor: pointer;
+}
+button:hover { background: #e0dcd4; }
+button:active { border-style: inset; }
+.deny {
+  color: #800000;
+  font-weight: bold;
+  border: 2px dashed #800000;
+  background: #fff0f0;
+  padding: 22px;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 15px;
+}
+.log {
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #808080;
+  padding: 8px 10px;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+.report { background: #fffef0; border: 1px solid #808080; padding: 10px 14px; font-size: 13px; }
+.report p { margin: 6px 0; text-indent: 2em; }
+.section { display: none; }
+.section.active { display: block; }
+.detail { display: none; background: #fff; border: 2px solid #000080; padding: 10px 14px; margin: 8px 0 14px; }
+.detail.open { display: block; }
+.detail h4 { margin: 0 0 8px; font-size: 14px; color: #000080; border-bottom: 1px solid #808080; padding-bottom: 4px; }
+.note { font-size: 12px; color: #555; }
+.tag { color: #800000; font-weight: bold; }
+.warn { background: #fff0f0; border: 1px solid #800000; color: #800000; padding: 6px 10px; font-size: 13px; font-weight: bold; margin: 8px 0; }
+.countdown {
+  font-family: "Courier New", monospace;
+  font-size: 22px;
+  font-weight: bold;
+  color: #800000;
+  background: #000;
+  letter-spacing: 3px;
+  padding: 6px 14px;
+  display: inline-block;
+}
+.mem { background: #000; color: #b9ffb9; font-family: "Courier New", monospace; padding: 8px 10px; font-size: 13px; line-height: 1.7; }
+.footer {
+  border-top: 1px solid #808080;
+  background: #d4d0c8;
+  color: #444;
+  font-size: 11px;
+  text-align: center;
+  padding: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">山经书店内部后台管理系统
+    <span class="en">SHANJING BOOKSTORE - INTERNAL ADMIN SYSTEM</span>
+  </div>
+  <div class="notice">
+    <marquee scrollamount="3">系统公告：【山经-蒂中帝联合提取项目】已进入执行阶段，请相关操作人密切关注项目倒计时。本后台数据严禁外传。</marquee>
+  </div>
+
+  <div class="userbar">
+    <span>当前用户：<b>陈超武</b>（chenchaowu） ｜ 角色：高级操作员</span>
+    <span class="right"><a href="login.html">注销 / 切换账号</a></span>
+  </div>
+
+  <div class="menu">
+    <a href="#" data-target="eval" class="active">评估服务后台</a>
+    <a href="#" data-target="vdb">志愿者能力抽取数据库</a>
+    <a href="#" data-target="cog">认知强化服务</a>
+    <a href="#" data-target="remote">远程操作</a>
+    <a href="#" data-target="report">个人操作报告</a>
+    <a href="#" data-target="sys">系统操作记录</a>
+  </div>
+
+  <div class="main">
+
+    <!-- 评估服务后台 -->
+    <div class="section active" id="eval">
+      <h2>评估服务后台 · 全部评估记录</h2>
+      <table class="grid">
+        <thead>
+          <tr><th>记录号</th><th>姓名</th><th>学校</th><th>年级</th><th>评估项目</th><th>评估日期</th><th>操作人</th><th>状态</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>PG-2026-0101</td><td>吴昊博</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-01-08</td><td>董--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0111</td><td>陈牧循</td><td>怀璧一中</td><td>高二</td><td>学科能力评估（关联认知强化）</td><td>2026-02-26</td><td>董--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0113</td><td>徐雨桐</td><td>怀璧一中</td><td>高二</td><td>生物学科评估（第6次）</td><td>2026-03-15</td><td>陈--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0115</td><td>赵思航</td><td>怀璧一中</td><td>高三</td><td>数学学科评估（第5次）</td><td>2026-03-20</td><td>陈--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0116</td><td>林婉仪</td><td>怀璧一中</td><td>高三</td><td>英语学科评估（第12次）</td><td>2026-03-22</td><td>陈--</td><td>已完成</td></tr>
+          <tr><td>PG-2026-0117</td><td>刘天清</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-04-02</td><td>董--</td><td>已完成</td></tr>
+        </tbody>
+      </table>
+      <p class="note">本页与姜游亮账号所见为同一数据库，权限范围不同。</p>
+    </div>
+
+    <!-- 志愿者能力抽取数据库 -->
+    <div class="section" id="vdb">
+      <h2>志愿者能力抽取数据库</h2>
+
+      <fieldset>
+        <legend>全部志愿者详细数据</legend>
+        <table class="grid">
+          <thead>
+            <tr><th>编号</th><th>姓名</th><th>学校</th><th>学科</th><th>采集次数</th><th>数据评级</th><th>状态</th></tr>
+          </thead>
+          <tbody id="volBody">
+            <tr class="pick" data-vol="v1"><td>V-001</td><td>徐雨桐</td><td>怀璧一中</td><td>生物</td><td>6</td><td>A+</td><td>重度衰退</td></tr>
+            <tr class="pick" data-vol="v2"><td>V-002</td><td>赵思航</td><td>怀璧一中</td><td>数学</td><td>5</td><td>A</td><td>中度衰退</td></tr>
+            <tr class="pick" data-vol="v3"><td>V-003</td><td>林婉仪</td><td>怀璧一中</td><td>英语</td><td>12</td><td>A</td><td>重度衰退</td></tr>
+            <tr class="pick" data-vol="v4"><td>V-004</td><td>周晓雨</td><td>怀璧一中</td><td>生物</td><td>1</td><td>B</td><td>买方（记忆污染）</td></tr>
+            <tr class="pick" data-vol="v5"><td>V-005</td><td>刘天清</td><td>怀璧一中</td><td>数学 / 综合</td><td>3</td><td>A+</td><td>已抹除部分记忆</td></tr>
+            <tr class="pick" data-vol="v6"><td>V-006</td><td>吴昊博</td><td>怀璧一中</td><td>综合</td><td>2</td><td>A</td><td>正常</td></tr>
+            <tr class="pick" data-vol="v7"><td>V-007</td><td>李杨梓麟</td><td>怀璧一中</td><td>数学</td><td>2</td><td>A</td><td>正常</td></tr>
+            <tr class="pick" data-vol="v8"><td>V-008</td><td>王宇涵</td><td>怀璧一中</td><td>语文</td><td>1</td><td>B+</td><td>正常</td></tr>
+            <tr class="pick" data-vol="v9"><td>V-009</td><td>林晚</td><td>怀璧一中</td><td>综合</td><td>1</td><td>A</td><td>正常</td></tr>
+            <tr class="pick" data-vol="v10"><td>V-010</td><td>陈牧循</td><td>怀璧一中</td><td>生物</td><td>4</td><td>A+</td><td>认知强化关联</td></tr>
+            <tr class="pick" data-vol="v11"><td>V-011</td><td>罗晋铭</td><td>怀璧二中</td><td>物理</td><td>1</td><td>B</td><td>正常</td></tr>
+          </tbody>
+        </table>
+        <p class="note">点击任意一行查看该志愿者的详细报告。</p>
+        <div class="detail" id="volDetail"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>匹配工具 · 输入个人能力数据，匹配适合的注入数据</legend>
+        <table>
+          <tr><td>目标学科：</td><td>
+            <select id="mSubject">
+              <option>数学</option><option>生物</option><option>英语</option><option>物理</option><option>语文</option><option>综合</option>
+            </select>
+          </td></tr>
+          <tr><td>当前水平：</td><td>
+            <select id="mLevel">
+              <option>下游</option><option>中游</option><option>上游</option><option>年级前列</option>
+            </select>
+          </td></tr>
+          <tr><td>期望提升：</td><td>
+            <select id="mGain">
+              <option>快速提分</option><option>稳定提升</option><option>竞赛拔高</option>
+            </select>
+          </td></tr>
+          <tr><td></td><td><button type="button" id="matchBtn">开始匹配</button></td></tr>
+        </table>
+        <div id="matchResult" class="detail"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>当前项目</legend>
+        <table class="grid">
+          <tr><th style="width:120px;">项目名称</th><td>山经-蒂中帝联合提取项目</td></tr>
+          <tr><th>受试者</th><td><b>107 人</b></td></tr>
+          <tr><th>剩余时间</th><td><span class="countdown" id="cd">01:12:00</span></td></tr>
+          <tr><th>项目状态</th><td>执行中（待远程指令切换抽取模式）</td></tr>
+          <tr><th>操作</th><td><button type="button" id="projBtn">查看项目详情</button></td></tr>
+        </table>
+
+        <div class="detail" id="projDetail">
+          <h4>项目详情 · 山经-蒂中帝联合提取项目</h4>
+          <p>本项目由 <b>蒂中帝教育</b> 与 <b>山经书店</b> 联合发起。由蒂中帝方面组织在校学生参加“学习能力评估”，评估过程中对学生的学科认知进行大规模抽取，所得数据统一打包，以供后续出售给有需求的买家。</p>
+          <p>抽取所得数据将按照学科、评级分类，伪装为“内部教辅资料”在小程序渠道出售。本次受试者共 <b>107 人</b>。</p>
+
+          <h3>抽取名单（前 10 人）</h3>
+          <table class="grid">
+            <thead><tr><th>序号</th><th>姓名</th><th>学校</th><th>年级</th><th>学科</th><th>数据评级</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>刘天清</td><td>怀璧一中</td><td>高二</td><td>数学 / 综合</td><td>A+</td></tr>
+              <tr><td>2</td><td>徐雨桐</td><td>怀璧一中</td><td>高二</td><td>生物</td><td>A+</td></tr>
+              <tr><td>3</td><td>赵思航</td><td>怀璧一中</td><td>高三</td><td>数学</td><td>A</td></tr>
+              <tr><td>4</td><td>林婉仪</td><td>怀璧一中</td><td>高三</td><td>英语</td><td>A</td></tr>
+              <tr><td>5</td><td>周晓雨</td><td>怀璧一中</td><td>高二</td><td>生物</td><td>B</td></tr>
+              <tr><td>6</td><td>吴昊博</td><td>怀璧一中</td><td>高三</td><td>综合</td><td>A</td></tr>
+              <tr><td>7</td><td>李杨梓麟</td><td>怀璧一中</td><td>高三</td><td>数学</td><td>A</td></tr>
+              <tr><td>8</td><td>王宇涵</td><td>怀璧一中</td><td>高二</td><td>语文</td><td>B+</td></tr>
+              <tr><td>9</td><td>林晚</td><td>怀璧一中</td><td>高三</td><td>综合</td><td>A</td></tr>
+              <tr><td>10</td><td>陈牧循</td><td>怀璧一中</td><td>高二</td><td>生物</td><td>A+</td></tr>
+            </tbody>
+          </table>
+
+          <h3>详细报告</h3>
+          <p>本次联合提取为“批量采集”模式。系统将在倒计时结束后，统一对名单内全部受试者执行学科认知抽取，并进行记忆剥离与数据打包。由于受试者名单跨越两所学校、多个年级，单一个体重复采集次数普遍超过建议阈值（单一个体不超过 3 次），预计将造成不可逆的能力衰退与生活记忆丢失。</p>
+          <p>抽取所得数据将由董新飞统一对外出售，用于其个人资金需求。</p>
+          <div class="warn">⚠ 本账号无法进行操作。远程操作权限归属账号：dongxinfei。</div>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- 认知强化服务 -->
+    <div class="section" id="cog">
+      <h2>认知强化服务 · 目前申请者数据列表</h2>
+      <fieldset>
+        <legend>申请者列表</legend>
+        <table class="grid">
+          <thead><tr><th>申请编号</th><th>姓名</th><th>申请服务</th><th>关联源数据</th><th>状态</th></tr></thead>
+          <tbody id="cogBody">
+            <tr class="pick" data-cog="c1"><td>CS-2026-0031</td><td>陈牧循</td><td>生物认知强化</td><td>XYT-20260220</td><td>已交付</td></tr>
+            <tr class="pick" data-cog="c2"><td>CS-2026-0044</td><td>周晓雨</td><td>生物认知强化</td><td>XYT-20260208-H02</td><td>已交付</td></tr>
+            <tr class="pick" data-cog="c3"><td>CS-2026-0052</td><td>吴昊博</td><td>综合能力强化</td><td>LWT-20260125</td><td>待匹配</td></tr>
+          </tbody>
+        </table>
+        <p class="note">点击任意一行查看申请数据，并可执行快速匹配。</p>
+        <div class="detail" id="cogDetail"></div>
+      </fieldset>
+    </div>
+
+    <!-- 远程操作 -->
+    <div class="section" id="remote">
+      <h2>远程操作</h2>
+      <div class="deny">✕ 权限不足</div>
+      <p class="note">远程操作权限归属账号 dongxinfei，本账号仅可查看项目状态。</p>
+    </div>
+
+    <!-- 个人操作报告 -->
+    <div class="section" id="report">
+      <h2>个人操作报告 · 陈超武</h2>
+      <fieldset>
+        <legend>报告记录时间：2026-06</legend>
+        <div class="report">
+          <p>今天闲着没事，试着登了一下董新飞的后台操作号，随手试了两下，居然这么简单就进去了。他那套远程操作界面比我这边的还少两道校验，“重点关照”名单就那么明晃晃地列在首页上。</p>
+          <p>名单里有个人被 dxf 标了“重点关照”。我按他的意思，直接给那学生做了抽取，一次到位。反正签字都签了，学生自己是“自愿”的。</p>
+          <p>那学生也是麻烦，居然知道了我们的事，还在外面到处打听、到处说。抽取的时候我就顺手抹掉了他一部分记忆，省得他乱讲话。<span class="tag">抹掉的是他印象最深的那几条，应该翻不起来了。</span></p>
+          <p>董新飞这人胆大，规矩也不少。他叮嘱我操作完要把系统记录清干净，还要开什么无痕模式，说警察查不到。行吧，反正钱到位就行。</p>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- 系统操作记录 -->
+    <div class="section" id="sys">
+      <h2>系统操作记录 · 本账号相关</h2>
+      <div class="log">2026-05-11 11:11:11  chenchaowu    登录系统成功（IP 10.20.9.88）
+2026-05-11 11:30:52  dongxinfei    修改远程操作权限配置
+2026-06-03 22:47:05  dongxinfei    登录系统成功（IP 10.20.1.2）
+2026-06-03 22:51:19  dongxinfei    访问【远程操作 · 山经-蒂中帝联合提取项目】
+2026-06-04 01:15:37  chenchaowu    访问【志愿者能力抽取数据库】
+2026-06-04 01:19:48  chenchaowu    执行抽取操作（对象：PG-2026-0117）
+2026-06-04 01:26:10  chenchaowu    执行记忆抹除操作（对象：PG-2026-0117）
+2026-06-04 01:31:00  chenchaowu    备注：按“重点关照”名单处理完毕
+2026-06-04 01:33:22  dongxinfei    提醒：记得清理系统记录
+2026-06-05 07:00:00  system        系统自动备份完成</div>
+    </div>
+
+  </div>
+
+  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync　｜ 本页所有内容仅供剧情演示</div>
+</div>
+
+<script>
+(function () {
+  /* 菜单切换 */
+  var links = document.querySelectorAll('.menu a');
+  var sections = document.querySelectorAll('.section');
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var t = a.getAttribute('data-target');
+      links.forEach(function (x) { x.classList.remove('active'); });
+      a.classList.add('active');
+      sections.forEach(function (s) { s.classList.toggle('active', s.id === t); });
+      window.scrollTo(0, 0);
+    });
+  });
+
+  /* 志愿者数据 */
+  var VOL = {
+    v1: { name: '徐雨桐', html:
+      '<h4>志愿者报告 · V-001 徐雨桐</h4>' +
+      '<table class="grid">' +
+      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>生物</td></tr>' +
+      '<tr><th>采集次数</th><td>6 次</td><th>数据评级</th><td>A+</td></tr>' +
+      '<tr><th>首次采集</th><td>2026-01-25</td><th>最近采集</th><td>2026-03-15</td></tr>' +
+      '<tr><th>能力变化</th><td colspan="3">生物成绩由年级前三跌至四十余名；重复记忆效率下降约 61%</td></tr>' +
+      '<tr><th>副作用</th><td colspan="3">出现生活记忆丢失：忘记近期饮食、行程与人际往来</td></tr>' +
+      '</table><p class="note">常规内容，无额外抹除记录。</p>' },
+    v2: { name: '赵思航', html:
+      '<h4>志愿者报告 · V-002 赵思航</h4>' +
+      '<table class="grid">' +
+      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>数学</td></tr>' +
+      '<tr><th>采集次数</th><td>5 次</td><th>数据评级</th><td>A</td></tr>' +
+      '<tr><th>能力变化</th><td colspan="3">数学解题反应变慢，隐性下降约 29%</td></tr>' +
+      '</table><p class="note">常规内容，无额外抹除记录。</p>' },
+    v3: { name: '林婉仪', html:
+      '<h4>志愿者报告 · V-003 林婉仪</h4>' +
+      '<table class="grid">' +
+      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>英语</td></tr>' +
+      '<tr><th>采集次数</th><td>12 次</td><th>数据评级</th><td>A</td></tr>' +
+      '<tr><th>状态</th><td colspan="3">重度衰退。已超出建议阈值 4 倍，恢复率低于 10%</td></tr>' +
+      '</table><p class="note">常规内容，无额外抹除记录。</p>' },
+    v4: { name: '周晓雨', html:
+      '<h4>志愿者报告 · V-004 周晓雨</h4>' +
+      '<table class="grid">' +
+      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>生物</td></tr>' +
+      '<tr><th>身份</th><td colspan="3">数据包买家（使用“生物学科能力包”后出现记忆污染）</td></tr>' +
+      '<tr><th>症状</th><td colspan="3">出现不属于本人的记忆片段：实验室解剖、未参加过的竞赛考场</td></tr>' +
+      '</table><p class="note">常规内容，无额外抹除记录。</p>' },
+    v5: { name: '刘天清', html:
+      '<h4>志愿者报告 · V-005 刘天清</h4>' +
+      '<table class="grid">' +
+      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>数学 / 综合</td></tr>' +
+      '<tr><th>采集次数</th><td>3 次</td><th>数据评级</th><td>A+</td></tr>' +
+      '<tr><th>状态</th><td colspan="3">已抹除部分记忆</td></tr>' +
+      '<tr><th>常规内容</th><td colspan="3">学科认知模式完整，数学能力评级 A+，数据已进入待打包队列。</td></tr>' +
+      '</table>' +
+      '<p class="tag">※ 本报告中除常规内容外，额外包含【记忆抹除内容】：</p>' +
+      '<div class="mem">近几日此人印象深刻的内容：<br>' +
+      '  · 牟通雪<br>' +
+      '  · 董新飞<br>' +
+      '  · fhuehwuiaa</div>' +
+      '<p class="note">系统提示：以上条目为本次记忆抹除操作的目标内容，抹除后当事人将无法回忆。请确认无遗漏。</p>' },
+    v6: { name: '吴昊博', html:
+      '<h4>志愿者报告 · V-006 吴昊博</h4>' +
+      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>综合</td></tr>' +
+      '<tr><th>采集次数</th><td>2 次</td><th>数据评级</th><td>A</td></tr></table>' +
+      '<p class="note">常规内容，无额外抹除记录。</p>' },
+    v7: { name: '李杨梓麟', html:
+      '<h4>志愿者报告 · V-007 李杨梓麟</h4>' +
+      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>数学</td></tr>' +
+      '<tr><th>采集次数</th><td>2 次</td><th>数据评级</th><td>A</td></tr></table>' +
+      '<p class="note">常规内容，无额外抹除记录。</p>' },
+    v8: { name: '王宇涵', html:
+      '<h4>志愿者报告 · V-008 王宇涵</h4>' +
+      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>语文</td></tr>' +
+      '<tr><th>采集次数</th><td>1 次</td><th>数据评级</th><td>B+</td></tr></table>' +
+      '<p class="note">常规内容，无额外抹除记录。</p>' },
+    v9: { name: '林晚', html:
+      '<h4>志愿者报告 · V-009 林晚</h4>' +
+      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>综合</td></tr>' +
+      '<tr><th>采集次数</th><td>1 次</td><th>数据评级</th><td>A</td></tr></table>' +
+      '<p class="note">常规内容，无额外抹除记录。</p>' },
+    v10: { name: '陈牧循', html:
+      '<h4>志愿者报告 · V-010 陈牧循</h4>' +
+      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>生物</td></tr>' +
+      '<tr><th>采集次数</th><td>4 次</td><th>数据评级</th><td>A+</td></tr>' +
+      '<tr><th>关联</th><td colspan="3">认知强化服务申请者（服务ID：CMX-CS-20260615，源数据 XYT-20260220）</td></tr></table>' +
+      '<p class="note">常规内容，无额外抹除记录。</p>' },
+    v11: { name: '罗晋铭', html:
+      '<h4>志愿者报告 · V-011 罗晋铭</h4>' +
+      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧二中 · 高三</td><th>学科</th><td>物理</td></tr>' +
+      '<tr><th>采集次数</th><td>1 次</td><th>数据评级</th><td>B</td></tr></table>' +
+      '<p class="note">常规内容，无额外抹除记录。</p>' }
+  };
+
+  var volBody = document.getElementById('volBody');
+  var volDetail = document.getElementById('volDetail');
+  volBody.addEventListener('click', function (e) {
+    var tr = e.target.closest ? e.target.closest('tr.pick') : null;
+    if (!tr) return;
+    var d = VOL[tr.getAttribute('data-vol')];
+    volDetail.innerHTML = d.html;
+    volDetail.classList.add('open');
+    volDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  /* 匹配工具 */
+  document.getElementById('matchBtn').addEventListener('click', function () {
+    var s = document.getElementById('mSubject').value;
+    var lv = document.getElementById('mLevel').value;
+    var g = document.getElementById('mGain').value;
+    var pool = {
+      '数学': '数学思维强化包 · 高中（数据包 XYJ-2026-0317）',
+      '生物': '生物学科能力包 · 高中全套（数据包 XYT-20260208-H02）',
+      '英语': '英语语感包 · 高中（数据包 LWT-20260125）',
+      '物理': '物理模型构建包 · 高中（数据包 WJ-2026-0210）',
+      '语文': '语文阅读强化包 · 高中（数据包 WY-2026-0305）',
+      '综合': '综合能力强化包 · 高中（数据包 ZH-2026-0411）'
+    };
+    var score = { '下游': 96, '中游': 91, '上游': 87, '年级前列': 82 }[lv];
+    var box = document.getElementById('matchResult');
+    box.innerHTML =
+      '<h4>匹配结果</h4>' +
+      '<table class="grid">' +
+      '<tr><th>目标学科</th><td>' + s + '</td><th>当前水平</th><td>' + lv + '</td></tr>' +
+      '<tr><th>需求</th><td>' + g + '</td><th>相似度</th><td><b>' + score + '%</b></td></tr>' +
+      '<tr><th>推荐注入数据</th><td colspan="3">' + pool[s] + '</td></tr>' +
+      '<tr><th>备注</th><td colspan="3">建议单一个体采集不超过 3 次，否则源学生恢复率将大幅下降。</td></tr>' +
+      '</table>';
+    box.classList.add('open');
+  });
+
+  /* 当前项目倒计时 1小时12分钟 */
+  var remain = 72 * 60;
+  var cd = document.getElementById('cd');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick() {
+    if (remain < 0) remain = 0;
+    var h = Math.floor(remain / 3600);
+    var m = Math.floor((remain % 3600) / 60);
+    var s = remain % 60;
+    cd.textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
+    if (remain > 0) remain -= 1;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  document.getElementById('projBtn').addEventListener('click', function () {
+    var d = document.getElementById('projDetail');
+    d.classList.toggle('open');
+  });
+
+  /* 认知强化申请者 */
+  var COG = {
+    c1: { name: '陈牧循', html:
+      '<h4>申请者数据 · CS-2026-0031 陈牧循</h4>' +
+      '<table class="grid"><tr><th>申请服务</th><td>生物认知强化</td><th>状态</th><td>已交付</td></tr>' +
+      '<tr><th>关联源数据</th><td>XYT-20260220</td><th>服务ID</th><td>CMX-CS-20260615</td></tr>' +
+      '<tr><th>能力数据</th><td colspan="3">生物学科模式匹配度 94%；记忆杂质率 7%</td></tr></table>' +
+      '<button type="button" data-quick="生物">快速匹配</button> <span class="note">将按当前数据自动匹配可注入方案。</span>' },
+    c2: { name: '周晓雨', html:
+      '<h4>申请者数据 · CS-2026-0044 周晓雨</h4>' +
+      '<table class="grid"><tr><th>申请服务</th><td>生物认知强化</td><th>状态</th><td>已交付</td></tr>' +
+      '<tr><th>关联源数据</th><td>XYT-20260208-H02</td><th>备注</th><td>买家（出现记忆污染）</td></tr>' +
+      '<tr><th>能力数据</th><td colspan="3">生物学科模式匹配度 88%；杂质记忆残留较高</td></tr></table>' +
+      '<button type="button" data-quick="生物">快速匹配</button> <span class="note">建议优先过滤杂质记忆后再注入。</span>' },
+    c3: { name: '吴昊博', html:
+      '<h4>申请者数据 · CS-2026-0052 吴昊博</h4>' +
+      '<table class="grid"><tr><th>申请服务</th><td>综合能力强化</td><th>状态</th><td>待匹配</td></tr>' +
+      '<tr><th>关联源数据</th><td>LWT-20260125</td><th>备注</th><td>等待匹配注入数据</td></tr>' +
+      '<tr><th>能力数据</th><td colspan="3">综合模式匹配度 81%</td></tr></table>' +
+      '<button type="button" data-quick="综合">快速匹配</button> <span class="note">将按当前数据自动匹配可注入方案。</span>' }
+  };
+  var cogDetail = document.getElementById('cogDetail');
+  document.getElementById('cogBody').addEventListener('click', function (e) {
+    var tr = e.target.closest ? e.target.closest('tr.pick') : null;
+    if (!tr) return;
+    cogDetail.innerHTML = COG[tr.getAttribute('data-cog')].html;
+    cogDetail.classList.add('open');
+  });
+  cogDetail.addEventListener('click', function (e) {
+    if (e.target && e.target.getAttribute && e.target.getAttribute('data-quick')) {
+      var s = e.target.getAttribute('data-quick');
+      cogDetail.innerHTML += '<div class="warn">已按“' + s + '”类数据完成快速匹配，方案已写入待执行队列。</div>';
+    }
+  });
+})();
+</script>
+</body>
+</html>

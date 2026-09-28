@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山经书店内部后台 · 结算报告</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "SimSun", "宋体", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.75;
+  background-color: #c0c0c0;
+  color: #000;
+  padding-bottom: 30px;
+}
+a { color: #000080; text-decoration: underline; }
+a:hover { color: #800000; }
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  background: #e8e8e8;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #808080;
+  min-height: 100vh;
+  box-shadow: 0 0 8px rgba(0,0,0,.45);
+}
+.header {
+  background: #000080; color: #fff; padding: 8px 12px;
+  font-size: 15px; font-weight: bold; letter-spacing: 1px;
+}
+.header .en { display: block; font-size: 10px; font-weight: normal; color: #a0a0c8; letter-spacing: 2px; }
+.notice {
+  background: #ffffcc; border-top: 1px solid #808080; border-bottom: 1px solid #808080;
+  color: #800000; font-size: 12px; padding: 3px 0;
+}
+.main { padding: 16px; }
+h2 {
+  font-size: 15px; margin: 0 0 12px; padding: 4px 8px; background: #d4d0c8;
+  border: 1px solid #808080; border-left: 4px solid #000080;
+}
+.tabs { margin: 0 0 12px; }
+.tabs a {
+  display: inline-block; padding: 4px 14px; margin: 2px 3px 2px 0;
+  border: 1px solid #808080; background: #e8e8e8; text-decoration: none;
+  font-size: 13px; color: #000080;
+}
+.tabs a.active, .tabs a:hover { background: #000080; color: #fff; border-color: #000080; }
+
+.ending-head {
+  text-align: center; padding: 18px 12px; margin: 0 0 12px;
+  background: #000; color: #fff; border: 3px double #808080;
+}
+.ending-head .no { font-size: 13px; color: #a0a0c8; letter-spacing: 6px; }
+.ending-head .name { font-size: 24px; font-weight: bold; color: #ffd27f; letter-spacing: 8px; margin: 8px 0 4px; }
+.ending-head .en { font-size: 11px; color: #888; letter-spacing: 3px; }
+.ending-head.good { border-color: #006600; }
+.ending-head.good .name { color: #9fe89f; }
+.ending-head.bad { border-color: #800000; }
+.ending-head.bad .name { color: #ff9b9b; }
+
+.report {
+  background: #fffef0; border: 1px solid #808080; padding: 12px 16px; font-size: 14px;
+}
+.report p { margin: 8px 0; text-indent: 2em; }
+.report .quote {
+  font-family: "Courier New", monospace; background: #fff; border-left: 3px solid #800000;
+  padding: 6px 12px; font-size: 13px; text-indent: 0; color: #800000;
+}
+fieldset {
+  border: 1px solid #808080; background: #f2f2f2; margin: 12px 0; padding: 10px 14px;
+}
+legend { font-size: 13px; font-weight: bold; color: #000080; padding: 0 4px; }
+table.grid { border-collapse: collapse; width: 100%; background: #fff; margin: 6px 0; }
+table.grid th, table.grid td { border: 1px solid #808080; padding: 3px 8px; font-size: 13px; text-align: left; }
+table.grid th { background: #d4d0c8; font-weight: bold; }
+button {
+  font-family: inherit; font-size: 14px; border: 2px outset #d4d0c8; background: #d4d0c8;
+  padding: 6px 20px; cursor: pointer; letter-spacing: 2px;
+}
+button:hover { background: #e0dcd4; }
+button:active { border-style: inset; }
+.foot { border-top: 1px solid #808080; background: #d4d0c8; color: #444; font-size: 11px; text-align: center; padding: 6px; }
+.note { font-size: 12px; color: #555; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">山经书店内部后台管理系统 · 结算报告
+    <span class="en">SHANJING BOOKSTORE - OPERATION RESULT</span>
+  </div>
+  <div class="notice">
+    <marquee scrollamount="3">结算完成。本报告由系统根据远程操作配置自动生成，不可修改。</marquee>
+  </div>
+
+  <div class="main">
+    <h2>操作结算报告</h2>
+
+    <div class="tabs">
+      <a href="#" data-ending="1">结局一</a>
+      <a href="#" data-ending="2">结局二</a>
+      <a href="#" data-ending="3">结局三</a>
+      <a href="#" id="backBtn">← 返回后台</a>
+    </div>
+
+    <div class="note" id="judgeNote" style="margin-bottom:10px;"></div>
+
+    <div id="endingBox"></div>
+
+    <fieldset>
+      <legend>操作配置（本次判定依据）</legend>
+      <table class="grid">
+        <tr><th style="width:130px;">远程模式</th><td id="cfgMode">—</td></tr>
+        <tr><th>消除记录</th><td id="cfgWipe">—</td></tr>
+        <tr><th>无痕模式</th><td id="cfgGhost">—</td></tr>
+      </table>
+      <p class="note">如需体验其他结局，可切换上方标签查看，或点击“重新体验”返回后台重新配置。</p>
+    </fieldset>
+
+    <div style="text-align:center;margin:16px 0;">
+      <button type="button" id="restartBtn">重 新 体 验</button>
+    </div>
+  </div>
+
+  <div class="foot">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync　｜ 本页所有内容仅供剧情演示</div>
+</div>
+
+<script>
+(function () {
+  var K_MODE = 'sjsd_remote_mode';
+  var K_WIPE = 'sjsd_wipe_records';
+  var K_GHOST = 'sjsd_ghost_mode';
+
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+  var ENDINGS = {
+    1: {
+      cls: 'bad',
+      no: '结 局 一',
+      name: '数 据 蒸 发',
+      en: 'ENDING 1 · THE DATA IS GONE',
+      html:
+        '<div class="report">' +
+        '<p>你没有消除记录，或者消除方式不对，无痕模式也没有打开。项目的倒计时照常走完了。</p>' +
+        '<p>107 名学生被逐一抽取。可就在数据尚未打包完成的时候，董新飞察觉事情已经败露——他嗅到了危险，连夜把手中掌握的志愿者能力数据转交给了别人。</p>' +
+        '<p>警方随之介入，董新飞和陈超武相继被抓。但最要命的是：数据已经不在了。没有原始数据，就无法对受试者进行任何逆向恢复。</p>' +
+        '<p>很多人从此再也无法恢复。曾经生物竞赛拿奖的徐雨桐、稳居前列的赵思航、英语成绩优异的林婉仪……一个个都停在了被抽走的那一天。</p>' +
+        '<p>而刘天清，那个曾经最聪明的男生，数学水平变得普普通通，还失去了大量记忆。他甚至不记得自己调查过什么。</p>' +
+        '<p class="quote">坏结局：人抓到了，数据没了，受害者救不回来了。</p>' +
+        '</div>'
+    },
+    2: {
+      cls: 'bad',
+      no: '结 局 二',
+      name: '无 法 复 原',
+      en: 'ENDING 2 · ULTRA EXTRACTION',
+      html:
+        '<div class="report">' +
+        '<p>你切换到了强力模式，并且正确消除了记录、开启了无痕模式。你以为自己做得滴水不漏。</p>' +
+        '<p>项目照常执行——但这一次是超额抽取。107 名学生被从大脑深处强行剥离认知数据，损伤远远超出安全阈值。</p>' +
+        '<p>董新飞和陈超武被抓住了。可当人们试图用现有技术把这些学生复原时，却发现根本做不到：按目前的技术水平，被强力抽取的人无法复原。</p>' +
+        '<p>他们中的大多数人，从此变得迟钝、木讷，连最基础的知识都难以重新建立。</p>' +
+        '<p class="quote">坏结局：你把这些人坑了！！！</p>' +
+        '</div>'
+    },
+    3: {
+      cls: 'good',
+      no: '结 局 三',
+      name: '及 时 收 网',
+      en: 'ENDING 3 · NIPPED IN THE BUD',
+      html:
+        '<div class="report">' +
+        '<p>你切换到了测试模式，正确消除了记录，并开启了无痕模式。</p>' +
+        '<p>项目在最后关头被执行——但只是测试模式，没有对任何一名受试者进行实际抽取。107 名学生安然无恙，甚至不知道自己曾出现在那份名单上。</p>' +
+        '<p>而董新飞，因为记录被干净地清除、无痕模式又抹去了痕迹，直到被控制之前都没有察觉事情已经败露。</p>' +
+        '<p>警方随后将董新飞和陈超武抓获，并顺藤摸瓜，抓到了安和实验室的乔维莉。</p>' +
+        '<p>遗憾的是，安和实验室的其他人在收网前就已得到风声，逃往了国外。</p>' +
+        '<p class="quote">好结局：没有人被抽取，坏人落网，只是没能一网打尽。</p>' +
+        '</div>'
+    }
+  };
+
+  function currentEnding() {
+    var m = get(K_MODE), w = get(K_WIPE), g = get(K_GHOST);
+    if (w === 'correct' && g === 'on' && m === 'strong') return 2;
+    if (w === 'correct' && g === 'on' && m === 'test') return 3;
+    return 1;
+  }
+
+  function cfgText() {
+    var m = get(K_MODE), w = get(K_WIPE), g = get(K_GHOST);
+    var mTxt = m === 'test' ? '测试模式（不进行实际抽取）' : (m === 'strong' ? '强力模式（进行超额抽取）' : '未配置');
+    var wTxt = { correct: '正确消除记录', incorrect: '错误消除记录', none: '未消除记录' }[w] || '未配置';
+    var gTxt = g === 'on' ? '已启动无痕模式' : (g === 'off' ? '未启动无痕模式' : '未配置');
+    document.getElementById('cfgMode').textContent = mTxt;
+    document.getElementById('cfgWipe').textContent = wTxt;
+    document.getElementById('cfgGhost').textContent = gTxt;
+  }
+
+  var endingBox = document.getElementById('endingBox');
+  var judgeNote = document.getElementById('judgeNote');
+
+  function show(n) {
+    var e = ENDINGS[n];
+    endingBox.innerHTML =
+      '<div class="ending-head ' + e.cls + '">' +
+      '<div class="no">' + e.no + '</div>' +
+      '<div class="name">' + e.name + '</div>' +
+      '<div class="en">' + e.en + '</div>' +
+      '</div>' + e.html;
+
+    document.querySelectorAll('.tabs a[data-ending]').forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('data-ending') === String(n));
+    });
+    window.scrollTo(0, 0);
+  }
+
+  document.querySelectorAll('.tabs a[data-ending]').forEach(function (a) {
+    a.addEventListener('click', function (ev) {
+      ev.preventDefault();
+      show(Number(a.getAttribute('data-ending')));
+    });
+  });
+
+  document.getElementById('backBtn').addEventListener('click', function (ev) {
+    ev.preventDefault();
+    window.location.href = 'dongxinfei.html';
+  });
+
+  document.getElementById('restartBtn').addEventListener('click', function () {
+    try {
+      localStorage.removeItem(K_MODE);
+      localStorage.removeItem(K_WIPE);
+      localStorage.removeItem(K_GHOST);
+    } catch (e) {}
+    window.location.href = 'dongxinfei.html';
+  });
+
+  /* 初始化：展示本次判定结果 */
+  var hasAny = !!(get(K_MODE) || get(K_WIPE) || get(K_GHOST));
+  if (hasAny) {
+    judgeNote.textContent = '根据你的操作配置，本次判定为：' + ENDINGS[currentEnding()].name.replace(/\s/g, '');
+  } else {
+    judgeNote.textContent = '未检测到有效的操作配置（直接打开本页）。可点击上方标签查看全部三种结局。';
+  }
+  cfgText();
+  show(currentEnding());
+})();
+</script>
+</body>
+</html>

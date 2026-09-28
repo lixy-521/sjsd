@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>小程序上线，可在线订书 · 山经海籍</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #ededed; color: #333; }
+a { color: #576b95; text-decoration: none; }
+.topbar {
+  position: sticky; top: 0; z-index: 30; height: 44px;
+  background: #ededed; border-bottom: 1px solid #e0e0e0;
+  display: flex; align-items: center; padding: 0 14px;
+}
+.topbar .back { font-size: 22px; line-height: 1; color: #333; margin-right: 10px; }
+.topbar .tt { flex: 1; text-align: center; margin-right: 32px; font-size: 15px; color: #333; }
+.wrap { max-width: 640px; margin: 0 auto; background: #fff; min-height: 100vh; }
+.article { padding: 22px 20px 30px; }
+.title { font-size: 20px; font-weight: 700; color: #222; line-height: 1.45; }
+.meta { font-size: 12px; color: #999; margin: 12px 0 20px; }
+.meta .src { color: #576b95; }
+.content { font-size: 16px; line-height: 1.8; color: #333; }
+.content p { margin-bottom: 16px; text-indent: 2em; }
+.content h2 { font-size: 17px; color: #222; margin: 26px 0 12px; }
+.content .img-ph { background: #f2f2f2; border-radius: 6px; padding: 30px 10px; text-align: center; color: #999; font-size: 13px; margin: 16px 0; text-indent: 0; }
+.content .img-ph .big { font-size: 34px; display: block; margin-bottom: 6px; }
+.cta { margin: 26px 0 6px; padding: 20px; background: #f0faf4; border-radius: 10px; text-align: center; }
+.cta p { font-size: 14px; color: #666; margin-bottom: 14px; }
+.cta .btn { display: inline-block; background: #07c160; color: #fff; padding: 12px 34px; border-radius: 24px; font-size: 15px; font-weight: 600; }
+.stats { border-top: 1px solid #f0f0f0; margin-top: 26px; padding-top: 14px; font-size: 12px; color: #999; display: flex; gap: 18px; }
+.comments { background: #f7f7f7; border-radius: 8px; padding: 14px; margin-top: 16px; }
+.comments h3 { font-size: 13px; color: #666; margin-bottom: 10px; }
+.comment { font-size: 13px; color: #444; line-height: 1.7; padding: 8px 0; border-bottom: 1px dashed #e5e5e5; }
+.comment:last-child { border-bottom: none; }
+.comment .who { color: #576b95; }
+.foot { text-align: center; padding: 20px; font-size: 11px; color: #bbb; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <a class="back" href="articles.html">←</a>
+  <span class="tt">山经海籍</span>
+</div>
+
+<div class="wrap">
+  <div class="article">
+    <h1 class="title">小程序上线，可在线订书</h1>
+    <div class="meta"><span class="src">山经海籍</span> · 2026-02-14</div>
+
+    <div class="content">
+      <p>好消息！山经书店的官方小程序「山经海集」今天正式上线啦。</p>
+      <p>以后买教辅，不用再跑一趟书店——在小程序里选好，下单，到店自取；不方便出门的同学，也可以让家人代取。</p>
+
+      <div class="img-ph"><span class="big">📱</span>「山经海集」小程序首页</div>
+
+      <h2>都可以做什么？</h2>
+      <p>· 各科教辅、真题卷、知识点手册，按学科分类，一搜就有；</p>
+      <p>· 支持在线下单、订单查询、到店自取；</p>
+      <p>· 不定期上线"限时推荐"，价格更实惠；</p>
+      <p>· 小程序内还设有「学习方法」专栏，整理了不少学习资料。</p>
+
+      <h2>怎么进入？</h2>
+      <p>方法一：在公众号底部菜单点击「书籍服务 → 在线订书」；</p>
+      <p>方法二：在微信中搜索小程序「山经海集」。</p>
+
+      <p>小程序刚刚上线，如果你在使用中遇到任何问题，欢迎到店咨询店员，或在后台给我们留言。</p>
+
+      <div class="cta">
+        <p>立即进入「山经海集」小程序，在线挑选教辅</p>
+        <a class="btn" href="../miniprogram/home.html">进入小程序 →</a>
+      </div>
+    </div>
+
+    <div class="stats">
+      <span>阅读 1.9万</span><span>点赞 302</span><span>在看 141</span>
+    </div>
+
+    <div class="comments">
+      <h3>留言区</h3>
+      <div class="comment"><span class="who">高二·悦悦：</span>终于可以在线买了，方便多了。</div>
+      <div class="comment"><span class="who">家长·陈女士：</span>希望多一些文综的资料。</div>
+    </div>
+
+    <div class="foot">山经海籍 · 陪你走过每一个学年</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>记忆提取和注入操作的可行性探究 · 北境科技安和实验室</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: #0a0e14;
+  color: #b8c4cc;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px 12px;
+}
+.wrap {
+  max-width: 760px;
+  width: 100%;
+  background: #0e141c;
+  border: 1px solid #16202c;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+}
+.bar {
+  background: #0a0e14;
+  color: #7a92a3;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #16202c;
+}
+.bar a { color: #4d6b7d; text-decoration: none; font-size: 13px; }
+.bar a:hover { color: #3fa9c9; }
+.bar .t { flex: 1; font-size: 12px; letter-spacing: 3px; color: #56707f; }
+.bar .t .cy { color: #3fa9c9; }
+
+.journal-head {
+  padding: 26px 24px 20px;
+  border-bottom: 1px solid #16202c;
+  background: linear-gradient(180deg, #0d141d, #0e141c);
+}
+.journal-head .vol {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #4d6b7d;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #1c2836;
+  margin-bottom: 18px;
+}
+.journal-head .masthead {
+  font-size: 13px;
+  letter-spacing: 6px;
+  color: #3fa9c9;
+  margin-bottom: 4px;
+}
+.journal-head .masthead-en {
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #3a5566;
+  margin-bottom: 20px;
+}
+.journal-head h1 {
+  font-size: 24px;
+  color: #d6e4ec;
+  letter-spacing: 2px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+.journal-head .title-en {
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  color: #4d6b7d;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+.authors { font-size: 14px; color: #9fb4c0; line-height: 1.9; margin-bottom: 6px; }
+.authors .corr { color: #3fa9c9; }
+.authors sup { font-size: 10px; color: #6a8290; }
+.affiliation { font-size: 12px; color: #6a8290; line-height: 1.8; }
+.affiliation a { color: #3fa9c9; text-decoration: none; border-bottom: 1px dotted #27566a; }
+.affiliation a:hover { color: #6fd0ea; }
+.affiliation .dot { color: #3a5566; margin: 0 4px; }
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding: 14px 24px;
+  background: #0b1119;
+  border-bottom: 1px solid #16202c;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #4d6b7d;
+}
+.meta-strip span b { color: #7a97a8; font-weight: 600; }
+.meta-strip .stamp { color: #8b0000; }
+
+.content { padding: 26px 24px 10px; }
+.abstract {
+  background: #0b1119;
+  border-left: 3px solid #3fa9c9;
+  border-radius: 0 6px 6px 0;
+  padding: 16px 18px;
+  margin-bottom: 24px;
+}
+.abstract .lbl {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #3fa9c9;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+.abstract p { font-size: 13.5px; line-height: 1.95; color: #a4b6c2; text-align: justify; }
+.keywords { margin-top: 12px; font-size: 12.5px; color: #8ba0ad; line-height: 1.8; }
+.keywords b { color: #3fa9c9; font-weight: 600; }
+
+h2.sec {
+  font-size: 15px;
+  color: #cfe0ea;
+  letter-spacing: 1px;
+  margin: 26px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #16202c;
+}
+h2.sec .num { color: #3fa9c9; font-family: "Courier New", monospace; margin-right: 8px; }
+h3.sub { font-size: 13.5px; color: #9fb4c0; margin: 16px 0 8px; letter-spacing: 1px; }
+.content p.body {
+  font-size: 14px;
+  line-height: 2;
+  color: #9fb0bc;
+  text-align: justify;
+  margin-bottom: 12px;
+  text-indent: 2em;
+}
+.content p.body.noindent { text-indent: 0; }
+.content p.body a { color: #3fa9c9; text-decoration: none; border-bottom: 1px dotted #27566a; }
+.content p.body a:hover { color: #6fd0ea; }
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 6px 0 16px;
+}
+.stat {
+  background: #0b1119;
+  border: 1px solid #16202c;
+  border-radius: 8px;
+  padding: 14px 10px;
+  text-align: center;
+}
+.stat .num { font-family: "Courier New", monospace; font-size: 20px; color: #3fa9c9; letter-spacing: 1px; }
+.stat .cap { font-size: 11px; color: #5d7787; margin-top: 6px; letter-spacing: 1px; }
+.stat.warn .num { color: #b06a6a; }
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  margin: 8px 0 16px;
+  background: #0b1119;
+}
+table.data th, table.data td {
+  border: 1px solid #1a2634;
+  padding: 8px 10px;
+  text-align: left;
+  color: #93a6b2;
+}
+table.data th { background: #101a24; color: #7a97a8; font-weight: 600; letter-spacing: 1px; }
+table.data td.hl { color: #b06a6a; }
+
+.callout {
+  background: #0d131b;
+  border: 1px solid #23313f;
+  border-left: 3px solid #8b0000;
+  border-radius: 0 6px 6px 0;
+  padding: 14px 18px;
+  margin: 10px 0 18px;
+}
+.callout .ct {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #b06a6a;
+  margin-bottom: 8px;
+  font-family: "Courier New", monospace;
+}
+.callout p { font-size: 13px; line-height: 1.9; color: #96a8b4; margin-bottom: 6px; text-align: justify; }
+.callout p:last-child { margin-bottom: 0; }
+.callout code {
+  font-family: "Courier New", monospace;
+  color: #cfa0a0;
+  background: #160c0c;
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid #341a1a;
+}
+
+.platform-ref {
+  margin: 8px 0 18px;
+  padding: 16px 18px;
+  background: #0b1119;
+  border: 1px solid #1c3242;
+  border-radius: 8px;
+}
+.platform-ref .pr-title { font-size: 14px; color: #9fd0e2; font-weight: 600; margin-bottom: 6px; }
+.platform-ref p { font-size: 12.5px; color: #7f96a4; line-height: 1.85; margin-bottom: 10px; }
+.platform-ref a.pr-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #0e1c26;
+  border: 1px solid #24506a;
+  border-radius: 6px;
+  color: #3fa9c9;
+  text-decoration: none;
+  font-size: 12.5px;
+  letter-spacing: 1px;
+  font-family: "Courier New", monospace;
+  transition: background .2s, border-color .2s;
+}
+.platform-ref a.pr-link:hover { background: #122836; border-color: #3fa9c9; color: #6fd0ea; }
+
+.refs { margin-top: 6px; }
+.refs li {
+  list-style: none;
+  font-size: 12px;
+  color: #7f96a4;
+  line-height: 1.9;
+  padding-left: 26px;
+  text-indent: -26px;
+  margin-bottom: 6px;
+}
+.refs li .i { color: #3fa9c9; font-family: "Courier New", monospace; margin-right: 8px; }
+
+.foot {
+  margin-top: 24px;
+  padding: 16px 24px;
+  border-top: 1px solid #16202c;
+  font-family: "Courier New", monospace;
+  font-size: 10.5px;
+  color: #3a5464;
+  line-height: 1.9;
+}
+.foot a { color: #3fa9c9; text-decoration: none; }
+.foot a:hover { color: #6fd0ea; }
+.foot .rec { color: #4d6b7d; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <a href="../platform/cognitive.html">←</a>
+    <span class="t">NORTHLAND ARCHIVE <span class="cy">//</span> 论文留档</span>
+  </div>
+
+  <div class="journal-head">
+    <div class="vol">
+      <span>北境科技 · 技术论文留档 &nbsp;|&nbsp; NORTHLAND TECH</span>
+      <span>第 12 卷 第 3 期 · 内部备档</span>
+    </div>
+    <div class="masthead">记忆与神经工程</div>
+    <div class="masthead-en">JOURNAL OF MEMORY AND NEURAL ENGINEERING · INTERNAL ARCHIVE</div>
+    <h1>记忆提取和注入操作的可行性探究</h1>
+    <div class="title-en">A FEASIBILITY STUDY ON MEMORY EXTRACTION AND INJECTION OPERATIONS</div>
+    <div class="authors">
+      陈昱<sup>1</sup>，张纬云<sup>1</sup>，乔维莉<sup>1</sup><span class="corr">*</span>
+    </div>
+    <div class="affiliation">
+      1. <a href="lab.html">北境科技安和实验室</a> · 认知工程部<span class="dot">|</span>通信作者：乔维莉
+    </div>
+  </div>
+
+  <div class="meta-strip">
+    <span><b>收稿日期：</b>2025-08-27</span>
+    <span><b>修订日期：</b>2025-10-30</span>
+    <span><b>存档编号：</b>NL-ANHE-2025-0713</span>
+    <span class="stamp">⚠ 内部资料</span>
+  </div>
+
+  <div class="content">
+    <div class="abstract">
+      <div class="lbl">摘 要</div>
+      <p>本文围绕脑电波信号中认知模式的提取与注入过程展开可行性验证。通过非侵入式采集设备记录受试者在特定学科任务中的神经活动模式，将其编码为可复现的刺激序列，并注入目标个体。实验表明，接受注入的个体在对应学科任务中的表现出现显著提升，验证了认知模式传输的技术路径。同时，本文对提取过程中伴随产生的神经路径磨损、情感与记忆碎片携带等问题进行了记录，并在此基础上提出采集间隔与次数限制的操作建议。</p>
+      <div class="keywords"><b>关键词：</b>认知模式；神经路径；记忆提取；记忆注入；神经磨损；脑电波诱导</div>
+    </div>
+
+    <h2 class="sec"><span class="num">1.</span>引言</h2>
+    <p class="body">传统的学习过程依赖"理解—练习—巩固"的反复循环，周期长、效率低，且个体差异极大。若能在不依赖长期训练的前提下，将已经建立的高效认知模式在个体之间进行传递，则教育、培训及相关产业的效率将获得根本性改变。</p>
+    <p class="body">本实验室自 2024 年成立以来，持续开展认知数据的采集、编码与注入研究。本文汇总第 3 至第 7 批采集实验的数据，对记忆提取与注入操作的可行性作出阶段性结论，并公开部分操作规范，供合作方参考。</p>
+
+    <h2 class="sec"><span class="num">2.</span>方法</h2>
+    <h3 class="sub">2.1 采集设备</h3>
+    <p class="body">采用改良版头戴式脑波采集装置（型号 ANHE-EC3），非侵入式贴合，受试者仅需佩戴并完成常规学科测试题。设备以 512Hz 采样率记录神经活动，经降噪与特征提取后，形成该学科任务的"神经路径"表征。</p>
+    <h3 class="sub">2.2 编码与注入</h3>
+    <p class="body">提取得到的神经路径被编码为特定频率的音频刺激序列。目标个体通过听觉通道接收该序列后，其大脑会在无意识状态下模仿源个体的神经模式，从而在较短时间内建立起对应的认知路径。该过程称为"认知同步"。</p>
+
+    <h2 class="sec"><span class="num">3.</span>实验结果</h2>
+    <p class="body noindent">表 1 汇总了不同采集批次在注入侧的观测表现（样本量 n=412）：</p>
+    <div class="stat-grid">
+      <div class="stat"><div class="num">+41.3%</div><div class="cap">注入后学科表现平均提升</div></div>
+      <div class="stat"><div class="num">87.6%</div><div class="cap">认知同步完成度中位数</div></div>
+      <div class="stat warn"><div class="num">29.4%</div><div class="cap">第 3 次提取后源个体能力下降</div></div>
+    </div>
+    <table class="data">
+      <thead>
+        <tr><th>提取次数</th><th>注入端提升</th><th>源个体能力变化</th><th>记忆碎片残留率</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>第 1 次</td><td>+38.2%</td><td class="hl">-7%</td><td>3.1%</td></tr>
+        <tr><td>第 3 次</td><td>+41.5%</td><td class="hl">-29%</td><td>11.8%</td></tr>
+        <tr><td>第 6 次</td><td>+44.0%</td><td class="hl">-61%</td><td>34.5%</td></tr>
+      </tbody>
+    </table>
+    <p class="body">数据表明：注入端的收益随提取次数增长而趋于饱和，而源个体的能力衰退则呈非线性上升，且记忆碎片残留率同步提高。</p>
+
+    <h2 class="sec"><span class="num">4.</span>技术说明与操作建议</h2>
+    <div class="callout">
+      <div class="ct">// 技术说明文档 · 摘录</div>
+      <p>认知数据并非单纯的"知识"，而是"学习这些知识的神经路径"。当注入发生时，目标大脑会模仿源个体的神经模式。</p>
+      <p>已知问题一：神经路径会携带情感与记忆碎片——这解释了注入端出现的"记忆污染"。当前技术无法精确分离"学科认知"与"生活记忆"，导致源个体的生活记忆也会被连带提取。</p>
+      <p>已知问题二：源个体的能力衰退，源于数据提取过程会"磨损"神经路径——如同复印件会让原件逐渐变淡。</p>
+      <p>操作建议：单次采集间隔不少于 <code>72 小时</code>，否则源个体恢复率将降至 40% 以下。</p>
+      <p>副作用：长期影响未知。建议严格控制采集次数，<code>单一个体不超过 3 次</code>。</p>
+    </div>
+    <p class="body">上述结论已同步至本实验室的操作规范。需要说明的是，现行设备对"磨损"尚无补偿手段，过滤算法（用于分离记忆碎片）仍处于设计阶段，尚未实现。</p>
+
+    <h2 class="sec"><span class="num">5.</span>实时前端平台</h2>
+    <p class="body">为便于合作方远程监控提取进程，本实验室在设备层之上搭建了<strong>实时前端平台</strong>。该平台可实时显示当前项目、受试者规模与剩余时间，并支持运行模式的切换。平台以内部技术支持网页的形式提供给合作方使用（详见实验室研究平台入口）。</p>
+    <div class="platform-ref">
+      <div class="pr-title">记忆提取设备 · 远程前端平台</div>
+      <p>实时项目状态 / 受试者名单预览 / 运行模式切换。本平台由安和实验室提供技术支持，仅面向签约合作方开放。</p>
+      <a class="pr-link" href="remote.html">进入远程前端平台 →</a>
+    </div>
+
+    <h2 class="sec"><span class="num">6.</span>结论</h2>
+    <p class="body">记忆提取与注入操作在技术上可行，注入端效果显著。但提取过程对源个体存在不可逆的神经磨损，且伴随记忆碎片残留；在过滤算法实现之前，本技术不具备大规模商用条件。建议合作方严格遵守采集间隔与次数限制，并充分评估长期影响。</p>
+
+    <h2 class="sec"><span class="num">7.</span>参考文献</h2>
+    <ul class="refs">
+      <li><span class="i">[1]</span>陈昱, 张纬云. 非侵入式脑波采集中的噪声抑制方法[J]. 北境神经工程学报, 2024, 9(2): 44-57.</li>
+      <li><span class="i">[2]</span>乔维莉, 赵筠. 认知负荷与神经可塑性的耦合模型[J]. 记忆与神经工程, 2025, 12(1): 12-29.</li>
+      <li><span class="i">[3]</span>北境神经科学研究院. 脑电波诱导技术说明文档（内部版）[R]. 2025.</li>
+      <li><span class="i">[4]</span>李芝梧. 记忆碎片的特征分离初探[C]. 北境认知工程研讨会论文集, 2025: 88-95.</li>
+    </ul>
+  </div>
+
+  <div class="foot">
+    <div class="rec">北境科技安和实验室 · 技术论文留档数据库（NL-ANHE-2025-0713）</div>
+    <div class="rec">存档来源：北境科技官网相关论文 · 由合作协议方按需调阅</div>
+    <div class="rec">本页内容受内部保密条款约束，禁止外传 · <a href="lab.html">前往实验室官网 →</a></div>
+  </div>
+</div>
+</body>
+</html>

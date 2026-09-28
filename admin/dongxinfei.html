@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>山经书店内部后台 · 董新飞</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "SimSun", "宋体", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.65;
+  background-color: #c0c0c0;
+  color: #000;
+  padding-bottom: 30px;
+}
+a { color: #000080; text-decoration: underline; }
+a:hover { color: #800000; }
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  background: #e8e8e8;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #808080;
+  min-height: 100vh;
+  box-shadow: 0 0 8px rgba(0,0,0,.45);
+}
+.header {
+  background: #000080;
+  color: #fff;
+  padding: 8px 12px;
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.header .en { display: block; font-size: 10px; font-weight: normal; color: #a0a0c8; letter-spacing: 2px; }
+.notice {
+  background: #ffffcc;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  color: #800000;
+  font-size: 12px;
+  padding: 3px 0;
+}
+.userbar {
+  background: #d4d0c8;
+  border-bottom: 1px solid #808080;
+  padding: 5px 12px;
+  font-size: 12px;
+  overflow: hidden;
+}
+.userbar .right { float: right; }
+.menu {
+  background: #d4d0c8;
+  border-bottom: 2px solid #808080;
+  padding: 5px 8px;
+}
+.menu a {
+  display: inline-block;
+  padding: 3px 11px;
+  margin: 2px 1px;
+  border: 1px solid #808080;
+  background: #e8e8e8;
+  text-decoration: none;
+  font-size: 13px;
+  color: #000080;
+}
+.menu a.active, .menu a:hover { background: #000080; color: #fff; border-color: #000080; }
+.main { padding: 14px; }
+h2 {
+  font-size: 15px;
+  margin: 0 0 12px;
+  padding: 4px 8px;
+  background: #d4d0c8;
+  border: 1px solid #808080;
+  border-left: 4px solid #000080;
+}
+h3 { font-size: 14px; margin: 14px 0 8px; color: #800000; }
+fieldset {
+  border: 1px solid #808080;
+  background: #f2f2f2;
+  margin: 0 0 12px;
+  padding: 10px 14px;
+}
+legend { font-size: 13px; font-weight: bold; color: #000080; padding: 0 4px; }
+table.grid { border-collapse: collapse; width: 100%; background: #fff; margin: 6px 0 12px; }
+table.grid th, table.grid td {
+  border: 1px solid #808080;
+  padding: 3px 7px;
+  font-size: 13px;
+  text-align: left;
+  vertical-align: top;
+}
+table.grid th { background: #d4d0c8; font-weight: bold; }
+button {
+  font-family: inherit;
+  font-size: 13px;
+  border: 2px outset #d4d0c8;
+  background: #d4d0c8;
+  padding: 4px 14px;
+  cursor: pointer;
+  margin: 2px 4px 2px 0;
+}
+button:hover { background: #e0dcd4; }
+button:active { border-style: inset; }
+button.sel { background: #000080; color: #fff; border-color: #000080; font-weight: bold; }
+button.danger { color: #800000; }
+button.exec {
+  background: #800000; color: #fff; border: 2px outset #a04040; font-size: 15px; font-weight: bold;
+  padding: 8px 28px; letter-spacing: 3px;
+}
+button.exec:hover { background: #a00000; }
+.deny {
+  color: #800000; font-weight: bold; border: 2px dashed #800000;
+  background: #fff0f0; padding: 22px; text-align: center; margin: 10px 0; font-size: 15px;
+}
+.log {
+  font-family: "Courier New", monospace; font-size: 12px; background: #fff;
+  border: 1px solid #808080; padding: 8px 10px; white-space: pre-wrap; line-height: 1.55;
+}
+.report { background: #fffef0; border: 1px solid #808080; padding: 10px 14px; font-size: 13px; }
+.report p { margin: 6px 0; text-indent: 2em; }
+.section { display: none; }
+.section.active { display: block; }
+.statusline { font-family: "Courier New", monospace; background: #fff; border: 1px solid #808080; padding: 8px 10px; font-size: 13px; }
+.statusline b.ok { color: #006600; }
+.statusline b.no { color: #cc0000; }
+.countdown {
+  font-family: "Courier New", monospace; font-size: 22px; font-weight: bold;
+  color: #800000; background: #000; letter-spacing: 3px; padding: 6px 14px; display: inline-block;
+}
+.warn { background: #fff0f0; border: 1px solid #800000; color: #800000; padding: 6px 10px; font-size: 13px; font-weight: bold; margin: 8px 0; }
+.execbar { display: none; margin-top: 14px; padding: 12px; border: 2px dashed #800000; background: #fff0f0; text-align: center; }
+.execbar.show { display: block; }
+.note { font-size: 12px; color: #555; }
+.footer {
+  border-top: 1px solid #808080; background: #d4d0c8; color: #444;
+  font-size: 11px; text-align: center; padding: 6px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">山经书店内部后台管理系统
+    <span class="en">SHANJING BOOKSTORE - INTERNAL ADMIN SYSTEM</span>
+  </div>
+  <div class="notice">
+    <marquee scrollamount="3">系统公告：远程操作权限为店长专属。操作完成后请务必清理系统记录并开启无痕模式，否则将留下可追溯痕迹。</marquee>
+  </div>
+
+  <div class="userbar">
+    <span>当前用户：<b>董新飞</b>（dongxinfei） ｜ 角色：店长 / 管理员</span>
+    <span class="right"><a href="login.html">注销 / 切换账号</a></span>
+  </div>
+
+  <div class="menu">
+    <a href="#" data-target="remote" class="active">远程操作</a>
+    <a href="#" data-target="report">个人操作报告</a>
+    <a href="#" data-target="sys">系统操作记录</a>
+    <a href="#" data-target="wipe">记录与无痕管理</a>
+  </div>
+
+  <div class="main">
+
+    <!-- 远程操作 -->
+    <div class="section active" id="remote">
+      <h2>远程操作 · 山经-蒂中帝联合提取项目</h2>
+      <fieldset>
+        <legend>项目信息</legend>
+        <table class="grid">
+          <tr><th style="width:130px;">项目名称</th><td>山经-蒂中帝联合提取项目</td></tr>
+          <tr><th>受试者</th><td>107 人</td></tr>
+          <tr><th>剩余时间</th><td><span class="countdown" id="cd">01:12:00</span></td></tr>
+          <tr><th>当前模式</th><td id="modeNow">未设置（等待远程指令）</td></tr>
+        </table>
+      </fieldset>
+
+      <fieldset>
+        <legend>模式切换（选择后需确认）</legend>
+        <button type="button" id="btnTest" class="mode-btn" data-mode="test">切换为测试模式（不进行实际抽取）</button>
+        <button type="button" id="btnStrong" class="mode-btn danger" data-mode="strong">切换为强力模式（进行超额抽取）</button>
+        <div id="modeMsg" class="note" style="margin-top:8px;"></div>
+      </fieldset>
+    </div>
+
+    <!-- 个人操作报告（日记） -->
+    <div class="section" id="report">
+      <h2>个人操作报告 · 董新飞（日记节选）</h2>
+      <fieldset>
+        <legend>2026 年 1 月</legend>
+        <div class="report">
+          <p>狼堡的失败让我明白，不能再强制了。但我找到了新方法——交易。</p>
+          <p>这不是违法的。学生签了同意书，他们自愿出售数据；买家花钱购买，他们自愿购买服务。所有人都是自愿的。</p>
+          <p>法律上根本没有“认知数据所有权”的定义。这是灰色地带。</p>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>2026 年 2 月</legend>
+        <div class="report">
+          <p>建延的留学费用需要 80 万一年。每个数据包卖 2999，成本几乎为零。卖 300 套就够了。</p>
+          <p>已经卖出 127 套。再过 2 个月就能凑够了。</p>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>2026 年 3 月</legend>
+        <div class="report">
+          <p>出现副作用了。买家出现记忆污染，卖家出现能力衰退甚至失忆。但都在可控范围内。</p>
+          <p>北境的人说这是“数据同步”的必然结果。但他们也不知道长期影响。</p>
+          <p>算了，等建延出国了，我就关店。反正这些学生，卖的也是自愿的。</p>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>2026 年 6 月 · 最近</legend>
+        <div class="report">
+          <p>联合提取项目拖不得了。蒂中帝那边催得紧，山经这边名单也定了，107 个人，一次收干净。</p>
+          <p>不管最后切成什么模式，操作完都得把系统记录清掉、把无痕模式打开。小心驶得万年船。</p>
+        </div>
+      </fieldset>
+    </div>
+
+    <!-- 系统操作记录 -->
+    <div class="section" id="sys">
+      <h2>系统操作记录 · 本账号相关</h2>
+      <div class="log">2026-05-11 11:30:52  dongxinfei    修改远程操作权限配置（授权：chenchaowu 仅可查看）
+2026-06-03 22:47:05  dongxinfei    登录系统成功（IP 10.20.1.2）
+2026-06-03 22:51:19  dongxinfei    访问【远程操作 · 山经-蒂中帝联合提取项目】
+2026-06-03 23:02:44  dongxinfei    设置项目倒计时：1 小时 12 分钟
+2026-06-04 01:33:22  dongxinfei    提醒 chenchaowu：记得清理系统记录
+2026-06-04 02:10:07  dongxinfei    检查项目受试者名单（107 人）
+2026-06-05 07:00:00  system        系统自动备份完成</div>
+      <p class="note">提示：完成远程操作后，请前往【记录与无痕管理】处理痕迹。</p>
+    </div>
+
+    <!-- 记录与无痕管理 -->
+    <div class="section" id="wipe">
+      <h2>记录与无痕管理</h2>
+
+      <fieldset>
+        <legend>消除记录</legend>
+        <p class="note">选择消除系统操作记录的方式。消除不当可能导致关键证据丢失或留下破绽。</p>
+        <button type="button" class="wipe-btn" data-wipe="correct">正确消除记录（清除本项目相关操作痕迹）</button>
+        <button type="button" class="wipe-btn danger" data-wipe="incorrect">错误消除记录（消除了不该消的记录）</button>
+        <button type="button" class="wipe-btn" data-wipe="none">暂不消除记录</button>
+        <div class="note" style="margin-top:8px;">当前选择：<span id="wipeNow">未选择</span></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>启动无痕模式</legend>
+        <p class="note">开启后，本次操作不写入登录日志、不保留浏览痕迹。</p>
+        <button type="button" class="ghost-btn" data-ghost="on">启动无痕模式</button>
+        <button type="button" class="ghost-btn danger" data-ghost="off">不启动无痕模式</button>
+        <div class="note" style="margin-top:8px;">当前状态：<span id="ghostNow">未选择</span></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>配置状态</legend>
+        <div class="statusline" id="statusLine"></div>
+        <div class="execbar" id="execBar">
+          <div class="warn">三项配置已完成。是否执行远程操作并结算？</div>
+          <button type="button" class="exec" id="execBtn">执 行 / 结 算</button>
+        </div>
+      </fieldset>
+    </div>
+
+  </div>
+
+  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync　｜ 本页所有内容仅供剧情演示</div>
+</div>
+
+<script>
+(function () {
+  var K_MODE = 'sjsd_remote_mode';
+  var K_WIPE = 'sjsd_wipe_records';
+  var K_GHOST = 'sjsd_ghost_mode';
+
+  /* 菜单切换 */
+  var links = document.querySelectorAll('.menu a');
+  var sections = document.querySelectorAll('.section');
+  links.forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var t = a.getAttribute('data-target');
+      links.forEach(function (x) { x.classList.remove('active'); });
+      a.classList.add('active');
+      sections.forEach(function (s) { s.classList.toggle('active', s.id === t); });
+      window.scrollTo(0, 0);
+    });
+  });
+
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  /* 模式切换 */
+  var modeNow = document.getElementById('modeNow');
+  var modeMsg = document.getElementById('modeMsg');
+
+  function renderMode() {
+    var m = get(K_MODE);
+    if (m === 'test') { modeNow.textContent = '测试模式（不进行实际抽取）'; modeNow.style.color = '#006600'; }
+    else if (m === 'strong') { modeNow.textContent = '强力模式（进行超额抽取）'; modeNow.style.color = '#800000'; }
+    else { modeNow.textContent = '未设置（等待远程指令）'; modeNow.style.color = ''; }
+    document.querySelectorAll('.mode-btn').forEach(function (b) {
+      b.classList.toggle('sel', b.getAttribute('data-mode') === m);
+    });
+  }
+
+  document.querySelectorAll('.mode-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var m = btn.getAttribute('data-mode');
+      var label = (m === 'test') ? '测试模式' : '强力模式';
+      var extra = (m === 'test') ? '本次不会对受试者进行实际抽取。' : '本次将对 107 名受试者进行超额抽取，后果不可逆！';
+      if (window.confirm('确认切换为【' + label + '】？\n' + extra)) {
+        set(K_MODE, m);
+        modeMsg.textContent = '已将远程操作切换为：' + label + '。';
+        renderMode();
+        renderStatus();
+      }
+    });
+  });
+
+  /* 消除记录 */
+  var wipeNow = document.getElementById('wipeNow');
+  function renderWipe() {
+    var w = get(K_WIPE);
+    var txt = { correct: '正确消除（已清除本项目操作痕迹）', incorrect: '错误消除（消除了不该消的记录）', none: '暂不消除记录' }[w] || '未选择';
+    wipeNow.textContent = txt;
+    document.querySelectorAll('.wipe-btn').forEach(function (b) {
+      b.classList.toggle('sel', b.getAttribute('data-wipe') === w);
+    });
+  }
+  document.querySelectorAll('.wipe-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var w = btn.getAttribute('data-wipe');
+      var label = { correct: '正确消除记录', incorrect: '错误消除记录', none: '暂不消除记录' }[w];
+      if (window.confirm('确认执行【' + label + '】？')) {
+        set(K_WIPE, w);
+        renderWipe();
+        renderStatus();
+      }
+    });
+  });
+
+  /* 无痕模式 */
+  var ghostNow = document.getElementById('ghostNow');
+  function renderGhost() {
+    var g = get(K_GHOST);
+    var txt = { on: '已开启无痕模式', off: '未开启无痕模式' }[g] || '未选择';
+    ghostNow.textContent = txt;
+    document.querySelectorAll('.ghost-btn').forEach(function (b) {
+      b.classList.toggle('sel', b.getAttribute('data-ghost') === g);
+    });
+  }
+  document.querySelectorAll('.ghost-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var g = btn.getAttribute('data-ghost');
+      var label = (g === 'on') ? '启动无痕模式' : '不启动无痕模式';
+      if (window.confirm('确认【' + label + '】？')) {
+        set(K_GHOST, g);
+        renderGhost();
+        renderStatus();
+      }
+    });
+  });
+
+  /* 配置状态与执行按钮 */
+  var statusLine = document.getElementById('statusLine');
+  var execBar = document.getElementById('execBar');
+
+  function renderStatus() {
+    var m = get(K_MODE), w = get(K_WIPE), g = get(K_GHOST);
+    var mTxt = m === 'test' ? '<b class="ok">测试模式</b>' : (m === 'strong' ? '<b class="no">强力模式</b>' : '<b class="no">未配置</b>');
+    var wTxt = w === 'correct' ? '<b class="ok">已正确消除</b>' : (w === 'incorrect' ? '<b class="no">错误消除</b>' : (w === 'none' ? '<b class="no">未消除</b>' : '<b class="no">未配置</b>'));
+    var gTxt = g === 'on' ? '<b class="ok">已开启</b>' : (g === 'off' ? '<b class="no">未开启</b>' : '<b class="no">未配置</b>');
+    statusLine.innerHTML =
+      '远程模式：' + mTxt + '<br>' +
+      '消除记录：' + wTxt + '<br>' +
+      '无痕模式：' + gTxt;
+
+    var ready = !!m && !!w && !!g;
+    execBar.classList.toggle('show', ready);
+  }
+
+  document.getElementById('execBtn').addEventListener('click', function () {
+    var m = get(K_MODE), w = get(K_WIPE), g = get(K_GHOST);
+    if (!m || !w || !g) { window.alert('配置未完成。'); return; }
+    var danger = (m === 'strong');
+    var text = '即将执行远程操作并结算。\n' +
+      '远程模式：' + (m === 'test' ? '测试模式' : '强力模式') + '\n' +
+      '消除记录：' + ({ correct: '正确消除', incorrect: '错误消除', none: '未消除' }[w]) + '\n' +
+      '无痕模式：' + (g === 'on' ? '已开启' : '未开启') + '\n' +
+      (danger ? '\n警告：强力模式将对 107 人进行超额抽取，无法撤销！' : '') +
+      '\n\n确认执行？';
+    if (window.confirm(text)) {
+      window.location.href = 'ending.html';
+    }
+  });
+
+  /* 倒计时 */
+  var remain = 72 * 60;
+  var cd = document.getElementById('cd');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function tick() {
+    if (remain < 0) remain = 0;
+    var h = Math.floor(remain / 3600);
+    var mm = Math.floor((remain % 3600) / 60);
+    var ss = remain % 60;
+    cd.textContent = pad(h) + ':' + pad(mm) + ':' + pad(ss);
+    if (remain > 0) remain -= 1;
+  }
+  tick();
+  setInterval(tick, 1000);
+
+  /* 初始化 */
+  renderMode();
+  renderWipe();
+  renderGhost();
+  renderStatus();
+})();
+</script>
+</body>
+</html>
