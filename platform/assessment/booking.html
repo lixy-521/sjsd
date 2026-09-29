@@ -1,0 +1,306 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>评估服务预约 · 山经书店在线服务平台</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<!-- INLINE-ICONS:START -->
+<div id="__sj_icons__" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-mountain" viewBox="0 0 24 24"><path d="M2.5 20h19L14 6l-3.5 7.2L8.2 9z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M12 12.2a4.6 4.6 0 1 0 0-9.2 4.6 4.6 0 0 0 0 9.2zm0 1.8c-4.3 0-7.8 2.5-7.8 5.6 0 .8.6 1.4 1.4 1.4h12.8c.8 0 1.4-.6 1.4-1.4 0-3.1-3.5-5.6-7.8-5.6z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M8.4 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 1.7c-3.6 0-6.5 2.1-6.5 4.7 0 .8.6 1.4 1.4 1.4h10.2c.8 0 1.4-.6 1.4-1.4 0-2.6-2.9-4.7-6.5-4.7zM17 11.6a3.1 3.1 0 1 0 0-6.2 3.1 3.1 0 0 0 0 6.2zm.4 2c2.9.3 5.1 2 5.1 4.1 0 .6-.2 1.1-.5 1.5h2.4c.7 0 1.3-.6 1.3-1.3 0-2.3-2.6-4.1-5.8-4.2z"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M7.2 2.4c.6 0 1 .4 1 1v1.1h7.6V3.4c0-.6.4-1 1-1s1 .4 1 1v1.1h1.3c1.2 0 2.1.9 2.1 2.1v12.2c0 1.2-.9 2.1-2.1 2.1H4.9c-1.2 0-2.1-.9-2.1-2.1V6.6c0-1.2.9-2.1 2.1-2.1h1.3V3.4c0-.6.4-1 1-1zM4.8 9.5v10.2h14.4V9.5z"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6.6 2.2h7.1l5.1 5.1v13.1c0 .9-.8 1.7-1.7 1.7H6.6c-.9 0-1.7-.8-1.7-1.7V3.9c0-.9.8-1.7 1.7-1.7zm6.7 1.9v4h4zM8.2 12.3h7.6v1.6H8.2zm0 3.6h7.6v1.6H8.2z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 2.6c.6 0 1 .4 1 1v8.5l2.9-2.9c.4-.4 1-.4 1.4 0s.4 1 0 1.4l-4.6 4.6a1 1 0 0 1-1.4 0L6.7 10.6a1 1 0 0 1 1.4-1.4L11 12.1V3.6c0-.6.4-1 1-1zM4.4 18.2c0-.6.4-1 1-1h13.2c.6 0 1 .4 1 1v1.3c0 .6-.4 1-1 1H5.4c-.6 0-1-.4-1-1z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path d="M10.6 3a7.6 7.6 0 1 0 4.6 13.6l4.3 4.3a1 1 0 0 0 1.4-1.4l-4.3-4.3A7.6 7.6 0 0 0 10.6 3zm0 2a5.6 5.6 0 1 1 0 11.2 5.6 5.6 0 0 1 0-11.2z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M9.6 16.3 5.9 12.6a1 1 0 0 1 1.4-1.4l2.3 2.3 7-7a1 1 0 1 1 1.4 1.4l-8.4 8.4z"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><path d="M11 8.4V20H5.6c-1 0-1.9-.8-1.9-1.9V8.4zM20.3 8.4v9.7c0 1-.8 1.9-1.9 1.9H13V8.4zM17 2.4c1.7 0 2.9 1.2 2.9 2.6 0 .6-.2 1.2-.6 1.6h1c1 0 1.9.8 1.9 1.8H2.8c0-1 .8-1.8 1.9-1.8h1a2.5 2.5 0 0 1-.6-1.6c0-1.4 1.2-2.6 2.9-2.6 1.7 0 3 .9 4 2.3 1-1.4 2.3-2.3 4-2.3zm0 1.8c-.7 0-1.2.4-1.8 1.1h1.9c.5 0 .9-.2.9-.6 0-.3-.4-.5-1-.5zM7 4.2c-.6 0-1 .2-1 .5 0 .4.4.6.9.6h1.9C8.2 4.6 7.7 4.2 7 4.2z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 2.2c-3.9 0-7.1 3.2-7.1 7.1 0 5.1 6.3 11.7 6.6 12a.7.7 0 0 0 1 0c.3-.3 6.6-6.9 6.6-12 0-3.9-3.2-7.1-7.1-7.1zm0 9.6a2.6 2.6 0 1 1 0-5.2 2.6 2.6 0 0 1 0 5.2z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M7.1 2.6c.5-.5 1.3-.4 1.7.1l2.3 3.1c.3.5.3 1.1-.1 1.5l-1.2 1.2a.6.6 0 0 0-.1.7 15.4 15.4 0 0 0 5.1 5.1c.2.2.5.2.7-.1l1.2-1.2c.4-.4 1-.4 1.5-.1l3.1 2.3c.5.4.6 1.2.1 1.7l-1.4 1.4c-.8.8-2 .9-3 .4a26.7 26.7 0 0 1-11.9-11.8c-.5-1-.4-2.2.4-3z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><path d="M12 2.4a9.6 9.6 0 1 0 0 19.2 9.6 9.6 0 0 0 0-19.2zm0 1.9a7.7 7.7 0 1 1 0 15.4 7.7 7.7 0 0 1 0-15.4zm-.9 3.4c.5 0 .9.4.9.9v4.1l3 1.8a.9.9 0 1 1-.9 1.6l-3.4-2a.9.9 0 0 1-.5-.8V8.6c0-.5.4-.9.9-.9z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2.1 4.6 5v6.2c0 4.6 3.1 8.9 7.4 10.2 4.3-1.3 7.4-5.6 7.4-10.2V5zm0 2.1 5.4 2.1v5c0 3.5-2.2 6.8-5.4 8-3.2-1.2-5.4-4.5-5.4-8v-5zm3 4-4 4-2-2-1.4 1.4 3.4 3.4 5.4-5.4z"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 3.4c.5 0 1 .4 1 1v13.2h15c.5 0 1 .4 1 1s-.5 1-1 1H4c-.5 0-1-.4-1-1v-14.2c0-.6.5-1 1-1zm14.3 3.4-3.6 3.6-2.4-2.4-2.6 2.6-1.4-1.4 4-4 2.4 2.4 2.2-2.2-2-2 4.8.2.2 4.8z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10.6 13.4a1 1 0 0 1 0-1.4l1.4-1.4a1 1 0 0 1 1.4 1.4l-1.4 1.4a1 1 0 0 1-1.4 0zM7.8 16.2a3.9 3.9 0 0 1 0-5.5l3-3a3.9 3.9 0 0 1 5.5 5.5l-1 1-1.4-1.4 1-1a1.9 1.9 0 0 0-2.7-2.7l-3 3a1.9 1.9 0 0 0 0 2.7 1 1 0 0 1-1.4 1.4zm8.4-8.4a3.9 3.9 0 0 1 0 5.5l-3 3a3.9 3.9 0 0 1-5.5-5.5l1-1 1.4 1.4-1 1a1.9 1.9 0 0 0 2.7 2.7l3-3a1.9 1.9 0 0 0 0-2.7 1 1 0 0 1 1.4-1.4z"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M9.3 5.3a1 1 0 0 1 1.4 0l6 6a1 1 0 0 1 0 1.4l-6 6a1 1 0 0 1-1.4-1.4L14.6 12 9.3 6.7a1 1 0 0 1 0-1.4z"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><path d="M12 2.4a9.6 9.6 0 1 0 0 19.2 9.6 9.6 0 0 0 0-19.2zm0 1.9a7.7 7.7 0 1 1 0 15.4 7.7 7.7 0 0 1 0-15.4zm0 3a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4zm0 3.7c.5 0 .9.4.9.9v4.4a.9.9 0 1 1-1.8 0v-4.4c0-.5.4-.9.9-.9z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><path d="M12 2.3a4.7 4.7 0 0 1 4.7 4.7v1.6h.5c1.2 0 2.2 1 2.2 2.2v8.5c0 1.2-1 2.2-2.2 2.2H6.8c-1.2 0-2.2-1-2.2-2.2v-8.5c0-1.2 1-2.2 2.2-2.2h.5V7A4.7 4.7 0 0 1 12 2.3zm0 1.8A2.9 2.9 0 0 0 9.1 7v1.6h5.8V7A2.9 2.9 0 0 0 12 4.1zm0 8a1.6 1.6 0 0 0-.9 2.9v1.6a.9.9 0 1 0 1.8 0V15a1.6 1.6 0 0 0-.9-2.9z"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M12 2.4a9.6 9.6 0 1 0 0 19.2 9.6 9.6 0 0 0 0-19.2zm4.6 7.3-5.3 5.3a1 1 0 0 1-1.4 0l-2.4-2.4a1 1 0 0 1 1.4-1.4l1.7 1.7 4.6-4.6a1 1 0 0 1 1.4 1.4z"/></symbol>
+  <symbol id="i-clock-outline" viewBox="0 0 24 24"><path d="M12 2.4a9.6 9.6 0 1 0 0 19.2 9.6 9.6 0 0 0 0-19.2zm0 1.9a7.7 7.7 0 1 1 0 15.4 7.7 7.7 0 0 1 0-15.4zm-.9 3.4c.5 0 .9.4.9.9v4.1l3 1.8a.9.9 0 1 1-.9 1.6l-3.4-2a.9.9 0 0 1-.5-.8V8.6c0-.5.4-.9.9-.9z"/></symbol>
+</svg></div>
+<!-- INLINE-ICONS:END -->
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<div class="site">
+  <header class="site-header">
+    <div class="bar">
+      <a class="brand" href="../index.html">
+        <span class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mountain"/></svg></span>
+        <span class="txt">
+          <b>山经书店在线服务平台</b>
+          <span>SHANJING BOOKSTORE SERVICE PLATFORM</span>
+        </span>
+      </a>
+      <div class="header-meta">
+        <span class="hm hide-sm">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock-outline"/></svg>
+          预约受理 09:00 - 21:00
+        </span>
+        <span class="hm">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg>
+          服务热线 <b>0376-2811-173</b>
+        </span>
+      </div>
+    </div>
+  </header>
+
+<main class="main" id="main">
+    <div class="page-head">
+      <h1>评估服务预约</h1>
+      <p class="lede">请如实填写下列信息。提交后我们将以短信通知到店评估的具体时间，请保持手机畅通。</p>
+      <div class="rule"></div>
+    </div>
+
+    <div class="grid grid-3" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)">
+      <form class="form-card" id="bookingForm" data-demo novalidate>
+        <div class="row row-2">
+          <div class="field">
+            <label for="name">学生姓名 <span class="req">*</span></label>
+            <input class="input" type="text" id="name" name="name" required placeholder="请填写真实姓名" autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="gender">性别</label>
+            <select class="select" id="gender" name="gender">
+              <option value="">请选择</option>
+              <option>男</option>
+              <option>女</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="school">在读学校 <span class="req">*</span></label>
+          <input class="input" type="text" id="school" name="school" required placeholder="如：怀璧一中">
+        </div>
+
+        <div class="row row-2">
+          <div class="field">
+            <label for="grade">年级 <span class="req">*</span></label>
+            <select class="select" id="grade" name="grade" required>
+              <option value="">请选择</option>
+              <option>高一</option><option>高二</option><option>高三</option><option>复读</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="track">选科组合 <span class="opt">选填</span></label>
+            <select class="select" id="track" name="track">
+              <option value="">请选择</option>
+              <option>物化生</option><option>物化政</option><option>物化地</option>
+              <option>物生地</option><option>历政地</option><option>历政生</option>
+              <option>理科</option><option>文科</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="flabel">薄弱学科 <span class="req">*</span></span>
+          <div class="chip-set">
+            <label class="chip"><input type="checkbox" name="weak" value="语文">语文</label>
+            <label class="chip"><input type="checkbox" name="weak" value="数学">数学</label>
+            <label class="chip"><input type="checkbox" name="weak" value="英语">英语</label>
+            <label class="chip"><input type="checkbox" name="weak" value="物理">物理</label>
+            <label class="chip"><input type="checkbox" name="weak" value="化学">化学</label>
+            <label class="chip"><input type="checkbox" name="weak" value="生物">生物</label>
+            <label class="chip"><input type="checkbox" name="weak" value="历史">历史</label>
+            <label class="chip"><input type="checkbox" name="weak" value="地理">地理</label>
+            <label class="chip"><input type="checkbox" name="weak" value="政治">政治</label>
+          </div>
+          <div class="hint">可多选。评估将侧重所选学科。</div>
+        </div>
+
+        <div class="field">
+          <label for="phone">监护人或本人手机号 <span class="req">*</span></label>
+          <input class="input" type="tel" id="phone" name="phone" required placeholder="请输入手机号" autocomplete="tel" inputmode="numeric">
+          <div class="hint">仅用于通知评估时间，不会用于其他用途。</div>
+        </div>
+
+        <div class="field">
+          <label for="note">备注 <span class="opt">选填</span></label>
+          <textarea class="textarea" id="note" name="note" placeholder="如有特殊情况（如既往病史、时间限制等）请在此说明"></textarea>
+        </div>
+
+        <div class="consent">
+          <label class="check">
+            <input type="checkbox" id="agree" required>
+            <span>我已阅读并同意
+              <a href="#" onclick="return showConsent()">《数据采集知情同意书》</a>
+              与 <a href="#" onclick="return showPrivacy()">《个人信息保护说明》</a>
+              <span class="req">*</span>
+            </span>
+          </label>
+        </div>
+
+        <button class="btn btn-primary btn-lg btn-block" type="submit" id="submitBtn">提交预约</button>
+        <div class="status" id="submitStatus" data-form-status role="status" aria-live="polite"></div>
+      </form>
+
+      <aside>
+        <div class="card">
+          <h3>预约须知</h3>
+          <div class="ico-line mt-16">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg>
+            <span><b>评估地点</b><br>怀璧市山海街道北城东路 173 号 山经书店二楼 学习评估室</span>
+          </div>
+          <div class="ico-line mt-16">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock-outline"/></svg>
+            <span><b>评估时长</b><br>约 60 分钟，请预留充足时间</span>
+          </div>
+          <div class="ico-line mt-16">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-doc"/></svg>
+            <span><b>所需材料</b><br>学生本人身份证或学生证</span>
+          </div>
+        </div>
+
+        <div class="alert alert-note mt-16">
+          <strong>提示：</strong>同一学生建议间隔三周以上再次评估，以便对比数据变化。
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="fi">
+      <div class="fnav">
+        <a href="../index.html">平台首页</a>
+        <a href="index.html">评估服务</a>
+        <a href="reports.html">报告下载</a>
+        <a href="students.html">优秀学员</a>
+      </div>
+      <div class="fmeta">
+        <b>山经书店</b>　怀璧市山海街道北城东路 173 号　营业时间 09:00 - 21:00<br>
+        预约成功后请按短信通知时间到店。
+      </div>
+      <div class="fcopy">© <span data-year>2026</span> 山经书店 版权所有　·　在线服务平台 v1.2</div>
+    </div>
+  </footer>
+</div>
+
+<script src="../assets/site.js"></script>
+<script>
+function consentText() {
+  return '《数据采集知情同意书》\n\n'
+    + '一、本次评估将采集学生的作答过程数据与认知指标数据，用于生成评估报告。\n'
+    + '二、本人确认已充分了解评估内容与流程，自愿参与本次评估，无任何强迫情形。\n'
+    + '三、评估过程中可能出现轻微疲劳、注意力下降等正常反应，可随时要求中止。\n'
+    + '四、采集数据仅用于学习科学研究及报告生成，不作其他用途。\n'
+    + '五、本人及监护人有权随时查询、更正或要求停止使用相关数据。';
+}
+function showConsent() { alert(consentText()); return false; }
+function showPrivacy() {
+  alert('《个人信息保护说明》\n\n'
+    + '1. 收集范围：姓名、学校、年级、选科、联系方式及评估数据。\n'
+    + '2. 使用目的：预约排期、通知联络、生成评估报告。\n'
+    + '3. 保存期限：评估完成后 24 个月，到期后匿名化处理。\n'
+    + '4. 对外提供：除法律法规要求外，不向第三方提供。\n'
+    + '5. 联系方式：0376-2811-173。');
+  return false;
+}
+
+(function () {
+  var form = document.getElementById('bookingForm');
+  var btn = document.getElementById('submitBtn');
+  var status = document.getElementById('submitStatus');
+
+  function fail(msg, el) {
+    status.className = 'status err';
+    status.textContent = msg;
+    if (el) el.focus();
+  }
+
+  /* 个人 ID 规则：姓名全拼首字母 + 名首字母 + 年月日
+     例：陈牧循 · 2026-06-15 → CMX-MX-20260615 */
+  var PY = {
+    陈:'C', 牧:'M', 循:'X', 徐:'X', 雨:'Y', 桐:'T', 刘:'L', 天:'T', 清:'Q',
+    吴:'W', 昊:'H', 博:'B', 李:'L', 杨:'Y', 梓:'Z', 麟:'L', 王:'W', 宇:'Y',
+    涵:'H', 林:'L', 晚:'W', 罗:'L', 晋:'J', 铭:'M', 舒:'S', 巍:'W', 余:'Y',
+    皎:'J', 颖:'Y', 超:'C', 武:'W', 姜:'J', 游:'Y', 亮:'L', 董:'D', 新:'X',
+    飞:'F', 程:'C', 加:'J', 春:'C', 周:'Z', 文:'W', 江:'J', 穆:'M', 品:'P',
+    昆:'K', 今:'J', 愿:'Y', 马:'M', 政:'Z', 敏:'M', 胡:'H', 宏:'H', 赵:'Z',
+    思:'S', 航:'H', 婉:'W', 仪:'Y', 张:'Z', 纬:'W', 云:'Y', 乔:'Q', 维:'W',
+    莉:'L', 筠:'J', 芝:'Z', 梧:'W'
+  };
+
+  function py(ch) { return PY[ch] || 'X'; }
+  function pad2(v) { return String(v).padStart(2, '0'); }
+
+  function makeId(name) {
+    var n = (name || '').trim();
+    var surname = n.charAt(0) || 'X';
+    var given = n.slice(1) || n || 'X';
+
+    /* 第一段：姓名每个字的首字母；第二段：名（不含姓）每个字的首字母 */
+    var all = '', gi = '', i;
+    for (i = 0; i < n.length; i++) all += py(n.charAt(i));
+    for (i = 0; i < given.length; i++) gi += py(given.charAt(i));
+    if (!all) all = 'X';
+    if (!gi) gi = py(surname);
+
+    var d = new Date();
+    return all + '-' + gi + '-' + d.getFullYear() + pad2(d.getMonth() + 1) + pad2(d.getDate());
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    var name = document.getElementById('name').value.trim();
+    var school = document.getElementById('school').value.trim();
+    var grade = document.getElementById('grade').value;
+    var phone = document.getElementById('phone').value.trim();
+    var agree = document.getElementById('agree').checked;
+    var weak = Array.prototype.map.call(
+      form.querySelectorAll('input[name="weak"]:checked'),
+      function (el) { return el.value; }
+    );
+
+    if (!name) return fail('请填写学生姓名。', document.getElementById('name'));
+    if (!school) return fail('请填写在读学校。', document.getElementById('school'));
+    if (!grade) return fail('请选择年级。', document.getElementById('grade'));
+    if (!/^\d{7,12}$/.test(phone)) return fail('请填写正确的手机号（7-12 位数字）。', document.getElementById('phone'));
+    if (!weak.length) return fail('请至少选择一门薄弱学科。');
+    if (!agree) return fail('请阅读并勾选同意相关协议。');
+
+    btn.disabled = true;
+    btn.textContent = '提交中…';
+
+    setTimeout(function () {
+      var id = makeId(name);
+      try {
+        var records = JSON.parse(localStorage.getItem('shanjing_booking') || '[]');
+        records.push({
+          name: name, school: school, grade: grade, phone: phone,
+          weak: weak,
+          id: id,
+          bookedAt: new Date().toLocaleString('zh-CN')
+        });
+        localStorage.setItem('shanjing_booking', JSON.stringify(records));
+      } catch (err) { /* 隐私模式或存储受限时忽略 */ }
+
+      btn.textContent = '已提交';
+      status.className = 'status ok';
+      status.innerHTML = '预约已提交。您的专属评估 ID 为 <b class="nums">' + id
+        + '</b>，请妥善保存，用于后续在「评估报告下载」中查询报告。'
+        + '<br>我们将在 3 个工作日内短信通知评估时间。';
+
+      Array.prototype.forEach.call(form.querySelectorAll('input, select, textarea'), function (el) {
+        el.disabled = true;
+      });
+      btn.disabled = true;
+    }, 900);
+  });
+})();
+</script>
+</body>
+</html>

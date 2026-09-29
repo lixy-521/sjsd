@@ -72,6 +72,14 @@ header.main {
   border: 1px solid #1c3242;
   border-radius: 6px;
 }
+.brand-link {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    color: inherit;
+}
+.brand-link:hover { text-decoration: none; }
 .brand h1 { font-size: 21px; color: #d6e4ec; letter-spacing: 3px; font-weight: 600; }
 .brand .en {
   font-family: "Courier New", monospace;
@@ -322,12 +330,14 @@ footer .row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
   </div>
 
   <header class="main">
-    <div class="logo-mark"></div>
-    <div class="brand">
-      <h1>北境科技·安和实验室</h1>
-      <div class="en">ANHE LABORATORY · NORTHLAND TECHNOLOGIES</div>
-      <div class="sub">认知工程 / 神经路径编码 / 记忆与学习研究</div>
-    </div>
+    <a class="brand-link" href="../index.html" title="返回入口">
+      <div class="logo-mark"></div>
+      <div class="brand">
+        <h1>北境科技·安和实验室</h1>
+        <div class="en">ANHE LABORATORY · NORTHLAND TECHNOLOGIES</div>
+        <div class="sub">认知工程 / 神经路径编码 / 记忆与学习研究</div>
+      </div>
+    </a>
     <div class="header-meta">
       <div>EST. <span class="cy">2024</span></div>
       <div>INTERNAL · 外部公开版</div>

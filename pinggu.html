@@ -24,8 +24,7 @@ body {
   align-items: center;
   padding: 0 14px;
 }
-.topbar .back { font-size: 22px; line-height: 1; color: #333; margin-right: 10px; text-decoration: none; }
-.topbar .tt { flex: 1; text-align: center; margin-right: 32px; font-size: 15px; color: #333; }
+.topbar .tt { flex: 1; text-align: center; font-size: 15px; color: #333; }
 
 /* Article container */
 .article {
@@ -299,8 +298,7 @@ body {
 <body>
 
 <div class="topbar">
-  <a class="back" href="index.html">←</a>
-  <span class="tt">山经海籍</span>
+  <a class="tt" href="index.html" style="color:inherit;text-decoration:none;">山经海籍</a>
 </div>
 
 <div class="article">
@@ -550,6 +548,33 @@ function showForm() {
   section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+/* 个人 ID 规则：姓名全拼首字母 + 名首字母 + 年月日
+   例：陈牧循 · 2026-06-15 → CMX-MX-20260615 */
+const PY = {
+  陈:'C', 牧:'M', 循:'X', 徐:'X', 雨:'Y', 桐:'T', 刘:'L', 天:'T', 清:'Q',
+  吴:'W', 昊:'H', 博:'B', 李:'L', 杨:'Y', 梓:'Z', 麟:'L', 王:'W', 宇:'Y',
+  涵:'H', 林:'L', 晚:'W', 罗:'L', 晋:'J', 铭:'M', 舒:'S', 巍:'W', 余:'Y',
+  皎:'J', 颖:'Y', 超:'C', 武:'W', 姜:'J', 游:'Y', 亮:'L', 董:'D', 新:'X',
+  飞:'F', 程:'C', 加:'J', 春:'C', 周:'Z', 文:'W', 江:'J', 穆:'M', 品:'P',
+  昆:'K', 今:'J', 愿:'Y', 马:'M', 政:'Z', 敏:'M', 胡:'H', 宏:'H', 赵:'Z',
+  思:'S', 航:'H', 婉:'W', 仪:'Y', 张:'Z', 纬:'W', 云:'Y', 乔:'Q', 维:'W',
+  莉:'L', 筠:'J', 芝:'Z', 梧:'W'
+};
+function pyOf(ch) { return PY[ch] || 'X'; }
+function makeEvalId(fullName) {
+  const n = (fullName || '').trim();
+  const surname = n.charAt(0) || 'X';
+  const given = n.slice(1) || n || 'X';
+  let all = '', gi = '';
+  for (const ch of n) all += pyOf(ch);
+  for (const ch of given) gi += pyOf(ch);
+  if (!all) all = 'X';
+  if (!gi) gi = pyOf(surname);
+  const d = new Date();
+  const p2 = v => String(v).padStart(2, '0');
+  return all + '-' + gi + '-' + d.getFullYear() + p2(d.getMonth() + 1) + p2(d.getDate());
+}
+
 function handleSubmit(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
@@ -594,9 +619,9 @@ function handleSubmit(e) {
   console.log('评估报名数据：', formData);
 
   setTimeout(() => {
-    btn.textContent = '已提交 ✓';
+    btn.textContent = '已提交';
     status.className = 'submit-status success';
-    status.textContent = '预约成功！我们将在3个工作日内短信通知您评估时间。您的专属id:855741964';
+    status.textContent = '预约成功！我们将在3个工作日内短信通知您评估时间。您的个人 ID：' + makeEvalId(name);
 
     document.getElementById('evalForm').querySelectorAll('input, select, textarea, button').forEach(el => {
       if (el.type !== 'checkbox' && el.id !== 'agree') el.disabled = true;

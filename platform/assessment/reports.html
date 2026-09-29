@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>山经书店在线服务平台</title>
-<meta name="description" content="山经书店在线服务平台：学习能力评估预约、评估报告下载、优秀学员展示与志愿者服务。">
-<link rel="stylesheet" href="assets/style.css">
+<title>评估报告下载 · 山经书店在线服务平台</title>
+<link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
 <!-- INLINE-ICONS:START -->
@@ -38,7 +37,7 @@
 <div class="site">
   <header class="site-header">
     <div class="bar">
-      <a class="brand" href="index.html">
+      <a class="brand" href="../index.html">
         <span class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-mountain"/></svg></span>
         <span class="txt">
           <b>山经书店在线服务平台</b>
@@ -47,8 +46,8 @@
       </a>
       <div class="header-meta">
         <span class="hm hide-sm">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-pin"/></svg>
-          怀璧市山海街道北城东路 173 号
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
+          数据传输已加密
         </span>
         <span class="hm">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-phone"/></svg>
@@ -59,107 +58,171 @@
   </header>
 
 <main class="main" id="main">
-    <div class="hero">
-      <span class="eyebrow">服务公告</span>
-      <h1>山经书店在线服务平台</h1>
-      <p class="sub">为在读学生提供学习能力评估、报告查询与志愿服务。评估结果以报告形式发布，可在本站下载。</p>
-      <div class="stats">
-        <div class="st"><b>4,180</b><span>累计评估人次</span></div>
-        <div class="st"><b>1,260</b><span>注册志愿者</span></div>
-        <div class="st"><b>7</b><span>工作日出具报告</span></div>
-      </div>
+    <div class="page-head">
+      <h1>评估报告下载</h1>
+      <p class="lede">请输入评估时登记的专属 ID 查询报告。专属 ID 在预约提交成功时生成，也可在评估报告首页查看。</p>
+      <div class="rule"></div>
     </div>
 
-    <div class="notice">
-      <span class="nt-tag">公告</span>
-      <span class="nt-body">评估服务预约通道正常开放，报告下载需填写评估时登记的专属 ID；志愿者第二轮招募详见「志愿者服务」。</span>
+    <div class="form-card" style="max-width:640px">
+      <form id="queryForm" novalidate>
+        <div class="field">
+          <label for="pid">个人 ID <span class="req">*</span></label>
+          <input class="input nums" type="text" id="pid" style="letter-spacing:2px"
+                 placeholder="请输入个人 ID" autocomplete="off" spellcheck="false">
+          <div class="hint">个人 ID 在预约提交成功时生成，请注意区分大小写。</div>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit" id="queryBtn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg>
+          查询报告
+        </button>
+        <div class="status" id="queryStatus" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+
+    <div id="resultWrap" class="hidden mt-32">
+      <div class="sec-head mt-0">
+        <h2>查询结果</h2>
+        <span class="en">Result</span>
+      </div>
+      <div id="resultList"></div>
+    </div>
+
+    <div class="alert alert-info mt-32">
+      <strong>查不到报告？</strong>报告在评估完成后 7 个工作日内生成。若已超过 7 个工作日仍未查询到，
+      请到店咨询店员，或拨打服务热线 0376-2811-173。
     </div>
 
     <div class="sec-head">
-      <h2>服务入口</h2>
-      <span class="en">Services</span>
+      <h2>样本报告</h2>
+      <span class="en">Sample</span>
     </div>
-
+    <p class="small muted mb-16">以下为本店公开的样本报告，供了解报告结构参考（报告结构：个人信息、个人描述、分析数据、分析结果、综合结论）。</p>
     <div class="grid grid-2">
-      <a class="card svc is-link" href="assessment/index.html">
-        <div class="svc-top">
-          <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chart"/></svg></span>
-          <div>
-            <h3>评估服务</h3>
-            <div class="en">Assessment Service</div>
-          </div>
+      <a class="card is-link" href="students.html">
+        <div class="ico-line mb-8">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-users"/></svg>
+          <b>优秀学员介绍</b>
         </div>
-        <ul class="svc-list">
-          <li>评估服务预约<span class="svc-go">前往<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow-right"/></svg></span></li>
-          <li>评估报告下载</li>
-          <li>优秀学员介绍（含对应报告）</li>
-        </ul>
+        <p class="desc mb-0">查看本期优秀学员名录，可直接打开对应评估报告。</p>
       </a>
-
-      <a class="card svc is-link" href="volunteer/index.html">
-        <div class="svc-top">
-          <span class="svc-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-users"/></svg></span>
-          <div>
-            <h3>志愿者服务</h3>
-            <div class="en">Volunteer Service</div>
-          </div>
+      <a class="card is-link" href="../volunteer/index.html">
+        <div class="ico-line mb-8">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-gift"/></svg>
+          <b>志愿者服务</b>
         </div>
-        <ul class="svc-list">
-          <li>活动介绍<span class="svc-go">前往<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-arrow-right"/></svg></span></li>
-          <li>志愿者报名</li>
-          <li>奖励领取</li>
-        </ul>
+        <p class="desc mb-0">参与评估项目志愿服务，可获得活动奖励。</p>
       </a>
-    </div>
-
-    <div class="sec-head">
-      <h2>服务说明</h2>
-      <span class="en">Notice</span>
-    </div>
-
-    <div class="grid grid-3">
-      <div class="card">
-        <div class="ico-line">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-shield"/></svg>
-          <div><b>数据保密</b><br><span class="small muted">评估数据仅用于学习科学研究，不作他用。</span></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ico-line">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock-outline"/></svg>
-          <div><b>报告周期</b><br><span class="small muted">评估完成后 7 个工作日内出具报告。</span></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="ico-line">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
-          <div><b>咨询方式</b><br><span class="small muted">到店咨询店员，或关注公众号「山经海籍」。</span></div>
-        </div>
-      </div>
     </div>
   </main>
 
   <footer class="site-footer">
     <div class="fi">
       <div class="fnav">
-        <a href="assessment/index.html">评估服务</a>
-        <a href="assessment/booking.html">评估预约</a>
-        <a href="assessment/reports.html">报告下载</a>
-        <a href="assessment/students.html">优秀学员</a>
-        <a href="volunteer/index.html">志愿者服务</a>
-        <a href="volunteer/signup.html">志愿者报名</a>
+        <a href="../index.html">平台首页</a>
+        <a href="index.html">评估服务</a>
+        <a href="booking.html">评估预约</a>
+        <a href="students.html">优秀学员</a>
       </div>
       <div class="fmeta">
-        <b>山经书店</b>　怀璧市山海街道北城东路 173 号　营业时间 09:00 - 21:00　服务热线 0376-2811-173<br>
-        学习能力评估服务由本店与教育科学研究项目合作开展。
+        <b>山经书店</b>　怀璧市山海街道北城东路 173 号　营业时间 09:00 - 21:00<br>
+        报告查询如有疑问，请携带本人证件到店核实。
       </div>
-      <div class="fcopy">
-        © <span data-year>2026</span> 山经书店 版权所有　·　在线服务平台 v1.2　·　本页面为虚构剧情页面
-      </div>
+      <div class="fcopy">© <span data-year>2026</span> 山经书店 版权所有　·　在线服务平台 v1.2</div>
     </div>
   </footer>
 </div>
 
-<script src="assets/site.js"></script>
+<script src="../assets/site.js"></script>
+<script>
+(function () {
+  var form = document.getElementById('queryForm');
+  var input = document.getElementById('pid');
+  var status = document.getElementById('queryStatus');
+  var wrap = document.getElementById('resultWrap');
+  var list = document.getElementById('resultList');
+
+  /* 演示数据：个人 ID -> 报告条目 */
+  var TABLE = {
+    'XYT-YT-20260208': [
+      { title: '徐雨桐 · 生物学科评估', no: 'XYT-20260125-01', date: '2026-01-25', desc: '第 1 次评估 · 数据评级 A+', href: 'reports/xuyutong.html' },
+      { title: '徐雨桐 · 生物学科评估', no: 'XYT-20260208-02', date: '2026-02-08', desc: '第 2 次评估 · 数据评级 A', href: 'reports/xuyutong.html' }
+    ],
+    'CMX-MX-20260620': [
+      { title: '陈牧循 · 生物学科评估', no: 'CMX-20260620-02', date: '2026-06-20', desc: '第 2 次评估 · 数据评级 A', href: 'reports/chenmuxun.html' }
+    ]
+  };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function itemHTML(r) {
+    return '<div class="doc-item">'
+      + '<span class="di-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-doc"/></svg></span>'
+      + '<div class="di-body">'
+      + '<div class="t">' + esc(r.title) + '</div>'
+      + '<div class="m">报告编号：' + esc(r.no) + '　·　生成日期：' + esc(r.date) + '　·　' + esc(r.desc) + '</div>'
+      + '</div>'
+      + '<div class="di-act"><a class="btn btn-ghost" href="' + esc(r.href) + '">'
+      + '<svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-download"/></svg>查看报告</a></div>'
+      + '</div>';
+  }
+
+  function render(items) {
+    list.innerHTML = items.map(itemHTML).join('');
+    wrap.classList.remove('hidden');
+    wrap.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function bookedIDs() {
+    try { return JSON.parse(localStorage.getItem('shanjing_booking') || '[]'); }
+    catch (e) { return []; }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = input.value.trim();
+    wrap.classList.add('hidden');
+    list.innerHTML = '';
+
+    if (!v) {
+      status.className = 'status err';
+      status.textContent = '请输入个人 ID。';
+      input.focus();
+      return;
+    }
+
+    if (!/^[A-Za-z]{2,4}-[A-Za-z]{2,4}-\d{6,8}$/.test(v)) {
+      status.className = 'status err';
+      status.textContent = 'ID 格式不正确，请检查后重新输入。';
+      return;
+    }
+
+    var hit = TABLE[v];
+    if (!hit) {
+      var rec = bookedIDs().filter(function (r) { return r.id === v; })[0];
+      if (rec) hit = 'BOOKED';
+    }
+
+    if (hit === 'BOOKED') {
+      status.className = 'status';
+      status.textContent = '查询成功：该 ID 的评估尚未完成，报告生成中。预计 7 个工作日内可下载。';
+      return;
+    }
+
+    if (hit) {
+      status.className = 'status ok';
+      status.textContent = '查询成功，共找到 ' + hit.length + ' 份报告。';
+      render(hit);
+    } else {
+      status.className = 'status err';
+      status.textContent = '未找到该 ID 对应的评估记录，请核对后重试。';
+    }
+  });
+})();
+</script>
 </body>
 </html>
