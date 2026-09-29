@@ -183,8 +183,7 @@ button:active { border-style: inset; }
     <a href="#" data-target="vdb">志愿者能力抽取数据库</a>
     <a href="#" data-target="cog">认知强化服务</a>
     <a href="#" data-target="remote">远程操作</a>
-    <a href="#" data-target="report">个人操作报告</a>
-    <a href="#" data-target="sys">系统操作记录</a>
+    <a href="#" data-target="record">个人记录</a>
   </div>
 
   <div class="main">
@@ -229,7 +228,7 @@ button:active { border-style: inset; }
             <tr class="pick" data-vol="v8"><td>V-008</td><td>王宇涵</td><td>怀璧一中</td><td>语文</td><td>1</td><td>B+</td><td>正常</td></tr>
             <tr class="pick" data-vol="v9"><td>V-009</td><td>林晚</td><td>怀璧一中</td><td>综合</td><td>1</td><td>A</td><td>正常</td></tr>
             <tr class="pick" data-vol="v10"><td>V-010</td><td>陈牧循</td><td>怀璧一中</td><td>生物</td><td>4</td><td>A+</td><td>认知强化关联</td></tr>
-            <tr class="pick" data-vol="v11"><td>V-011</td><td>罗晋铭</td><td>怀璧二中</td><td>物理</td><td>1</td><td>B</td><td>正常</td></tr>
+            <tr class="pick" data-vol="v11"><td>V-011</td><td>罗晋铭</td><td>怀璧一中</td><td>物理</td><td>1</td><td>B</td><td>正常</td></tr>
           </tbody>
         </table>
         <p class="note">点击任意一行查看该志愿者的详细报告。</p>
@@ -324,9 +323,11 @@ button:active { border-style: inset; }
       <p class="note">远程操作权限归属账号 dongxinfei，本账号仅可查看项目状态。</p>
     </div>
 
-    <!-- 个人操作报告 -->
-    <div class="section" id="report">
-      <h2>个人操作报告 · 陈超武</h2>
+    <!-- 个人记录 -->
+    <div class="section" id="record">
+      <h2>个人记录 · 陈超武</h2>
+
+      <h3>个人操作报告</h3>
       <fieldset>
         <legend>报告记录时间：2026-06</legend>
         <div class="report">
@@ -336,11 +337,8 @@ button:active { border-style: inset; }
           <p>董新飞这人胆大，规矩也不少。他叮嘱我操作完要把系统记录清干净，还要开什么无痕模式，说警察查不到。行吧，反正钱到位就行。</p>
         </div>
       </fieldset>
-    </div>
 
-    <!-- 系统操作记录 -->
-    <div class="section" id="sys">
-      <h2>系统操作记录 · 本账号相关</h2>
+      <h3>系统操作记录</h3>
       <div class="log">2026-05-11 11:11:11  chenchaowu    登录系统成功（IP 10.20.9.88）
 2026-05-11 11:30:52  dongxinfei    修改远程操作权限配置
 2026-06-03 22:47:05  dongxinfei    登录系统成功（IP 10.20.1.2）
@@ -448,7 +446,7 @@ button:active { border-style: inset; }
       '<p class="note">常规内容，无额外抹除记录。</p>' },
     v11: { name: '罗晋铭', html:
       '<h4>志愿者报告 · V-011 罗晋铭</h4>' +
-      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧二中 · 高三</td><th>学科</th><td>物理</td></tr>' +
+      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>物理</td></tr>' +
       '<tr><th>采集次数</th><td>1 次</td><th>数据评级</th><td>B</td></tr></table>' +
       '<p class="note">常规内容，无额外抹除记录。</p>' }
   };
