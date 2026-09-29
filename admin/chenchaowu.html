@@ -162,6 +162,9 @@ button:active { border-style: inset; }
   text-align: center;
   padding: 6px;
 }
+.tiny { color: #666; font-size: 11px; text-decoration: none; }
+.tiny:hover { color: #000080; text-decoration: underline; }
+.ghost-on { color: #800000; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -344,7 +347,7 @@ button:active { border-style: inset; }
 
   </div>
 
-  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync</div>
+  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync　｜ <a href="#" class="tiny" id="ghostLink">隐私浏览：未开启</a></div>
 </div>
 
 <script>
@@ -559,6 +562,44 @@ button:active { border-style: inset; }
   });
   var mb = document.getElementById('matchBtn');
   if (mb) { mb.addEventListener('click', function () { var s = document.getElementById('mSubject').value; pushLog('使用【匹配工具】（目标学科：' + s + '）'); render(); }); }
+  /* 其它操作也留下记录 */
+  var volBody = document.getElementById('volBody');
+  if (volBody) { volBody.addEventListener('click', function (e) {
+    var tr = e.target.closest ? e.target.closest('tr.pick') : null; if (!tr) return;
+    var nm = tr.children[1] ? tr.children[1].textContent : '';
+    pushLog('查看志愿者报告（' + nm + '）'); render();
+  }); }
+  var cogBody = document.getElementById('cogBody');
+  if (cogBody) { cogBody.addEventListener('click', function (e) {
+    var tr = e.target.closest ? e.target.closest('tr.pick') : null; if (!tr) return;
+    var nm = tr.children[1] ? tr.children[1].textContent : '';
+    pushLog('查看认知强化申请数据（' + nm + '）'); render();
+  }); }
+  var cogDetail = document.getElementById('cogDetail');
+  if (cogDetail) { cogDetail.addEventListener('click', function (e) {
+    var q = (e.target && e.target.getAttribute) ? e.target.getAttribute('data-quick') : null;
+    if (q) { pushLog('执行快速匹配（' + q + '类）'); render(); }
+  }); }
+  var projBtnEl = document.getElementById('projBtn');
+  if (projBtnEl) { projBtnEl.addEventListener('click', function () { pushLog('查看当前项目详情'); render(); }); }
+  /* 无痕模式（隐私浏览） */
+  var ghostLink = document.getElementById('ghostLink');
+  function renderGhost() {
+    var g = null; try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
+    if (g === 'on') { ghostLink.textContent = '隐私浏览：已开启'; ghostLink.className = 'tiny ghost-on'; }
+    else { ghostLink.textContent = '隐私浏览：未开启'; ghostLink.className = 'tiny'; }
+  }
+  if (ghostLink) {
+    ghostLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      var cur = null; try { cur = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
+      var next = (cur === 'on') ? 'off' : 'on';
+      try { localStorage.setItem('sjsd_ghost_mode', next); } catch (e) {}
+      if (next === 'off') pushLog('隐私浏览（无痕模式）：已关闭');
+      renderGhost();
+    });
+    renderGhost();
+  }
   render();
 })();
 </script>

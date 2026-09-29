@@ -144,6 +144,9 @@ button:active { border-style: inset; }
   text-align: center;
   padding: 6px;
 }
+.tiny { color: #666; font-size: 11px; text-decoration: none; }
+.tiny:hover { color: #000080; text-decoration: underline; }
+.ghost-on { color: #800000; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -250,7 +253,7 @@ button:active { border-style: inset; }
 
   </div>
 
-  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync</div>
+  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync　｜ <a href="#" class="tiny" id="ghostLink">隐私浏览：未开启</a></div>
 </div>
 
 <script>
@@ -311,6 +314,24 @@ button:active { border-style: inset; }
   if (qBtn) { qBtn.addEventListener('click', function () { var k = document.getElementById('qName').value.trim(); pushLog(k ? ('查询评估记录（关键字：' + k + '）') : '查看全部评估记录'); render(); }); }
   var qClear = document.getElementById('qClear');
   if (qClear) { qClear.addEventListener('click', function () { pushLog('查看全部评估记录'); render(); }); }
+  /* 无痕模式（隐私浏览） */
+  var ghostLink = document.getElementById('ghostLink');
+  function renderGhost() {
+    var g = null; try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
+    if (g === 'on') { ghostLink.textContent = '隐私浏览：已开启'; ghostLink.className = 'tiny ghost-on'; }
+    else { ghostLink.textContent = '隐私浏览：未开启'; ghostLink.className = 'tiny'; }
+  }
+  if (ghostLink) {
+    ghostLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      var cur = null; try { cur = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
+      var next = (cur === 'on') ? 'off' : 'on';
+      try { localStorage.setItem('sjsd_ghost_mode', next); } catch (e) {}
+      if (next === 'off') pushLog('隐私浏览（无痕模式）：已关闭');
+      renderGhost();
+    });
+    renderGhost();
+  }
   render();
 })();
 </script>
