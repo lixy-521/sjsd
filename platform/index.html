@@ -62,9 +62,6 @@ body {
 .nav-card .icon { font-size: 28px; margin-bottom: 6px; }
 .nav-card .label { font-size: 14px; font-weight: 600; color: #333; }
 .nav-card .desc { font-size: 11px; color: #999; margin-top: 4px; }
-.nav-card.hidden-service { border: 1px dashed #c0392b; background: #fdf2f2; }
-.nav-card.hidden-service .label { color: #c0392b; }
-.nav-card.hidden-service .desc { color: #c0392b; }
 
 .section { padding: 20px; border-top: 1px solid #eee; }
 .section h3 { font-size: 16px; color: #1a3a5c; margin-bottom: 12px; }
@@ -161,12 +158,6 @@ body {
     </div>
   </div>
 
-  <div class="nav-card hidden-service" id="adminLoginBtn" style="margin:0 20px 20px;border-radius:10px;padding:14px;text-align:center;">
-    <div class="label">⚙ 后台管理登录</div>
-    <div class="desc">仅限授权人员</div>
-  </div>
-
-
   <div class="foot">山经书店在线服务平台 v1.2</div>
 </div>
 
@@ -174,10 +165,6 @@ body {
 (function() {
   document.getElementById('studentsBtn').addEventListener('click', function() {
     document.getElementById('studentSection').scrollIntoView({ behavior: 'smooth' });
-  });
-
-  document.getElementById('adminLoginBtn').addEventListener('click', function() {
-    window.location.href = '../admin/login.html';
   });
 })();
 </script>
