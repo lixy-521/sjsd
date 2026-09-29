@@ -5,43 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>山经书店内部后台 · 陈超武</title>
 <style>
-* { box-sizing: border-box; }
+/* ===== 内部后台 · 老式外观（与 platform-login 一致） ===== */
 html, body { margin: 0; padding: 0; }
 body {
-  font-family: "SimSun", "宋体", "Courier New", monospace;
+  font-family: "SimSun", "宋体", "Microsoft YaHei", serif;
+  background: #c0c0c0;
+  color: #000;
   font-size: 14px;
   line-height: 1.65;
-  background-color: #c0c0c0;
-  color: #000;
-  padding-bottom: 30px;
+  padding: 24px 12px 60px;
 }
 a { color: #000080; text-decoration: underline; }
 a:hover { color: #800000; }
 .page {
   max-width: 780px;
   margin: 0 auto;
-  background: #e8e8e8;
-  border-left: 3px solid #808080;
-  border-right: 3px solid #808080;
   min-height: 100vh;
-  box-shadow: 0 0 8px rgba(0,0,0,.45);
+  background: #e8e8e8;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  padding: 0;
 }
 .header {
   background: #000080;
   color: #fff;
-  padding: 8px 12px;
+  padding: 10px 16px;
+  font-family: "Courier New", monospace;
   font-size: 15px;
   font-weight: bold;
   letter-spacing: 1px;
 }
-.header .en { display: block; font-size: 10px; font-weight: normal; color: #a0a0c8; letter-spacing: 2px; }
+.header .en {
+  display: block;
+  font-size: 11px;
+  font-weight: normal;
+  color: #b0b0d0;
+  margin-top: 3px;
+  letter-spacing: 0;
+}
 .notice {
-  background: #ffffcc;
-  border-top: 1px solid #808080;
-  border-bottom: 1px solid #808080;
-  color: #800000;
+  background: #000;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
   font-size: 12px;
-  padding: 3px 0;
+  padding: 5px 8px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .userbar {
   background: #d4d0c8;
@@ -58,10 +69,13 @@ a:hover { color: #800000; }
 }
 .menu a {
   display: inline-block;
-  padding: 3px 11px;
+  padding: 4px 12px;
   margin: 2px 1px;
-  border: 1px solid #808080;
-  background: #e8e8e8;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  background: #d4d0c8;
   text-decoration: none;
   font-size: 13px;
   color: #000080;
@@ -77,95 +91,53 @@ h2 {
   border-left: 4px solid #000080;
 }
 h3 { font-size: 14px; margin: 14px 0 8px; color: #800000; }
-fieldset {
-  border: 1px solid #808080;
-  background: #f2f2f2;
-  margin: 0 0 12px;
-  padding: 10px 14px;
-}
+fieldset { border: 1px solid #808080; background: #f2f2f2; margin: 0 0 12px; padding: 10px 14px; }
 legend { font-size: 13px; font-weight: bold; color: #000080; padding: 0 4px; }
 table.grid { border-collapse: collapse; width: 100%; background: #fff; margin: 6px 0 12px; }
-table.grid th, table.grid td {
-  border: 1px solid #808080;
-  padding: 3px 7px;
-  font-size: 13px;
-  text-align: left;
-  vertical-align: top;
-}
+table.grid th, table.grid td { border: 1px solid #808080; padding: 3px 7px; font-size: 13px; text-align: left; vertical-align: top; }
 table.grid th { background: #d4d0c8; font-weight: bold; }
-table.grid tr:nth-child(even) td { background: #f8f8f8; }
 tr.pick { cursor: pointer; }
-tr.pick:hover td { background: #e6e6ff; }
-input[type=text], input[type=password], select, textarea {
-  font-family: inherit;
-  font-size: 13px;
-  border: 2px inset #d4d0c8;
-  background: #fff;
-  padding: 3px 6px;
-}
-textarea { width: 100%; }
+tr.pick:hover td { background: #ffffcc; }
 button {
-  font-family: inherit;
+  font-family: "SimSun", "宋体", serif;
   font-size: 13px;
-  border: 2px outset #d4d0c8;
+  padding: 4px 14px;
   background: #d4d0c8;
-  padding: 3px 12px;
+  color: #000;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
   cursor: pointer;
+  margin: 2px 4px 2px 0;
 }
-button:hover { background: #e0dcd4; }
-button:active { border-style: inset; }
-.deny {
-  color: #800000;
-  font-weight: bold;
-  border: 2px dashed #800000;
-  background: #fff0f0;
-  padding: 22px;
-  text-align: center;
-  margin: 10px 0;
-  font-size: 15px;
-}
-.log {
-  font-family: "Courier New", monospace;
-  font-size: 12px;
-  background: #fff;
-  border: 1px solid #808080;
-  padding: 8px 10px;
-  white-space: pre-wrap;
-  line-height: 1.55;
-}
+button:active { border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
+button.exec { background: #800000; color: #fff; border: 2px outset #a04040; font-size: 15px; font-weight: bold; padding: 8px 28px; letter-spacing: 3px; }
+button.exec:hover { background: #a00000; }
+select.mode-sel { font-family: "Courier New", monospace; font-size: 13px; background: #fff; padding: 2px 4px; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
+input[type=text], input[type=password] { font-family: "Courier New", monospace; font-size: 13px; background: #fff; padding: 2px 4px; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
+.countdown { font-family: "Courier New", monospace; font-size: 22px; font-weight: bold; color: #800000; background: #000; letter-spacing: 3px; padding: 6px 14px; display: inline-block; }
+.deny { color: #800000; font-weight: bold; border: 2px dashed #800000; background: #fff0f0; padding: 22px; text-align: center; margin: 10px 0; font-size: 15px; }
+.detail { display: none; }
+.detail.open { display: block; margin: 10px 0; background: #fffef0; border: 1px solid #808080; padding: 10px 14px; }
+.mem { font-family: "Courier New", monospace; background: #fff; border-left: 3px solid #800000; padding: 6px 12px; font-size: 13px; color: #800000; margin: 6px 0; }
+.tag { color: #800000; font-weight: bold; }
+.warn { background: #fff0f0; border: 1px solid #800000; color: #800000; padding: 6px 10px; font-size: 13px; font-weight: bold; margin: 8px 0; }
+.log { font-family: "Courier New", monospace; font-size: 12px; background: #fff; border: 1px solid #808080; padding: 8px 10px; white-space: pre-wrap; line-height: 1.55; }
+.log-actions { text-align: right; margin-top: 4px; }
+.wipe-panel { display: none; margin-top: 6px; padding: 8px 10px; border: 1px solid #b0b0b0; background: #f7f7f7; font-size: 12px; }
+.wipe-panel.show { display: block; }
+.wipe-panel label { display: block; margin: 5px 0; color: #333; cursor: pointer; }
 .report { background: #fffef0; border: 1px solid #808080; padding: 10px 14px; font-size: 13px; }
 .report p { margin: 6px 0; text-indent: 2em; }
 .section { display: none; }
 .section.active { display: block; }
-.detail { display: none; background: #fff; border: 2px solid #000080; padding: 10px 14px; margin: 8px 0 14px; }
-.detail.open { display: block; }
-.detail h4 { margin: 0 0 8px; font-size: 14px; color: #000080; border-bottom: 1px solid #808080; padding-bottom: 4px; }
 .note { font-size: 12px; color: #555; }
-.tag { color: #800000; font-weight: bold; }
-.warn { background: #fff0f0; border: 1px solid #800000; color: #800000; padding: 6px 10px; font-size: 13px; font-weight: bold; margin: 8px 0; }
-.countdown {
-  font-family: "Courier New", monospace;
-  font-size: 22px;
-  font-weight: bold;
-  color: #800000;
-  background: #000;
-  letter-spacing: 3px;
-  padding: 6px 14px;
-  display: inline-block;
-}
-.mem { background: #000; color: #b9ffb9; font-family: "Courier New", monospace; padding: 8px 10px; font-size: 13px; line-height: 1.7; }
-.footer {
-  border-top: 1px solid #808080;
-  background: #d4d0c8;
-  color: #444;
-  font-size: 11px;
-  text-align: center;
-  padding: 6px;
-}
 .tiny { color: #666; font-size: 11px; text-decoration: none; }
 .tiny:hover { color: #000080; text-decoration: underline; }
 .ghost-on { color: #800000; font-weight: bold; }
-</style>
+.footer { border-top: 1px solid #808080; background: #d4d0c8; color: #444; font-size: 11px; text-align: center; padding: 6px; }
+hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 18px 0; }</style>
 </head>
 <body>
 <div class="page">

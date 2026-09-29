@@ -5,143 +5,213 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>山经书店内部后台 · 用户登录</title>
 <style>
-* { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
-  font-family: "SimSun", "宋体", "Courier New", monospace;
-  font-size: 14px;
-  line-height: 1.65;
-  background-color: #c0c0c0;
+  font-family: "SimSun", "宋体", "Microsoft YaHei", serif;
+  background: #c0c0c0;
   color: #000;
-  padding-bottom: 30px;
+  font-size: 14px;
+  padding: 24px 12px 60px;
 }
 a { color: #000080; text-decoration: underline; }
-a:visited { color: #551a8b; }
 a:hover { color: #800000; }
 .page {
-  max-width: 760px;
+  max-width: 720px;
   margin: 0 auto;
   background: #e8e8e8;
-  border-left: 3px solid #808080;
-  border-right: 3px solid #808080;
-  min-height: 100vh;
-  box-shadow: 0 0 8px rgba(0,0,0,.45);
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
+  padding: 0;
 }
-.header {
+.head {
   background: #000080;
   color: #fff;
-  padding: 8px 12px;
+  padding: 10px 16px;
+  font-family: "Courier New", monospace;
   font-size: 15px;
   font-weight: bold;
   letter-spacing: 1px;
 }
-.header .en { display: block; font-size: 10px; font-weight: normal; color: #a0a0c8; letter-spacing: 2px; }
-.notice {
-  background: #ffffcc;
-  border-top: 1px solid #808080;
-  border-bottom: 1px solid #808080;
-  color: #800000;
+.head .sub {
+  display: block;
+  font-size: 11px;
+  font-weight: normal;
+  color: #b0b0d0;
+  margin-top: 3px;
+  letter-spacing: 0;
+}
+.marquee-zone {
+  background: #000;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
   font-size: 12px;
-  padding: 3px 0;
+  padding: 5px 8px;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.main { padding: 16px; }
-h2 {
-  font-size: 15px;
-  margin: 0 0 12px;
-  padding: 4px 8px;
+.marquee-zone span { display: inline-block; padding-left: 100%; animation: scroll 18s linear infinite; }
+@keyframes scroll { to { transform: translateX(-200%); } }
+.body-pad { padding: 20px 16px 8px; }
+
+.notice {
+  border: 2px solid #800000;
+  background: #ffe8e8;
+  color: #800000;
+  padding: 14px 16px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+  font-family: "SimHei", "黑体", sans-serif;
+}
+.notice .en { display: block; font-size: 11px; font-weight: normal; letter-spacing: 0; margin-top: 5px; color: #a00000; }
+
+table.form {
+  border-collapse: collapse;
+  margin: 0 auto 16px;
   background: #d4d0c8;
+}
+table.form td {
   border: 1px solid #808080;
-  border-left: 4px solid #000080;
-}
-fieldset {
-  border: 1px solid #808080;
-  background: #f2f2f2;
-  margin: 0 0 12px;
-  padding: 10px 14px;
-}
-legend { font-size: 13px; font-weight: bold; color: #000080; padding: 0 4px; }
-table.form { border-collapse: collapse; }
-table.form td { padding: 4px 6px; font-size: 14px; vertical-align: middle; }
-table.form td.lbl { text-align: right; white-space: nowrap; }
-input[type=text], input[type=password] {
-  font-family: inherit;
-  font-size: 14px;
-  border: 2px inset #d4d0c8;
-  background: #fff;
-  padding: 3px 6px;
-  width: 240px;
-}
-button {
-  font-family: inherit;
+  padding: 8px 10px;
   font-size: 13px;
-  border: 2px outset #d4d0c8;
+  vertical-align: middle;
+}
+table.form td.lbl {
+  background: #c8c4bc;
+  color: #000080;
+  font-weight: bold;
+  width: 120px;
+  text-align: right;
+  white-space: nowrap;
+}
+table.form input[type=text],
+table.form input[type=password] {
+  width: 220px;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  padding: 3px 5px;
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  background: #fff;
+  outline: none;
+}
+.btn-row { text-align: center; margin: 14px 0 4px; }
+button.old {
+  font-family: "SimSun", "宋体", serif;
+  font-size: 13px;
+  padding: 5px 26px;
   background: #d4d0c8;
-  padding: 4px 16px;
+  color: #000;
+  border-top: 2px solid #fff;
+  border-left: 2px solid #fff;
+  border-right: 2px solid #808080;
+  border-bottom: 2px solid #808080;
   cursor: pointer;
 }
-button:hover { background: #e0dcd4; }
-button:active { border-style: inset; }
-.msg { font-weight: bold; min-height: 20px; margin-top: 8px; font-size: 13px; color: #cc0000; }
-.note { font-size: 12px; color: #555; margin: 4px 0; }
-.footer {
-  border-top: 1px solid #808080;
-  background: #d4d0c8;
-  color: #444;
-  font-size: 11px;
-  text-align: center;
-  padding: 6px;
+button.old:active {
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
 }
+.status { text-align: center; font-size: 13px; min-height: 20px; margin: 8px 0; font-weight: bold; }
+.status.err { color: #cc0000; }
+.status.ok { color: #008000; }
+
+hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 18px 0; }
+
+.desc {
+  font-size: 12.5px;
+  color: #222;
+  line-height: 1.9;
+  background: #f4f2ee;
+  border: 1px solid #a0a0a0;
+  padding: 12px 14px;
+}
+.desc h4 { margin: 0 0 8px; font-size: 13px; color: #000080; letter-spacing: 1px; }
+.desc p { margin: 0 0 8px; text-indent: 2em; }
+.desc p:last-child { margin-bottom: 0; }
+.desc .key { font-family: "Courier New", monospace; color: #800000; font-weight: bold; background: #f0e0e0; padding: 0 4px; border: 1px solid #c0a0a0; }
+
+.foot {
+  margin-top: 22px;
+  padding: 12px 16px;
+  border-top: 1px solid #808080;
+  background: #d8d4cc;
+  text-align: center;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  color: #333;
+  line-height: 1.9;
+}
+.foot .best { color: #000080; }
+.foot a { color: #000080; }
 </style>
 </head>
 <body>
 <div class="page">
-  <div class="header">山经书店内部后台管理系统
-    <span class="en">SHANJING BOOKSTORE - INTERNAL ADMIN SYSTEM V0.9B</span>
-  </div>
-  <div class="notice">
-    <marquee scrollamount="3">系统公告：本后台仅限授权合作老师与工作人员使用，请勿向他人泄露账号信息。账号由系统自动分配，规则为姓名全拼小写，不支持自定义。</marquee>
+  <div class="head">
+    山经书店内部后台管理系统
+    <span class="sub">SHANJING BOOKSTORE · INTERNAL ADMIN SYSTEM</span>
   </div>
 
-  <div class="main">
-    <h2>用户登录</h2>
+  <div class="marquee-zone">
+    <span>*** 系统公告：本后台仅限授权合作老师与工作人员使用，请勿向他人泄露账号信息。账号由系统自动分配，规则为姓名全拼小写，不支持自定义。 ***</span>
+  </div>
 
-    <fieldset>
-      <legend>登录</legend>
+  <div class="body-pad">
+    <div class="notice">
+      内部系统 · 用户登录
+      <span class="en">STAFF SIGN IN</span>
+    </div>
+
+    <form id="loginForm" onsubmit="return false;">
       <table class="form">
         <tr>
-          <td class="lbl">用户名：</td>
-          <td><input type="text" id="username" autocomplete="off" spellcheck="false"></td>
+          <td class="lbl">用户名</td>
+          <td><input type="text" id="username" name="username" autocomplete="off" placeholder="请输入用户名"></td>
         </tr>
         <tr>
-          <td class="lbl">密　码：</td>
-          <td><input type="password" id="password" autocomplete="off"></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            <button type="button" id="loginBtn">登 录</button>
-            <button type="button" id="resetBtn">重 置</button>
-          </td>
+          <td class="lbl">密&nbsp;&nbsp;码</td>
+          <td><input type="password" id="password" name="password" autocomplete="off" placeholder="请输入密码"></td>
         </tr>
       </table>
-      <div class="msg" id="msg"></div>
-    </fieldset>
+      <div class="btn-row">
+        <button class="old" id="loginBtn" type="submit">登 录</button>
+        &nbsp;&nbsp;
+        <button class="old" id="resetBtn" type="reset">重 填</button>
+      </div>
+      <div class="status" id="status"></div>
+    </form>
 
-    <fieldset>
-      <legend>说明</legend>
-      <p class="note">本网站是山经书店后台，支持合作老师和工作人员登录。后台自动分配账号为全名拼音小写。</p>
-      <p class="note">系统不提供验证码、不提供短信找回，请牢记本人账号与密码。如有疑问，请咨询店内工作人员。</p>
-    </fieldset>
+    <hr class="old">
+
+    <div class="desc">
+      <h4>■ 使用说明</h4>
+      <p>本网站是<strong>山经书店后台</strong>，支持合作老师和工作人员登录。后台自动分配账号为全名拼音小写，不支持自定义。</p>
+      <p>当前后台的<strong>默认密码</strong>为：<span class="key">BeiJg12z</span>。部分账号尚未修改过默认密码，登录时可直接使用。</p>
+      <p>系统不提供验证码、不提供短信找回，请牢记本人账号与密码。如无法登录，请联系店内工作人员。</p>
+    </div>
   </div>
 
-  <div class="footer">山经书店内部后台 v0.9b ｜ Copyright © 山经书店　｜ 技术支持：MirrorSync</div>
+  <div class="foot">
+    <div>山经书店内部后台 v0.9b &nbsp;|&nbsp; Best viewed with 800×600</div>
+    <div>本站内容仅限内部使用，严禁外传</div>
+    <div class="best">Copyright © 山经书店　技术支持：MirrorSync</div>
+  </div>
 </div>
 
 <script>
 (function () {
   var ACCOUNTS = {
-    'jiangyoulian': { pw: '815730721', url: 'jiang.html' },
-    'chenchaowu':   { pw: '937842516',  url: 'chenchaowu.html' },
+    'jiangyoulian': { pw: 'BeiJg12z',   url: 'jiang.html' },
+    'chenchaowu':   { pw: '37842516',   url: 'chenchaowu.html' },
     'dongxinfei':   { pw: 'fhuehwuiaa', url: 'dongxinfei.html' }
   };
 
@@ -152,22 +222,23 @@ button:active { border-style: inset; }
       pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
   }
 
+  var form = document.getElementById('loginForm');
+  var status = document.getElementById('status');
   var uEl = document.getElementById('username');
   var pEl = document.getElementById('password');
-  var msg = document.getElementById('msg');
 
   function doLogin() {
-    var u = uEl.value.trim().toLowerCase();
+    var u = uEl.value.trim();
     var p = pEl.value.trim();
     if (!u || !p) {
-      msg.style.color = '#cc0000';
-      msg.textContent = '请输入用户名和密码。';
+      status.className = 'status err';
+      status.textContent = '错误：请输入用户名和密码。';
       return;
     }
     var acc = ACCOUNTS[u];
     if (acc && acc.pw === p) {
-      msg.style.color = '#008000';
-      msg.textContent = '登录成功，正在进入后台……';
+      status.className = 'status ok';
+      status.textContent = '登录成功，正在进入系统…';
       try {
         if (localStorage.getItem('sjsd_ghost_mode') !== 'on') {
           var log = JSON.parse(localStorage.getItem('sjsd_admin_log') || '[]');
@@ -177,20 +248,16 @@ button:active { border-style: inset; }
       } catch (e) {}
       setTimeout(function () { window.location.href = acc.url; }, 600);
     } else {
-      msg.style.color = '#cc0000';
-      msg.textContent = '账号或密码错误';
+      status.className = 'status err';
+      status.textContent = '错误：账号或密码不正确，无法登录。';
+      pEl.value = '';
+      pEl.focus();
     }
   }
 
-  document.getElementById('loginBtn').addEventListener('click', doLogin);
-  document.getElementById('resetBtn').addEventListener('click', function () {
-    uEl.value = '';
-    pEl.value = '';
-    msg.textContent = '';
-  });
-  function onEnter(e) { if (e.key === 'Enter') doLogin(); }
-  uEl.addEventListener('keydown', onEnter);
-  pEl.addEventListener('keydown', onEnter);
+  form.addEventListener('submit', function (e) { e.preventDefault(); doLogin(); });
+  document.getElementById('loginBtn').addEventListener('click', function (e) { e.preventDefault(); doLogin(); });
+  pEl.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); doLogin(); } });
 })();
 </script>
 </body>
