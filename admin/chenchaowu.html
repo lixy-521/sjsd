@@ -204,7 +204,6 @@ button:active { border-style: inset; }
           <tr><td>PG-2026-0117</td><td>刘天清</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-04-02</td><td>董--</td><td>已完成</td></tr>
         </tbody>
       </table>
-      <p class="note">本页与姜游亮账号所见为同一数据库，权限范围不同。</p>
     </div>
 
     <!-- 志愿者能力抽取数据库 -->
@@ -231,7 +230,6 @@ button:active { border-style: inset; }
             <tr class="pick" data-vol="v11"><td>V-011</td><td>罗晋铭</td><td>怀璧一中</td><td>物理</td><td>1</td><td>B</td><td>正常</td></tr>
           </tbody>
         </table>
-        <p class="note">点击任意一行查看该志愿者的详细报告。</p>
         <div class="detail" id="volDetail"></div>
       </fieldset>
 
@@ -293,7 +291,6 @@ button:active { border-style: inset; }
           <h3>详细报告</h3>
           <p>本次联合提取为“批量采集”模式。系统将在倒计时结束后，统一对名单内全部受试者执行学科认知抽取，并进行记忆剥离与数据打包。由于受试者名单跨越两所学校、多个年级，单一个体重复采集次数普遍超过建议阈值（单一个体不超过 3 次），预计将造成不可逆的能力衰退与生活记忆丢失。</p>
           <p>抽取所得数据将由董新飞统一对外出售，用于其个人资金需求。</p>
-          <div class="warn">⚠ 本账号无法进行操作。远程操作权限归属账号：dongxinfei。</div>
         </div>
       </fieldset>
     </div>
@@ -311,7 +308,6 @@ button:active { border-style: inset; }
             <tr class="pick" data-cog="c3"><td>CS-2026-0052</td><td>吴昊博</td><td>综合能力强化</td><td>LWT-20260125</td><td>待匹配</td></tr>
           </tbody>
         </table>
-        <p class="note">点击任意一行查看申请数据，并可执行快速匹配。</p>
         <div class="detail" id="cogDetail"></div>
       </fieldset>
     </div>
@@ -320,7 +316,6 @@ button:active { border-style: inset; }
     <div class="section" id="remote">
       <h2>远程操作</h2>
       <div class="deny">✕ 权限不足</div>
-      <p class="note">远程操作权限归属账号 dongxinfei，本账号仅可查看项目状态。</p>
     </div>
 
     <!-- 个人记录 -->
@@ -340,20 +335,16 @@ button:active { border-style: inset; }
 
       <h3>系统操作记录</h3>
       <div class="log">2026-05-11 11:11:11  chenchaowu    登录系统成功（IP 10.20.9.88）
-2026-05-11 11:30:52  dongxinfei    修改远程操作权限配置
-2026-06-03 22:47:05  dongxinfei    登录系统成功（IP 10.20.1.2）
-2026-06-03 22:51:19  dongxinfei    访问【远程操作 · 山经-蒂中帝联合提取项目】
 2026-06-04 01:15:37  chenchaowu    访问【志愿者能力抽取数据库】
 2026-06-04 01:19:48  chenchaowu    执行抽取操作（对象：PG-2026-0117）
 2026-06-04 01:26:10  chenchaowu    执行记忆抹除操作（对象：PG-2026-0117）
 2026-06-04 01:31:00  chenchaowu    备注：按“重点关照”名单处理完毕
-2026-06-04 01:33:22  dongxinfei    提醒：记得清理系统记录
-2026-06-05 07:00:00  system        系统自动备份完成</div>
+2026-06-05 07:00:00  system        系统自动备份完成<span id="playerLog"></span></div>
     </div>
 
   </div>
 
-  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync　｜ 本页所有内容仅供剧情演示</div>
+  <div class="footer">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync</div>
 </div>
 
 <script>
@@ -542,6 +533,33 @@ button:active { border-style: inset; }
       cogDetail.innerHTML += '<div class="warn">已按“' + s + '”类数据完成快速匹配，方案已写入待执行队列。</div>';
     }
   });
+})();
+</script>
+<script>
+(function () {
+  var LOG_KEY = 'sjsd_admin_log', ME = 'chenchaowu';
+  function pad2(n){ return n < 10 ? '0' + n : '' + n; }
+  function nowStr(){ var d = new Date(); return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()) + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()); }
+  function readLog(){ try { return JSON.parse(localStorage.getItem(LOG_KEY) || '[]'); } catch (e) { return []; } }
+  function pushLog(text){ var g = null; try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {} if (g === 'on') return; try { var a = readLog(); a.push({ ts: nowStr(), user: ME, text: text }); localStorage.setItem(LOG_KEY, JSON.stringify(a)); } catch (e) {} }
+  function render(){ var slot = document.getElementById('playerLog'); if (!slot) return; var mine = readLog().filter(function(e){ return e.user === ME; }); slot.textContent = mine.map(function(e){ return '\n' + e.ts + '  ' + e.user + '    ' + e.text; }).join(''); }
+  var targetLog = {
+    eval: '访问【评估服务后台】',
+    vdb: '访问【志愿者能力抽取数据库】',
+    cog: '访问【认知强化服务】',
+    remote: '尝试访问【远程操作】（拒绝：权限不足）',
+    record: '访问【个人记录】'
+  };
+  document.querySelectorAll('.menu a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var t = a.getAttribute('data-target');
+      pushLog(targetLog[t] || ('访问【' + a.textContent + '】'));
+      render();
+    });
+  });
+  var mb = document.getElementById('matchBtn');
+  if (mb) { mb.addEventListener('click', function () { var s = document.getElementById('mSubject').value; pushLog('使用【匹配工具】（目标学科：' + s + '）'); render(); }); }
+  render();
 })();
 </script>
 </body>

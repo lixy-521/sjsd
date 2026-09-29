@@ -33,7 +33,7 @@
 - 后台账号（用户名=全名拼音小写）：`jiangyoulian`、`chenchaowu`、`dongxinfei`，密码线索见剧本与后台页面提示。
 - 研究平台默认密码：`BeiJg12z`。
 - 服务ID：`CMX-CS-20260615`（网页端在 `platform/cognitive.html` 与小程序入口通用）。
-- 结局面板位于 `admin/ending.html`，依据后台的远程模式 / 消除记录 / 无痕模式三个选择判定。
+- 结局拆为三页：`admin/ending-1.html`（数据蒸发）、`admin/ending-2.html`（无法复原）、`admin/ending-3.html`（及时收网）。在 `admin/dongxinfei.html` 执行结算时，依据「远程模式 / 消除记录 / 无痕模式」三项配置跳转到对应结局页。
 
 ## 说明
 

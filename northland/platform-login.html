@@ -195,12 +195,11 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     <div class="desc">
       <h4>■ 使用说明</h4>
       <p>本网页是<strong>安和实验室的内部技术支持网页</strong>，用于实验室内部人员及签约合作方访问设备与项目数据。</p>
-      <p>登录密码由实验室内部分配。当前技术支持网页的<strong>默认密码</strong>为：<span class="key">BeiJg12z</span>（区分大小写不敏感，输入时忽略大小写均可）。</p>
+      <p>登录密码由实验室内部分配（旧默认密码 <span class="key">BeiJg12z</span>）。<strong>该登录服务已关闭，密码已不再可用，任何账号均无法登录。</strong></p>
       <p>用户名请填写您的姓名全拼。若无法登录，请联系实验室技术支持人员重新分配账号。</p>
       <ul>
         <li>本网页为静态技术支持页面，不对外提供服务。</li>
         <li>请勿在公共网络环境下登录。</li>
-        <li>系统登录已关闭期间，仅保留默认密码验证通道。</li>
       </ul>
       <p style="color:#800000;">※ 注意：如页面出现异常跳转，属正常维护行为，请勿重复刷新。</p>
     </div>
@@ -219,33 +218,19 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   var status = document.getElementById('status');
   var userInput = document.getElementById('username');
   var passInput = document.getElementById('password');
-  var DEFAULT_PASS = 'beijg12z';
-
   function tryLogin() {
     var user = userInput.value.trim();
     var pass = passInput.value;
-    if (!user) {
+    if (!user || !pass) {
       status.className = 'status err';
-      status.textContent = '错误：请输入用户名。';
+      status.textContent = '错误：请输入用户名和密码。';
       return;
     }
-    if (!pass) {
-      status.className = 'status err';
-      status.textContent = '错误：请输入密码。';
-      return;
-    }
-    if (pass.toLowerCase() === DEFAULT_PASS) {
-      status.className = 'status ok';
-      status.textContent = '登录成功，正在进入系统…';
-      setTimeout(function() {
-        window.location.href = 'remote.html';
-      }, 700);
-    } else {
-      status.className = 'status err';
-      status.textContent = '错误：密码不正确，无法登录。';
-      passInput.value = '';
-      passInput.focus();
-    }
+    // 本网页的登录服务已关闭：任何账号与密码均无法登录
+    status.className = 'status err';
+    status.textContent = '错误：系统登录已关闭，无法登录。';
+    passInput.value = '';
+    passInput.focus();
   }
 
   form.addEventListener('submit', function(e) {

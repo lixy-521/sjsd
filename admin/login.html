@@ -83,8 +83,6 @@ button:hover { background: #e0dcd4; }
 button:active { border-style: inset; }
 .msg { font-weight: bold; min-height: 20px; margin-top: 8px; font-size: 13px; color: #cc0000; }
 .note { font-size: 12px; color: #555; margin: 4px 0; }
-.hint { font-size: 12px; color: #333; margin: 0; padding-left: 20px; }
-.hint li { margin-bottom: 6px; }
 .footer {
   border-top: 1px solid #808080;
   background: #d4d0c8;
@@ -134,16 +132,6 @@ button:active { border-style: inset; }
       <p class="note">本网站是山经书店后台，支持合作老师和工作人员登录。后台自动分配账号为全名拼音小写。</p>
       <p class="note">系统不提供验证码、不提供短信找回，请牢记本人账号与密码。如有疑问，请咨询店内工作人员。</p>
     </fieldset>
-
-    <fieldset>
-      <legend>线索提示区（非直接答案，请自行推导）</legend>
-      <ul class="hint">
-        <li>账号即姓名：后台账号为全名拼音小写，不含声调、不含空格与连字符。</li>
-        <li>一位从数学组调来的老师（光头、爱喝冰红茶、被学生叫“老大”）输密码时，嘴里总念叨着“13 的 8 次方”。</li>
-        <li>一位物理老师的办公桌上，那几本书从来不动，一直保持着同一个顺序——数字就藏在那种顺序里。</li>
-        <li>店长的账号名很好猜；他的密码，曾经出现在某位同学的“近几日印象深刻的内容”里，是一串毫无规律的小写字母。</li>
-      </ul>
-    </fieldset>
   </div>
 
   <div class="footer">山经书店内部后台 v0.9b ｜ Copyright © 山经书店　｜ 技术支持：MirrorSync</div>
@@ -156,6 +144,13 @@ button:active { border-style: inset; }
     'chenchaowu':   { pw: '37842516',  url: 'chenchaowu.html' },
     'dongxinfei':   { pw: 'fhuehwuiaa', url: 'dongxinfei.html' }
   };
+
+  function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+  function nowStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) + ' ' +
+      pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+  }
 
   var uEl = document.getElementById('username');
   var pEl = document.getElementById('password');
@@ -173,6 +168,13 @@ button:active { border-style: inset; }
     if (acc && acc.pw === p) {
       msg.style.color = '#008000';
       msg.textContent = '登录成功，正在进入后台……';
+      try {
+        if (localStorage.getItem('sjsd_ghost_mode') !== 'on') {
+          var log = JSON.parse(localStorage.getItem('sjsd_admin_log') || '[]');
+          log.push({ ts: nowStr(), user: u, text: '登录系统成功' });
+          localStorage.setItem('sjsd_admin_log', JSON.stringify(log));
+        }
+      } catch (e) {}
       setTimeout(function () { window.location.href = acc.url; }, 600);
     } else {
       msg.style.color = '#cc0000';

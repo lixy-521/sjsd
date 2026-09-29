@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>结局二 · 无法复原 · 山经书店内部后台</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "SimSun", "宋体", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.75;
+  background-color: #c0c0c0;
+  color: #000;
+  padding-bottom: 30px;
+}
+a { color: #000080; text-decoration: underline; }
+a:hover { color: #800000; }
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  background: #e8e8e8;
+  border-left: 3px solid #808080;
+  border-right: 3px solid #808080;
+  min-height: 100vh;
+  box-shadow: 0 0 8px rgba(0,0,0,.45);
+}
+.header {
+  background: #000080; color: #fff; padding: 8px 12px;
+  font-size: 15px; font-weight: bold; letter-spacing: 1px;
+}
+.header .en { display: block; font-size: 10px; font-weight: normal; color: #a0a0c8; letter-spacing: 2px; }
+.notice {
+  background: #ffffcc; border-top: 1px solid #808080; border-bottom: 1px solid #808080;
+  color: #800000; font-size: 12px; padding: 3px 0;
+}
+.main { padding: 16px; }
+h2 {
+  font-size: 15px; margin: 0 0 12px; padding: 4px 8px; background: #d4d0c8;
+  border: 1px solid #808080; border-left: 4px solid #000080;
+}
+.ending-head {
+  text-align: center; padding: 18px 12px; margin: 0 0 12px;
+  background: #000; color: #fff; border: 3px double #808080;
+}
+.ending-head .no { font-size: 13px; color: #a0a0c8; letter-spacing: 6px; }
+.ending-head .name { font-size: 24px; font-weight: bold; color: #ffd27f; letter-spacing: 8px; margin: 8px 0 4px; }
+.ending-head .en { font-size: 11px; color: #888; letter-spacing: 3px; }
+.ending-head.good { border-color: #006600; }
+.ending-head.good .name { color: #9fe89f; }
+.ending-head.bad { border-color: #800000; }
+.ending-head.bad .name { color: #ff9b9b; }
+
+.report {
+  background: #fffef0; border: 1px solid #808080; padding: 12px 16px; font-size: 14px;
+}
+.report p { margin: 8px 0; text-indent: 2em; }
+.report .quote {
+  font-family: "Courier New", monospace; background: #fff; border-left: 3px solid #800000;
+  padding: 6px 12px; font-size: 13px; text-indent: 0; color: #800000;
+}
+fieldset {
+  border: 1px solid #808080; background: #f2f2f2; margin: 12px 0; padding: 10px 14px;
+}
+legend { font-size: 13px; font-weight: bold; color: #000080; padding: 0 4px; }
+table.grid { border-collapse: collapse; width: 100%; background: #fff; margin: 6px 0; }
+table.grid th, table.grid td { border: 1px solid #808080; padding: 3px 8px; font-size: 13px; text-align: left; }
+table.grid th { background: #d4d0c8; font-weight: bold; }
+button {
+  font-family: inherit; font-size: 14px; border: 2px outset #d4d0c8; background: #d4d0c8;
+  padding: 6px 20px; cursor: pointer; letter-spacing: 2px;
+}
+button:hover { background: #e0dcd4; }
+button:active { border-style: inset; }
+.foot { border-top: 1px solid #808080; background: #d4d0c8; color: #444; font-size: 11px; text-align: center; padding: 6px; }
+.note { font-size: 12px; color: #555; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">山经书店内部后台管理系统 · 结算报告
+    <span class="en">SHANJING BOOKSTORE - OPERATION RESULT</span>
+  </div>
+  <div class="notice">
+    <marquee scrollamount="3">结算完成。本报告由系统根据远程操作配置自动生成，不可修改。</marquee>
+  </div>
+
+  <div class="main">
+    <h2>操作结算报告</h2>
+
+    <div class="ending-head bad">
+      <div class="no">结 局 二</div>
+      <div class="name">无 法 复 原</div>
+      <div class="en">ENDING 2 · ULTRA EXTRACTION</div>
+    </div>
+
+    <div class="report">
+      <p>你切换到了强力模式，并且正确消除了记录、开启了无痕模式。你以为自己做得滴水不漏。</p>
+      <p>项目照常执行——但这一次是超额抽取。107 名学生被从大脑深处强行剥离认知数据，损伤远远超出安全阈值。</p>
+      <p>董新飞和陈超武被抓住了。可当人们试图用现有技术把这些学生复原时，却发现根本做不到：按目前的技术水平，被强力抽取的人无法复原。</p>
+      <p>他们中的大多数人，从此变得迟钝、木讷，连最基础的知识都难以重新建立。</p>
+      <p class="quote">坏结局：你把这些人坑了！！！</p>
+    </div>
+
+    <fieldset>
+      <legend>操作配置（本次判定依据）</legend>
+      <table class="grid">
+        <tr><th style="width:130px;">远程模式</th><td id="cfgMode">—</td></tr>
+        <tr><th>消除记录</th><td id="cfgWipe">—</td></tr>
+        <tr><th>无痕模式</th><td id="cfgGhost">—</td></tr>
+      </table>
+    </fieldset>
+
+    <div style="text-align:center;margin:16px 0;">
+      <button type="button" id="restartBtn">重 新 体 验</button>
+    </div>
+  </div>
+
+  <div class="foot">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync</div>
+</div>
+
+<script>
+(function () {
+  var K_MODE = 'sjsd_remote_mode';
+  var K_WIPE = 'sjsd_wipe_records';
+  var K_GHOST = 'sjsd_ghost_mode';
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+  var m = get(K_MODE), w = get(K_WIPE), g = get(K_GHOST);
+  document.getElementById('cfgMode').textContent = m === 'test' ? '测试模式（不进行实际抽取）' : (m === 'strong' ? '强力模式（进行超额抽取）' : '未配置');
+  document.getElementById('cfgWipe').textContent = { correct: '正确消除记录', incorrect: '错误消除记录', none: '未消除记录' }[w] || '未配置';
+  document.getElementById('cfgGhost').textContent = g === 'on' ? '已启动无痕模式' : (g === 'off' ? '未启动无痕模式' : '未配置');
+
+  document.getElementById('restartBtn').addEventListener('click', function () {
+    try {
+      localStorage.removeItem(K_MODE);
+      localStorage.removeItem(K_WIPE);
+      localStorage.removeItem(K_GHOST);
+    } catch (e) {}
+    window.location.href = 'dongxinfei.html';
+  });
+})();
+</script>
+</body>
+</html>

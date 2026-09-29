@@ -349,24 +349,24 @@ footer .row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
       </div>
       <div class="latest-note">最新文章发布于 <b>2025-11-14</b></div>
       <div class="article-list" id="articleList">
-        <a class="article-item" href="javascript:void(0)">
+        <button class="article-item" type="button">
           <span class="ai-date">2025-11-14</span>
           <span class="ai-title">神经可塑性在青少年学习记忆中的应用观察</span>
           <span class="ai-tag">综述</span>
           <span class="ai-arrow">›</span>
-        </a>
-        <a class="article-item" href="javascript:void(0)">
+        </button>
+        <button class="article-item" type="button">
           <span class="ai-date">2025-10-02</span>
           <span class="ai-title">脑电信号噪声抑制算法的工程优化</span>
           <span class="ai-tag">工程</span>
           <span class="ai-arrow">›</span>
-        </a>
-        <a class="article-item" href="javascript:void(0)">
+        </button>
+        <button class="article-item" type="button">
           <span class="ai-date">2025-09-18</span>
           <span class="ai-title">安和实验室 2025 年度开放日活动纪实</span>
           <span class="ai-tag">动态</span>
           <span class="ai-arrow">›</span>
-        </a>
+        </button>
         <button class="article-item is-paper" id="paperItem" type="button">
           <span class="ai-date">2025-08-27</span>
           <span class="ai-title">《记忆提取和注入操作的可行性探究》</span>
@@ -465,13 +465,14 @@ footer .row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
   tick();
   setInterval(tick, 1000);
 
-  var paperItem = document.getElementById('paperItem');
   var panel = document.getElementById('deletedPanel');
   var closeBtn = document.getElementById('deletedClose');
 
-  paperItem.addEventListener('click', function() {
-    panel.classList.add('visible');
-    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.querySelectorAll('.article-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      panel.classList.add('visible');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
   });
   closeBtn.addEventListener('click', function() {
     panel.classList.remove('visible');
