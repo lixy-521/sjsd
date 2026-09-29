@@ -79,29 +79,6 @@ body {
 }
 .data-bar .val { font-size: 12px; color: #999; min-width: 30px; text-align: right; }
 
-.hidden-link-box {
-  margin-top: 20px;
-  padding: 16px;
-  background: #fdf2f2;
-  border: 1px dashed #c0392b;
-  border-radius: 10px;
-  text-align: center;
-}
-.hidden-link-box .warn { font-size: 12px; color: #c0392b; margin-bottom: 8px; }
-.hidden-link-box .link-btn {
-  display: inline-block;
-  padding: 10px 28px;
-  background: #c0392b;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  font-size: 14px;
-  cursor: pointer;
-  text-decoration: none;
-  transition: background .2s;
-}
-.hidden-link-box .link-btn:hover { background: #a03020; }
-.hidden-link-box .hint { font-size: 11px; color: #bbb; margin-top: 8px; }
 .foot {
   padding: 14px;
   text-align: center;
@@ -167,19 +144,12 @@ body {
     <div class="section">
       <h3>分析结果</h3>
       <p>与首次评估相比，生物学科认知模式有明显提升，逻辑推理和记忆提取指标均有所增长。但认知整合指标提升有限，且神经响应指标出现了轻微波动。</p>
-      <p>注：该生在首次评估后曾接受过一次<a href="#hidden-service" style="color:#2d5a8a;text-decoration:none;" onclick="document.getElementById('hidden-service').scrollIntoView({behavior:'smooth'});return false;">认知强化服务</a>，本次评估数据已纳入该变量。</p>
+      <p>注：该生在首次评估后曾接受过一次认知强化服务（服务ID：CMX-CS-20260615），本次评估数据已纳入该变量。相关服务记录请在"山经海集"小程序内验证查看。</p>
     </div>
 
     <div class="section">
       <h3>综合结论</h3>
       <p>陈同学整体认知水平处于良好状态，生物学科能力有显著提升。建议适当减少评估频率，注意休息。如有不适症状请及时联系客服。</p>
-    </div>
-
-    <div class="hidden-link-box" id="hidden-service">
-      <div class="warn">⚠ 关联服务</div>
-      <p style="font-size:13px;color:#666;margin-bottom:10px;">该评估者曾接受认知强化服务<br>服务记录详情：</p>
-      <a class="link-btn" href="../cognitive-record.html">查看认知强化报告</a>
-      <div class="hint">服务ID：CMX-CS-20260615</div>
     </div>
   </div>
 
