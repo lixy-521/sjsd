@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -6,160 +6,157 @@
 <title>北境科技安和实验室 · 官方网站</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:      #1f2a33;
+  --ink-2:    #46545f;
+  --ink-3:    #76838d;
+  --ink-4:    #9aa6af;
+  --line:     #e2e7eb;
+  --line-2:   #eef1f4;
+  --bg:       #f4f6f8;
+  --bg-soft:  #f8fafb;
+  --brand:    #1a6b8a;
+  --brand-2:  #24809f;
+  --brand-bg: #eef6f9;
+}
 body {
   font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
-  background: #0a0e14;
-  color: #b8c4cc;
+  background: var(--bg);
+  color: var(--ink-2);
   min-height: 100vh;
-  padding: 20px 12px 40px;
+  padding: 24px 14px 48px;
+  -webkit-font-smoothing: antialiased;
 }
 .wrap {
-  max-width: 960px;
+  max-width: 940px;
   margin: 0 auto;
-  background: #0e141c;
-  border: 1px solid #16202c;
-  border-radius: 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 4px 50px rgba(0,0,0,0.55);
+  box-shadow: 0 1px 3px rgba(31, 42, 51, .05);
 }
-/* header */
+
+/* ---------- 顶部信息条 ---------- */
 .topbar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 28px;
-  background: #090d12;
-  border-bottom: 1px solid #16202c;
-  font-family: "Courier New", monospace;
-  font-size: 10.5px;
-  letter-spacing: 1.5px;
-  color: #40596a;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 26px;
+  background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+  font-size: 11.5px;
+  color: var(--ink-4);
 }
-.topbar .clock { margin-left: auto; color: #3fa9c9; }
-.topbar .iso { color: #8b0000; }
+.topbar .clock { margin-left: auto; color: var(--brand); font-variant-numeric: tabular-nums; }
+.topbar .iso { color: var(--ink-4); }
 
+/* ---------- 页头 ---------- */
 header.main {
-  padding: 30px 28px;
-  background: linear-gradient(135deg, #0b1520 0%, #0e141c 60%);
-  border-bottom: 1px solid #16202c;
+  padding: 26px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
   flex-wrap: wrap;
 }
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: inherit;
+}
 .logo-mark {
-  width: 58px; height: 58px;
-  flex: 0 0 58px;
-  border: 1px solid #24506a;
-  border-radius: 10px;
+  width: 54px; height: 54px;
+  flex: 0 0 54px;
+  border: 1px solid var(--brand);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 50% 40%, #12283a, #0b1119);
+  background: var(--brand-bg);
+  color: var(--brand);
   position: relative;
-}
-.logo-mark::before {
-  content: 'N';
-  font-family: "Courier New", monospace;
-  font-size: 26px;
-  color: #3fa9c9;
-  letter-spacing: 0;
 }
 .logo-mark::after {
   content: '';
   position: absolute;
-  inset: 8px;
-  border: 1px solid #1c3242;
-  border-radius: 6px;
+  inset: 6px;
+  border: 1px solid rgba(26, 107, 138, .22);
+  border-radius: 3px;
 }
-.brand-link {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    text-decoration: none;
-    color: inherit;
-}
-.brand-link:hover { text-decoration: none; }
-.brand h1 { font-size: 21px; color: #d6e4ec; letter-spacing: 3px; font-weight: 600; }
+.logo-mark svg { width: 31px; height: 31px; display: block; }
+.brand h1 { font-size: 21px; color: var(--ink); letter-spacing: 2px; font-weight: 600; }
 .brand .en {
-  font-family: "Courier New", monospace;
-  font-size: 10.5px;
-  letter-spacing: 2px;
-  color: #3fa9c9;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--brand);
   margin-top: 5px;
 }
-.brand .sub { font-size: 11.5px; color: #5d7787; margin-top: 7px; letter-spacing: 1px; }
+.brand .sub { font-size: 12px; color: var(--ink-3); margin-top: 7px; }
 .header-meta {
   margin-left: auto;
   text-align: right;
-  font-family: "Courier New", monospace;
-  font-size: 10.5px;
-  color: #4d6b7d;
+  font-size: 11.5px;
+  color: var(--ink-4);
   line-height: 1.9;
 }
-.header-meta .cy { color: #3fa9c9; }
+.header-meta .cy { color: var(--brand); }
 
-/* nav */
+/* ---------- 导航 ---------- */
 nav {
   display: flex;
-  gap: 2px;
-  background: #0b1119;
-  border-bottom: 1px solid #16202c;
-  padding: 0 20px;
+  gap: 4px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  padding: 0 18px;
   flex-wrap: wrap;
 }
 nav a {
-  padding: 14px 20px;
-  font-size: 13px;
-  color: #6c8391;
+  padding: 13px 18px;
+  font-size: 13.5px;
+  color: var(--ink-2);
   text-decoration: none;
-  letter-spacing: 1px;
   border-bottom: 2px solid transparent;
   transition: color .2s, border-color .2s;
 }
-nav a:hover { color: #9fd0e2; }
+nav a:hover { color: var(--brand); border-bottom-color: var(--brand); }
 
-/* main grid */
-main { padding: 30px 28px 10px; }
-.section { margin-bottom: 42px; scroll-margin-top: 16px; }
+/* ---------- 主体 ---------- */
+main { padding: 30px 26px 8px; }
+.section { margin-bottom: 40px; scroll-margin-top: 16px; }
 .section-title {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 20px;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--brand);
 }
-.section-title .zh { font-size: 17px; color: #cfe0ea; letter-spacing: 3px; font-weight: 600; }
-.section-title .en {
-  font-family: "Courier New", monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: #3fa9c9;
-}
-.section-title::after {
-  content: '';
-  flex: 1;
-  border-top: 1px solid #16202c;
-}
+.section-title .zh { font-size: 17px; color: var(--ink); letter-spacing: 2px; font-weight: 600; }
+.section-title .en { font-size: 11px; letter-spacing: 1.5px; color: var(--ink-4); }
 
-/* 成果展示 */
+/* ---------- 成果展示 ---------- */
 .latest-note {
-  font-family: "Courier New", monospace;
-  font-size: 11px;
-  color: #4d6b7d;
-  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--ink-3);
+  margin-bottom: 14px;
 }
-.latest-note b { color: #3fa9c9; font-weight: 600; }
-.article-list { border: 1px solid #16202c; border-radius: 8px; overflow: hidden; }
+.latest-note b { color: var(--ink-2); font-weight: 600; }
+.article-list { border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
 .article-item {
   display: flex;
   align-items: center;
   gap: 14px;
   padding: 14px 18px;
-  background: #0b1119;
-  border-bottom: 1px solid #16202c;
+  background: #fff;
+  border-bottom: 1px solid var(--line-2);
   text-decoration: none;
   color: inherit;
-  transition: background .2s;
+  transition: background .18s;
   text-align: left;
   width: 100%;
   border-left: none; border-right: none; border-top: none;
@@ -167,171 +164,140 @@ main { padding: 30px 28px 10px; }
   cursor: pointer;
 }
 .article-item:last-child { border-bottom: none; }
-.article-item:hover { background: #101a24; }
+.article-item:hover { background: var(--bg-soft); }
 .article-item .ai-date {
-  font-family: "Courier New", monospace;
-  font-size: 11px;
-  color: #4d6b7d;
-  flex: 0 0 92px;
-}
-.article-item .ai-title { font-size: 13.5px; color: #a4b6c2; flex: 1; line-height: 1.6; }
-.article-item .ai-tag {
-  font-size: 10px;
-  font-family: "Courier New", monospace;
-  color: #5d7787;
-  border: 1px solid #1c2836;
-  border-radius: 4px;
-  padding: 2px 8px;
-  letter-spacing: 1px;
-  flex: 0 0 auto;
-}
-.article-item.is-paper .ai-title { color: #9fd0e2; }
-.article-item.is-paper .ai-tag { color: #3fa9c9; border-color: #24506a; }
-.article-item .ai-arrow { color: #3a5566; font-size: 14px; flex: 0 0 auto; }
-.article-item:hover .ai-arrow { color: #3fa9c9; }
-
-.deleted-panel {
-  display: none;
-  padding: 34px 20px;
-  text-align: center;
-  background: #0b1119;
-  border: 1px dashed #2a1a1a;
-  border-radius: 8px;
-  margin-top: 14px;
-}
-.deleted-panel.visible { display: block; }
-.deleted-panel .dot {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 34px; height: 34px;
-  border: 1px solid #8b0000;
-  border-radius: 50%;
-  color: #8b0000;
-  font-size: 18px;
-  margin-bottom: 12px;
-}
-.deleted-panel .msg { font-size: 15px; color: #b06a6a; letter-spacing: 2px; }
-.deleted-panel .sub { font-size: 11.5px; color: #5a4040; margin-top: 8px; font-family: "Courier New", monospace; }
-.deleted-panel .close {
-  margin-top: 16px;
-  background: #12181f;
-  border: 1px solid #2a3542;
-  color: #7f96a4;
-  padding: 7px 18px;
-  border-radius: 6px;
   font-size: 12px;
-  cursor: pointer;
-  font-family: inherit;
+  color: var(--ink-4);
+  flex: 0 0 92px;
+  font-variant-numeric: tabular-nums;
 }
-.deleted-panel .close:hover { color: #9fd0e2; border-color: #3fa9c9; }
+.article-item .ai-title { font-size: 14px; color: var(--ink); flex: 1; line-height: 1.6; }
+.article-item .ai-tag {
+  font-size: 11px;
+  color: var(--ink-3);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 2px 8px;
+  flex: 0 0 auto;
+  background: var(--bg-soft);
+}
+.article-item .ai-arrow { color: var(--ink-4); font-size: 14px; flex: 0 0 auto; }
+.article-item:hover .ai-arrow { color: var(--brand); }
 
-/* 人员介绍 */
+/* ---------- 人员介绍 ---------- */
 .people-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(158px, 1fr));
+  gap: 12px;
 }
 .person {
-  background: #0b1119;
-  border: 1px solid #16202c;
-  border-radius: 8px;
-  padding: 18px 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 18px 14px;
   text-align: center;
-  transition: border-color .2s, transform .1s;
+  transition: border-color .2s, box-shadow .2s;
 }
-.person:hover { border-color: #24506a; transform: translateY(-2px); }
+.person:hover { border-color: #c3d6de; box-shadow: 0 2px 8px rgba(31, 42, 51, .06); }
 .person .avatar {
-  width: 48px; height: 48px;
-  margin: 0 auto 12px;
+  width: 46px; height: 46px;
+  margin: 0 auto 11px;
   border-radius: 50%;
-  border: 1px solid #24506a;
-  background: radial-gradient(circle at 50% 35%, #14293a, #0b1119);
+  border: 1px solid var(--brand);
+  background: var(--brand-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Courier New", monospace;
-  font-size: 17px;
-  color: #3fa9c9;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--brand);
 }
 .person .p-role {
   display: inline-block;
-  font-size: 10px;
-  font-family: "Courier New", monospace;
-  letter-spacing: 1px;
+  font-size: 11px;
   padding: 2px 9px;
-  border-radius: 10px;
-  margin-bottom: 9px;
+  border-radius: 2px;
+  margin-bottom: 8px;
 }
-.person .role-director { color: #d6b86a; border: 1px solid #5c4a1a; background: #161006; }
-.person .role-deputy { color: #9fd0e2; border: 1px solid #24506a; background: #0c1a24; }
-.person .role-researcher { color: #8ba0ad; border: 1px solid #23313f; background: #0d131b; }
-.person .p-name { font-size: 15px; color: #cfe0ea; letter-spacing: 2px; }
-.person .p-field { font-size: 11px; color: #5d7787; margin-top: 6px; line-height: 1.6; }
+.person .role-director   { color: #8a6520; border: 1px solid #e6d5a8; background: #fbf6e9; }
+.person .role-deputy     { color: var(--brand); border: 1px solid #b9d8e4; background: var(--brand-bg); }
+.person .role-researcher { color: var(--ink-3); border: 1px solid var(--line); background: var(--bg-soft); }
+.person .p-name { font-size: 15px; color: var(--ink); letter-spacing: 1px; font-weight: 600; }
+.person .p-field { font-size: 11.5px; color: var(--ink-3); margin-top: 6px; line-height: 1.6; }
 
-/* 研究平台 */
+/* ---------- 研究平台 ---------- */
 .platform-card {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 22px 24px;
-  background: linear-gradient(135deg, #0d1a24, #0b1119);
-  border: 1px solid #1c3242;
-  border-radius: 10px;
+  gap: 16px;
+  padding: 20px 22px;
+  background: var(--brand-bg);
+  border: 1px solid #cfe3ea;
+  border-radius: 3px;
   text-decoration: none;
   transition: border-color .2s, background .2s;
 }
-.platform-card:hover { border-color: #3fa9c9; background: linear-gradient(135deg, #102430, #0d141c); }
+.platform-card:hover { border-color: var(--brand); background: #e7f2f6; }
 .platform-card .pc-icon {
-  width: 46px; height: 46px;
-  flex: 0 0 46px;
-  border: 1px solid #24506a;
-  border-radius: 8px;
+  width: 44px; height: 44px;
+  flex: 0 0 44px;
+  border: 1px solid #cfe3ea;
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  color: #3fa9c9;
-  background: #0b1119;
+  font-size: 19px;
+  color: var(--brand);
+  background: #fff;
 }
 .platform-card .pc-body { flex: 1; }
-.platform-card .pc-title { font-size: 15px; color: #cfe0ea; letter-spacing: 2px; margin-bottom: 6px; }
-.platform-card .pc-desc { font-size: 12px; color: #6c8391; line-height: 1.7; }
-.platform-card .pc-arrow { color: #3fa9c9; font-size: 20px; }
+.platform-card .pc-title { font-size: 15px; color: var(--ink); letter-spacing: 1px; margin-bottom: 5px; font-weight: 600; }
+.platform-card .pc-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.7; }
+.platform-card .pc-arrow { color: var(--brand); font-size: 19px; }
 
+/* ---------- 页脚 ---------- */
 footer {
-  margin-top: 20px;
-  padding: 20px 28px;
-  border-top: 1px solid #16202c;
-  background: #090d12;
-  font-family: "Courier New", monospace;
-  font-size: 10.5px;
-  color: #3a5464;
+  margin-top: 16px;
+  padding: 20px 26px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-soft);
+  font-size: 11.5px;
+  color: var(--ink-4);
   line-height: 2;
 }
-footer a { color: #3fa9c9; text-decoration: none; }
-footer a:hover { color: #6fd0ea; }
-footer .row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+footer a { color: var(--brand); text-decoration: none; }
+footer a:hover { color: var(--brand-2); text-decoration: underline; }
+footer .row { display: flex; flex-wrap: wrap; gap: 6px 20px; }
 
-@media (max-width: 560px) {
-  header.main { gap: 14px; }
+@media (max-width: 620px) {
+  body { padding: 12px 8px 32px; }
+  header.main { gap: 14px; padding: 20px 18px; }
   .header-meta { margin-left: 0; text-align: left; }
-  main { padding: 24px 16px 6px; }
-  .article-item .ai-date { flex-basis: 76px; font-size: 10px; }
+  nav { padding: 0 10px; }
+  nav a { padding: 12px 12px; font-size: 13px; }
+  main { padding: 22px 18px 6px; }
+  .article-item { flex-wrap: wrap; gap: 6px 12px; }
+  .article-item .ai-date { flex-basis: auto; }
+  .article-item .ai-title { flex-basis: 100%; order: -1; }
+  .article-item .ai-tag { order: -1; margin-left: auto; }
 }
 </style>
 </head>
 <body>
 <div class="wrap">
+
+  <!-- 顶部信息条 -->
   <div class="topbar">
-    <span>NORTHLAND TECH · ANHE LABORATORY</span>
-    <span class="clock" id="clock">--:--:--</span>
-    <span class="iso">ISO-ANHE</span>
+    <span>ANHE LABORATORY</span>
+    <span>·</span>
+    <span>外部公开版 v2025.10</span>
+    <span class="clock" id="clock">--</span>
   </div>
 
+  <!-- 页头 -->
   <header class="main">
     <a class="brand-link" href="../index.html" title="返回入口">
-      <div class="logo-mark"></div>
+      <div class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 21 20H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="16" r="1.6" fill="currentColor"/><circle cx="7" cy="19" r="1.3" fill="currentColor"/><circle cx="17" cy="19" r="1.3" fill="currentColor"/></svg></div>
       <div class="brand">
         <h1>北境科技·安和实验室</h1>
         <div class="en">ANHE LABORATORY · NORTHLAND TECHNOLOGIES</div>
@@ -339,8 +305,8 @@ footer .row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
       </div>
     </a>
     <div class="header-meta">
-      <div>EST. <span class="cy">2024</span></div>
-      <div>INTERNAL · 外部公开版</div>
+      <div>成立于 <span class="cy">2024</span></div>
+      <div>北境科技园区 C 座 4 层</div>
     </div>
   </header>
 
@@ -357,39 +323,38 @@ footer .row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
         <span class="zh">成果展示</span>
         <span class="en">PUBLICATIONS</span>
       </div>
-      <div class="latest-note">最新文章发布于 <b>2025-11-14</b></div>
-      <div class="article-list" id="articleList">
-        <button class="article-item" type="button">
-          <span class="ai-date">2025-11-14</span>
-          <span class="ai-title">神经可塑性在青少年学习记忆中的应用观察</span>
-          <span class="ai-tag">综述</span>
+      <div class="latest-note">最新文章发布于 <b>2025-10-24</b></div>
+      <div class="article-list">
+        <a class="article-item" href="sleep-memory.html">
+          <span class="ai-date">2025-10-24</span>
+          <span class="ai-title">睡眠周期与青少年记忆巩固关系的观察研究</span>
+          <span class="ai-tag">研究</span>
           <span class="ai-arrow">›</span>
-        </button>
-        <button class="article-item" type="button">
-          <span class="ai-date">2025-10-02</span>
-          <span class="ai-title">脑电信号噪声抑制算法的工程优化</span>
-          <span class="ai-tag">工程</span>
+        </a>
+        <a class="article-item" href="attention-training.html">
+          <span class="ai-date">2025-10-14</span>
+          <span class="ai-title">基于脑电反馈的注意力训练方法初探</span>
+          <span class="ai-tag">研究</span>
           <span class="ai-arrow">›</span>
-        </button>
-        <button class="article-item" type="button">
-          <span class="ai-date">2025-09-18</span>
+        </a>
+        <a class="article-item" href="open-day.html">
+          <span class="ai-date">2025-10-06</span>
           <span class="ai-title">安和实验室 2025 年度开放日活动纪实</span>
           <span class="ai-tag">动态</span>
           <span class="ai-arrow">›</span>
-        </button>
-        <button class="article-item is-paper" id="paperItem" type="button">
-          <span class="ai-date">2025-08-27</span>
+        </a>
+        <a class="article-item" href="privacy.html">
+          <span class="ai-date">2025-10-02</span>
+          <span class="ai-title">脑电采集中的隐私保护与数据脱敏实践</span>
+          <span class="ai-tag">规范</span>
+          <span class="ai-arrow">›</span>
+        </a>
+        <a class="article-item" id="paperItem" href="404.html">
+          <span class="ai-date">2025-09-26</span>
           <span class="ai-title">《记忆提取和注入操作的可行性探究》</span>
           <span class="ai-tag">论文</span>
           <span class="ai-arrow">›</span>
-        </button>
-      </div>
-
-      <div class="deleted-panel" id="deletedPanel">
-        <div class="dot">!</div>
-        <div class="msg">本文章已删除</div>
-        <div class="sub">The article you requested is no longer available.</div>
-        <button class="close" id="deletedClose" type="button">返回列表</button>
+        </a>
       </div>
     </section>
 
@@ -466,27 +431,8 @@ footer .row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
 <script>
 (function() {
   var clock = document.getElementById('clock');
-  function tick() {
-    var d = new Date();
-    var p = function(n) { return n < 10 ? '0' + n : '' + n; };
-    clock.textContent = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' +
-      p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds());
-  }
-  tick();
-  setInterval(tick, 1000);
-
-  var panel = document.getElementById('deletedPanel');
-  var closeBtn = document.getElementById('deletedClose');
-
-  document.querySelectorAll('.article-item').forEach(function(item) {
-    item.addEventListener('click', function() {
-      panel.classList.add('visible');
-      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    });
-  });
-  closeBtn.addEventListener('click', function() {
-    panel.classList.remove('visible');
-  });
+  // 站点时钟固定在同一时刻，作为官网的"最后更新于"
+  clock.textContent = '2025-10-24 09:00:00';
 })();
 </script>
 </body>

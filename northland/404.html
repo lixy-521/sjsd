@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>页面不存在 · 北境科技安和实验室</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:      #1f2a33;
+  --ink-2:    #46545f;
+  --ink-3:    #76838d;
+  --ink-4:    #9aa6af;
+  --line:     #e2e7eb;
+  --line-2:   #eef1f4;
+  --bg:       #f4f6f8;
+  --bg-soft:  #f8fafb;
+  --brand:    #1a6b8a;
+  --brand-2:  #24809f;
+  --brand-bg: #eef6f9;
+}
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--ink-2);
+  min-height: 100vh;
+  padding: 24px 14px 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(31, 42, 51, .05);
+}
+
+/* ---------- 页头（与实验室官网一致） ---------- */
+header.main {
+  padding: 20px 26px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+.logo-mark {
+  width: 44px; height: 44px;
+  flex: 0 0 44px;
+  border: 1px solid var(--brand);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--brand-bg);
+  color: var(--brand);
+  position: relative;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(26, 107, 138, .22);
+  border-radius: 3px;
+}
+.logo-mark svg { width: 26px; height: 26px; display: block; }
+.brand h1 { font-size: 17px; color: var(--ink); letter-spacing: 2px; font-weight: 600; }
+.brand .en { font-size: 10.5px; letter-spacing: 1.5px; color: var(--brand); margin-top: 4px; }
+.header-meta {
+  margin-left: auto;
+  text-align: right;
+  font-size: 11.5px;
+  color: var(--ink-4);
+  line-height: 1.8;
+}
+
+/* ---------- 主体 ---------- */
+main { padding: 44px 26px 30px; text-align: center; }
+.code {
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--brand);
+  letter-spacing: 4px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.code-cap {
+  font-size: 11.5px;
+  letter-spacing: 3px;
+  color: var(--ink-4);
+  margin-top: 10px;
+}
+.rule {
+  width: 44px;
+  height: 2px;
+  background: var(--brand);
+  margin: 24px auto;
+}
+.msg {
+  font-size: 16px;
+  color: var(--ink);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.sub {
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.9;
+  max-width: 44ch;
+  margin: 0 auto;
+}
+
+.actions { margin-top: 30px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 13.5px;
+  border-radius: 3px;
+  text-decoration: none;
+  border: 1px solid var(--brand);
+  background: var(--brand);
+  color: #fff;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.btn:hover { background: var(--brand-2); border-color: var(--brand-2); }
+.btn.ghost { background: #fff; color: var(--brand); }
+.btn.ghost:hover { background: var(--brand-bg); color: var(--brand); }
+
+/* ---------- 页脚 ---------- */
+footer {
+  padding: 18px 26px;
+  border-top: 1px solid var(--line);
+  background: var(--bg-soft);
+  font-size: 11.5px;
+  color: var(--ink-4);
+  line-height: 2;
+}
+footer .row { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+footer a { color: var(--brand); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+
+@media (max-width: 560px) {
+  body { padding: 12px 8px 32px; }
+  header.main { padding: 16px 18px; }
+  .header-meta { margin-left: 0; text-align: left; }
+  main { padding: 34px 18px 24px; }
+  .code { font-size: 52px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="main">
+    <a class="brand-link" href="lab.html">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 21 20H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="16" r="1.6" fill="currentColor"/><circle cx="7" cy="19" r="1.3" fill="currentColor"/><circle cx="17" cy="19" r="1.3" fill="currentColor"/></svg></div>
+      <div class="brand">
+        <h1>北境科技·安和实验室</h1>
+        <div class="en">ANHE LABORATORY · NORTHLAND TECHNOLOGIES</div>
+      </div>
+    </a>
+    <div class="header-meta">
+      <div>ERROR <span>404</span></div>
+      <div>外部公开版</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="code">404</div>
+    <div class="code-cap">PAGE NOT FOUND</div>
+    <div class="rule"></div>
+    <div class="msg">您访问的页面不存在或已被移除</div>
+    <div class="sub">
+      该页面已从本实验室官网下架，不再对外提供访问。
+      如需查阅，请通过合作渠道与对外合作部联系。
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="lab.html">返回实验室首页</a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="row">
+      <span>北境科技安和实验室 © 2024–2025</span>
+      <span>地址：北境科技园区 C 座 4 层</span>
+    </div>
+    <div class="row">
+      <span>本网站内容仅用于学术交流，不构成任何商业承诺</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

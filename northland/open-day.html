@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>安和实验室 2025 年度开放日活动纪实 · 北境科技安和实验室</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1f2a33; --ink-2: #46545f; --ink-3: #76838d; --ink-4: #9aa6af;
+  --line: #e2e7eb; --line-2: #eef1f4;
+  --bg: #f4f6f8; --bg-soft: #f8fafb;
+  --brand: #1a6b8a; --brand-2: #24809f; --brand-bg: #eef6f9;
+}
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: var(--bg); color: var(--ink-2);
+  min-height: 100vh; padding: 24px 14px 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 780px; margin: 0 auto; background: #fff;
+  border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(31,42,51,.05);
+}
+header.main {
+  padding: 18px 26px; background: #fff; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.brand-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+.logo-mark {
+  width: 42px; height: 42px; flex: 0 0 42px; border: 1px solid var(--brand);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  background: var(--brand-bg); color: var(--brand); position: relative;
+}
+.logo-mark::after {
+  content: ''; position: absolute; inset: 5px;
+  border: 1px solid rgba(26,107,138,.22); border-radius: 3px;
+}
+.logo-mark svg { width: 24px; height: 24px; display: block; }
+.brand h1 { font-size: 16.5px; color: var(--ink); letter-spacing: 2px; font-weight: 600; }
+.brand .en { font-size: 10.5px; letter-spacing: 1.5px; color: var(--brand); margin-top: 4px; }
+.header-meta { margin-left: auto; text-align: right; font-size: 11.5px; color: var(--ink-4); line-height: 1.8; }
+
+nav { display: flex; gap: 4px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 18px; flex-wrap: wrap; }
+nav a {
+  padding: 12px 16px; font-size: 13px; color: var(--ink-2); text-decoration: none;
+  border-bottom: 2px solid transparent; transition: color .2s, border-color .2s;
+}
+nav a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+
+main { padding: 32px 26px 24px; }
+.crumb-kind {
+  display: inline-block; font-size: 11px; letter-spacing: 1px;
+  color: var(--brand); background: var(--brand-bg);
+  border: 1px solid #cfe3ea; border-radius: 2px; padding: 2px 9px; margin-bottom: 14px;
+}
+h1.title { font-size: 24px; color: var(--ink); line-height: 1.55; letter-spacing: .5px; font-weight: 600; margin-bottom: 12px; }
+.byline {
+  display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--ink-4);
+  padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 24px;
+}
+.lede {
+  font-size: 14.5px; line-height: 1.95; color: var(--ink-2); text-align: justify;
+  background: var(--bg-soft); border: 1px solid var(--line); border-left: 3px solid var(--brand);
+  border-radius: 0 3px 3px 0; padding: 15px 18px; margin-bottom: 26px;
+}
+h2.sec {
+  font-size: 16px; color: var(--ink); letter-spacing: .5px; font-weight: 600;
+  margin: 30px 0 12px; padding-bottom: 7px; border-bottom: 1px solid var(--line);
+}
+main p { font-size: 14px; line-height: 2; color: var(--ink-2); text-align: justify; margin-bottom: 12px; }
+main p.ni { text-indent: 0; }
+main ul { margin: 4px 0 14px 0; }
+main ul li {
+  list-style: none; font-size: 14px; line-height: 1.95; color: var(--ink-2);
+  padding-left: 20px; position: relative; margin-bottom: 7px;
+}
+main ul li::before {
+  content: ''; position: absolute; left: 5px; top: .82em;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--brand);
+}
+.schedule { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0 18px; }
+.schedule caption { caption-side: top; text-align: left; font-size: 12px; color: var(--ink-4); padding-bottom: 8px; }
+.schedule th, .schedule td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; color: var(--ink-2); }
+.schedule th { background: var(--bg-soft); color: var(--ink); font-weight: 600; }
+.schedule td.t { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.note {
+  background: var(--bg-soft); border: 1px solid var(--line); border-radius: 3px;
+  padding: 14px 18px; margin: 18px 0;
+}
+.note .nt { font-size: 12px; font-weight: 600; color: var(--brand); letter-spacing: .5px; margin-bottom: 7px; }
+.note p { font-size: 13px; line-height: 1.9; margin-bottom: 6px; }
+.note p:last-child { margin-bottom: 0; }
+.quote {
+  border-left: 3px solid var(--line); padding: 4px 0 4px 16px; margin: 16px 0;
+  font-size: 13.5px; line-height: 1.9; color: var(--ink-3);
+}
+.article-foot {
+  margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+}
+.btn {
+  display: inline-block; padding: 9px 18px; font-size: 13px; border-radius: 3px;
+  text-decoration: none; border: 1px solid var(--brand); background: var(--brand);
+  color: #fff; transition: background .2s, border-color .2s, color .2s;
+}
+.btn:hover { background: var(--brand-2); border-color: var(--brand-2); }
+.btn.ghost { background: #fff; color: var(--brand); }
+.btn.ghost:hover { background: var(--brand-bg); }
+.copy { margin-left: auto; font-size: 11.5px; color: var(--ink-4); }
+
+footer {
+  margin-top: 16px; padding: 18px 26px; border-top: 1px solid var(--line);
+  background: var(--bg-soft); font-size: 11.5px; color: var(--ink-4); line-height: 2;
+}
+footer a { color: var(--brand); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer .row { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+
+@media (max-width: 560px) {
+  body { padding: 12px 8px 32px; }
+  header.main, main, footer { padding-left: 18px; padding-right: 18px; }
+  h1.title { font-size: 20px; }
+  .header-meta { margin-left: 0; text-align: left; }
+  .copy { margin-left: 0; }
+  .schedule { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="main">
+    <a class="brand-link" href="lab.html">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 21 20H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="16" r="1.6" fill="currentColor"/><circle cx="7" cy="19" r="1.3" fill="currentColor"/><circle cx="17" cy="19" r="1.3" fill="currentColor"/></svg></div>
+      <div class="brand">
+        <h1>北境科技·安和实验室</h1>
+        <div class="en">ANHE LABORATORY · NORTHLAND TECHNOLOGIES</div>
+      </div>
+    </a>
+    <div class="header-meta">
+      <div>实验室动态</div>
+      <div>外部公开版</div>
+    </div>
+  </header>
+
+  <nav>
+    <a href="lab.html#results">成果展示</a>
+    <a href="lab.html#people">人员介绍</a>
+    <a href="lab.html#platform">研究平台</a>
+  </nav>
+
+  <main>
+    <div class="crumb-kind">动态</div>
+    <h1 class="title">安和实验室 2025 年度开放日活动纪实</h1>
+    <div class="byline">
+      <span>发布日期：2025-10-06</span>
+      <span>撰稿：实验室对外合作部</span>
+      <span>栏目：公开出版物 / 动态</span>
+    </div>
+
+    <div class="lede">
+      2025 年 9 月 13 日，安和实验室举办年度公众开放日，共接待来访者 216 人次，其中在校学生 118 人、教师及家长 74 人、合作单位代表 24 人。当日开放区域包括展厅、常规实验区与科普讲堂，核心设备区不在开放范围内。
+    </div>
+
+    <h2 class="sec">1. 活动概况</h2>
+    <p>开放日旨在向公众说明本实验室的日常工作内容与研究方法。近年来，"脑电""认知"等词汇频繁出现在各类宣传中，公众对其原理常有误读。我们希望通过现场参观与讲解，把研究工作还原为可理解、可追问的常规科学活动。</p>
+    <p class="ni">当日流程如下：</p>
+    <table class="schedule">
+      <caption>表 1　2025 年度开放日日程</caption>
+      <thead>
+        <tr><th>时间</th><th>环节</th><th>地点</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="t">09:00–09:30</td><td>签到与安全说明</td><td>一层接待厅</td></tr>
+        <tr><td class="t">09:30–10:30</td><td>展厅参观：实验室沿革与研究方向</td><td>一层展厅</td></tr>
+        <tr><td class="t">10:30–11:30</td><td>科普讲堂：脑电信号能读出什么</td><td>二层讲堂</td></tr>
+        <tr><td class="t">13:30–15:00</td><td>常规实验区参观（隔观察窗）</td><td>三层走廊</td></tr>
+        <tr><td class="t">15:00–16:00</td><td>互动体验：干电极佩戴与信号可视化</td><td>三层体验区</td></tr>
+        <tr><td class="t">16:00–16:30</td><td>自由问答</td><td>一层接待厅</td></tr>
+      </tbody>
+    </table>
+
+    <h2 class="sec">2. 科普讲堂</h2>
+    <p>讲堂主题为"脑电信号能读出什么"。主讲人陈昱在开场即明确划出边界：现有设备能够反映的是大范围的、粗粒度的电活动状态，例如放松或紧张的趋势，<strong>无法读出具体的想法、语句或记忆内容</strong>。</p>
+    <div class="quote">
+      "很多人第一次听说脑电，会以为它能读心。实际上它更像是在门外听屋里的动静——能听出有没有人在活动，听不出具体在说什么。"
+    </div>
+    <p>讲堂同时介绍了数据合规方面的做法：所有研究数据以编号存储，原始波形在特征提取后销毁，受试者可随时撤回授权。现场有多位教师就此提问，关注点集中在"学生数据是否会外泄"。</p>
+
+    <h2 class="sec">3. 互动体验区</h2>
+    <p class="ni">体验区提供干电极头环的佩戴与实时信号可视化，是当日排队最长的环节。参与者可以：</p>
+    <ul>
+      <li>亲手佩戴头环，感受干电极的贴合方式（不刺破皮肤、不使用导电膏）；</li>
+      <li>在屏幕上看到自己的信号曲线随呼吸与放松状态变化；</li>
+      <li>观察"闭眼时曲线如何变化"这一经典现象。</li>
+    </ul>
+    <p>体验区使用的设备为演示型号，只有读取功能，且数据不落盘。每位参与者在体验前均需签署一页纸的体验同意书，未成年参与者须由监护人陪同并签字。当日共 89 人完成体验，未出现任何不适报告。</p>
+
+    <h2 class="sec">4. 来访者反馈</h2>
+    <p>活动结束后共回收有效问卷 154 份。反馈集中在两个方面：一是希望增加常规实验区的开放时长；二是希望科普内容进一步下沉，例如面向初中生单独设计一场。</p>
+    <p>也有来访者提出中肯的意见：展厅的图文说明偏专业，多处长句需要讲解员二次解释。我们已记录该意见，将在下一次开放日前重写展板文案。</p>
+
+    <h2 class="sec">5. 未开放区域说明</h2>
+    <div class="note">
+      <div class="nt">关于核心设备区</div>
+      <p>本次开放日未安排核心设备区参观。该区域的设备对洁净度与电磁环境有要求，人员频繁进出会影响正在进行的记录；同时部分设备涉及合作方的项目安排，不便对外展示。</p>
+      <p>我们理解公众对"实验室里到底在做什么"的好奇，也将在条件允许时，以录像或图文形式对常规工作流程作补充说明。</p>
+    </div>
+
+    <h2 class="sec">6. 结语</h2>
+    <p>开放日不是成果展示，而是一次把工作摊开给人看的尝试。感谢当日到访的每一位公众、老师与同学。下一届开放日拟于次年春季举办，具体安排将通过本实验室官网提前两周公布。</p>
+
+    <div class="article-foot">
+      <a class="btn ghost" href="lab.html#results">← 返回成果展示</a>
+      <span class="copy">北境科技安和实验室 · 实验室动态</span>
+    </div>
+  </main>
+
+  <footer>
+    <div class="row">
+      <span>北境科技安和实验室 © 2024–2025</span>
+      <span>地址：北境科技园区 C 座 4 层</span>
+    </div>
+    <div class="row">
+      <span>本网站内容仅用于学术交流，不构成任何商业承诺</span>
+      <span>备案号：NLD-ANHE-0000-0000</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>基于脑电反馈的注意力训练方法初探 · 北境科技安和实验室</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink: #1f2a33; --ink-2: #46545f; --ink-3: #76838d; --ink-4: #9aa6af;
+  --line: #e2e7eb; --line-2: #eef1f4;
+  --bg: #f4f6f8; --bg-soft: #f8fafb;
+  --brand: #1a6b8a; --brand-2: #24809f; --brand-bg: #eef6f9;
+}
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
+  background: var(--bg); color: var(--ink-2);
+  min-height: 100vh; padding: 24px 14px 48px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 780px; margin: 0 auto; background: #fff;
+  border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+  box-shadow: 0 1px 3px rgba(31,42,51,.05);
+}
+header.main {
+  padding: 18px 26px; background: #fff; border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.brand-link { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+.logo-mark {
+  width: 42px; height: 42px; flex: 0 0 42px; border: 1px solid var(--brand);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  background: var(--brand-bg); color: var(--brand); position: relative;
+}
+.logo-mark::after {
+  content: ''; position: absolute; inset: 5px;
+  border: 1px solid rgba(26,107,138,.22); border-radius: 3px;
+}
+.logo-mark svg { width: 24px; height: 24px; display: block; }
+.brand h1 { font-size: 16.5px; color: var(--ink); letter-spacing: 2px; font-weight: 600; }
+.brand .en { font-size: 10.5px; letter-spacing: 1.5px; color: var(--brand); margin-top: 4px; }
+.header-meta { margin-left: auto; text-align: right; font-size: 11.5px; color: var(--ink-4); line-height: 1.8; }
+
+nav { display: flex; gap: 4px; background: #fff; border-bottom: 1px solid var(--line); padding: 0 18px; flex-wrap: wrap; }
+nav a {
+  padding: 12px 16px; font-size: 13px; color: var(--ink-2); text-decoration: none;
+  border-bottom: 2px solid transparent; transition: color .2s, border-color .2s;
+}
+nav a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+
+main { padding: 32px 26px 24px; }
+.crumb-kind {
+  display: inline-block; font-size: 11px; letter-spacing: 1px;
+  color: var(--brand); background: var(--brand-bg);
+  border: 1px solid #cfe3ea; border-radius: 2px; padding: 2px 9px; margin-bottom: 14px;
+}
+h1.title { font-size: 24px; color: var(--ink); line-height: 1.55; letter-spacing: .5px; font-weight: 600; margin-bottom: 12px; }
+.byline {
+  display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: var(--ink-4);
+  padding-bottom: 16px; border-bottom: 1px solid var(--line); margin-bottom: 24px;
+}
+.lede {
+  font-size: 14.5px; line-height: 1.95; color: var(--ink-2); text-align: justify;
+  background: var(--bg-soft); border: 1px solid var(--line); border-left: 3px solid var(--brand);
+  border-radius: 0 3px 3px 0; padding: 15px 18px; margin-bottom: 26px;
+}
+h2.sec {
+  font-size: 16px; color: var(--ink); letter-spacing: .5px; font-weight: 600;
+  margin: 30px 0 12px; padding-bottom: 7px; border-bottom: 1px solid var(--line);
+}
+h3.sub { font-size: 14px; color: var(--ink); font-weight: 600; margin: 18px 0 8px; }
+main p { font-size: 14px; line-height: 2; color: var(--ink-2); text-align: justify; margin-bottom: 12px; }
+main p.ni { text-indent: 0; }
+main ul { margin: 4px 0 14px 0; }
+main ul li {
+  list-style: none; font-size: 14px; line-height: 1.95; color: var(--ink-2);
+  padding-left: 20px; position: relative; margin-bottom: 7px;
+}
+main ul li::before {
+  content: ''; position: absolute; left: 5px; top: .82em;
+  width: 4px; height: 4px; border-radius: 50%; background: var(--brand);
+}
+table.data { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0 18px; }
+table.data caption { caption-side: top; text-align: left; font-size: 12px; color: var(--ink-4); padding-bottom: 8px; }
+table.data th, table.data td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; color: var(--ink-2); }
+table.data th { background: var(--bg-soft); color: var(--ink); font-weight: 600; }
+table.data td.num { font-variant-numeric: tabular-nums; }
+.note {
+  background: var(--bg-soft); border: 1px solid var(--line); border-radius: 3px;
+  padding: 14px 18px; margin: 18px 0;
+}
+.note .nt { font-size: 12px; font-weight: 600; color: var(--brand); letter-spacing: .5px; margin-bottom: 7px; }
+.note p { font-size: 13px; line-height: 1.9; margin-bottom: 6px; }
+.note p:last-child { margin-bottom: 0; }
+
+.article-foot {
+  margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--line);
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+}
+.btn {
+  display: inline-block; padding: 9px 18px; font-size: 13px; border-radius: 3px;
+  text-decoration: none; border: 1px solid var(--brand); background: var(--brand);
+  color: #fff; transition: background .2s, border-color .2s, color .2s;
+}
+.btn:hover { background: var(--brand-2); border-color: var(--brand-2); }
+.btn.ghost { background: #fff; color: var(--brand); }
+.btn.ghost:hover { background: var(--brand-bg); }
+.copy { margin-left: auto; font-size: 11.5px; color: var(--ink-4); }
+
+footer {
+  margin-top: 16px; padding: 18px 26px; border-top: 1px solid var(--line);
+  background: var(--bg-soft); font-size: 11.5px; color: var(--ink-4); line-height: 2;
+}
+footer a { color: var(--brand); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer .row { display: flex; flex-wrap: wrap; gap: 6px 20px; }
+
+@media (max-width: 560px) {
+  body { padding: 12px 8px 32px; }
+  header.main, main, footer { padding-left: 18px; padding-right: 18px; }
+  h1.title { font-size: 20px; }
+  .header-meta { margin-left: 0; text-align: left; }
+  .copy { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="main">
+    <a class="brand-link" href="lab.html">
+      <div class="logo-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 21 20H3z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><circle cx="12" cy="16" r="1.6" fill="currentColor"/><circle cx="7" cy="19" r="1.3" fill="currentColor"/><circle cx="17" cy="19" r="1.3" fill="currentColor"/></svg></div>
+      <div class="brand">
+        <h1>北境科技·安和实验室</h1>
+        <div class="en">ANHE LABORATORY · NORTHLAND TECHNOLOGIES</div>
+      </div>
+    </a>
+    <div class="header-meta">
+      <div>公开出版物</div>
+      <div>外部公开版</div>
+    </div>
+  </header>
+
+  <nav>
+    <a href="lab.html#results">成果展示</a>
+    <a href="lab.html#people">人员介绍</a>
+    <a href="lab.html#platform">研究平台</a>
+  </nav>
+
+  <main>
+    <div class="crumb-kind">研究</div>
+    <h1 class="title">基于脑电反馈的注意力训练方法初探</h1>
+    <div class="byline">
+      <span>发布日期：2025-10-14</span>
+      <span>作者：陈昱、赵筠</span>
+      <span>栏目：公开出版物 / 研究</span>
+    </div>
+
+    <div class="lede">
+      本文介绍一种以脑电反馈为核心的注意力训练方法。设备仅读取受试者前额区域的脑电活动并将其可视化，受试者通过观察反馈自行调整专注状态。该过程不涉及任何形式的信号写入、刺激诱导或数据外传，属于非侵入式、可随时中止的被动测量。
+    </div>
+
+    <h2 class="sec">1. 研究背景</h2>
+    <p>注意力维持困难是学习场景中最常见的困扰之一。传统训练方法多依赖行为层面的重复练习，受训者往往难以及时感知自己是否"专注"。脑电反馈（neurofeedback）提供了一条不同的路径：把难以察觉的脑电活动转换为可见的图形，让受训者获得即时的自我参照。</p>
+    <p>本实验室注意到，公众对"脑电"二字普遍存在误解，常将其与"读心"或"改写记忆"关联。因此本文在报告方法的同时，也希望明确说明本方法的边界。</p>
+
+    <h2 class="sec">2. 方法说明</h2>
+    <h3 class="sub">2.1 设备与连接方式</h3>
+    <p>采用头戴式采集装置，干电极贴附于前额与耳垂位置，无需导电膏，不刺破皮肤。设备<strong>只具备读取功能</strong>，硬件层面不存在输出通路，无法向受试者施加任何电信号或声音刺激。</p>
+
+    <h3 class="sub">2.2 训练流程</h3>
+    <ul>
+      <li>受试者佩戴设备，静坐 2 分钟完成基线记录；</li>
+      <li>屏幕显示一条随专注程度变化的曲线，受试者尝试使曲线保持在目标区间；</li>
+      <li>单次训练 12 分钟，中途可随时示意停止；</li>
+      <li>训练结束后由研究人员讲解结果，不做任何评价性结论。</li>
+    </ul>
+
+    <h3 class="sub">2.3 数据处置</h3>
+    <p>脑电数据在本地设备内完成特征提取，仅保留量化后的指标值，<strong>原始波形在训练结束后即行销毁</strong>，不上传、不留存、不用于其他研究。受试者编号与身份的对应表由伦理负责人单独保管，研究结束后一并销毁。</p>
+
+    <h2 class="sec">3. 初步结果</h2>
+    <p class="ni">在 42 名自愿参加的成年受试者中，连续 4 周、每周 3 次训练后的自评变化如下：</p>
+    <table class="data">
+      <caption>表 1　训练前后自评量表变化（n=42，4 周）</caption>
+      <thead>
+        <tr><th>指标</th><th>训练前均值</th><th>训练后均值</th><th>变化</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>持续专注自评</td><td class="num">3.1 / 5</td><td class="num">3.6 / 5</td><td class="num">+0.5</td></tr>
+        <tr><td>任务中断次数自评</td><td class="num">4.2 次/小时</td><td class="num">3.5 次/小时</td><td class="num">-0.7</td></tr>
+        <tr><td>训练后疲劳感</td><td class="num">2.4 / 5</td><td class="num">2.3 / 5</td><td class="num">-0.1</td></tr>
+      </tbody>
+    </table>
+    <p>变化幅度有限，且全部来自受试者自评，未取得客观任务成绩的支持。我们倾向于认为，部分改善可能来自训练本身的规律性安排，而非脑电反馈这一具体形式。</p>
+
+    <h2 class="sec">4. 安全性说明</h2>
+    <div class="note">
+      <div class="nt">本方法明确不包含以下内容</div>
+      <p>一、不向受试者输入任何电、磁、声刺激信号；二、不进行所谓"认知模式提取"或"神经路径写入"；三、不采集与训练目标无关的记忆内容；四、不将数据用于个体识别。</p>
+      <p>训练过程中受试者如出现头晕、眼部不适或情绪波动，研究人员须立即终止训练并记录。上述情况在本次研究中出现 0 例。</p>
+    </div>
+
+    <h2 class="sec">5. 结论与展望</h2>
+    <p>脑电反馈作为一种注意力训练辅助手段具有可行性，其优势在于提供即时、直观的自我参照，而非直接改变受试者的认知状态。目前证据强度较弱，尚不足以支持将其作为独立训练方案推广。</p>
+    <p>后续工作将聚焦两点：一是引入客观任务指标替代自评量表；二是扩大样本并设置对照组，以区分训练安排本身带来的影响。</p>
+
+    <h2 class="sec">6. 伦理与合规</h2>
+    <p>本研究经本实验室伦理审查小组审议通过（编号 ANHE-EC-2025-008）。所有受试者均为成年人，参与前签署书面知情同意书，并明确知晓可在任意时刻无条件退出。研究全程未涉及未成年人，未涉及任何形式的侵入式操作。</p>
+
+    <div class="article-foot">
+      <a class="btn ghost" href="lab.html#results">← 返回成果展示</a>
+      <span class="copy">北境科技安和实验室 · 公开出版物</span>
+    </div>
+  </main>
+
+  <footer>
+    <div class="row">
+      <span>北境科技安和实验室 © 2024–2025</span>
+      <span>地址：北境科技园区 C 座 4 层</span>
+    </div>
+    <div class="row">
+      <span>本网站内容仅用于学术交流，不构成任何商业承诺</span>
+      <span>备案号：NLD-ANHE-0000-0000</span>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

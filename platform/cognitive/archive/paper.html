@@ -1,152 +1,161 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>记忆提取和注入操作的可行性探究 · 北境科技安和实验室</title>
+<title>记忆提取和注入操作的可行性探究 · 山经书店在线服务平台 论文存档</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: "PingFang SC", "Microsoft YaHei", -apple-system, sans-serif;
-  background: #0a0e14;
-  color: #b8c4cc;
+  background: #f4f6f8;
+  color: #46545f;
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  padding: 20px 12px;
+  padding: 24px 14px 48px;
+  -webkit-font-smoothing: antialiased;
 }
 .wrap {
   max-width: 760px;
   width: 100%;
-  background: #0e141c;
-  border: 1px solid #16202c;
-  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #e2e7eb;
+  border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 4px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 1px 3px rgba(31, 42, 51, .05);
 }
+/* 顶部条 */
 .bar {
-  background: #0a0e14;
-  color: #7a92a3;
-  padding: 14px 24px;
+  background: #f8fafb;
+  color: #76838d;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid #16202c;
+  border-bottom: 1px solid #e2e7eb;
 }
-.bar a { color: #4d6b7d; text-decoration: none; font-size: 13px; }
-.bar a:hover { color: #3fa9c9; }
-.bar .t { flex: 1; font-size: 12px; letter-spacing: 3px; color: #56707f; }
-.bar .t .cy { color: #3fa9c9; }
+.bar a { color: #1a6b8a; text-decoration: none; font-size: 12.5px; letter-spacing: 1px; }
+.bar a:hover { color: #24809f; text-decoration: underline; }
+.bar .t { flex: 1; font-size: 12px; letter-spacing: 1.5px; color: #76838d; }
+.bar .t .cy { color: #1a6b8a; }
 
+/* 刊头 */
 .journal-head {
-  padding: 26px 24px 20px;
-  border-bottom: 1px solid #16202c;
-  background: linear-gradient(180deg, #0d141d, #0e141c);
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid #e2e7eb;
+  background: #fff;
 }
 .journal-head .vol {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 6px;
-  font-family: "Courier New", monospace;
   font-size: 11px;
-  letter-spacing: 1px;
-  color: #4d6b7d;
+  letter-spacing: .5px;
+  color: #9aa6af;
   padding-bottom: 10px;
-  border-bottom: 1px dashed #1c2836;
+  border-bottom: 1px dashed #e2e7eb;
   margin-bottom: 18px;
 }
 .journal-head .masthead {
-  font-size: 13px;
-  letter-spacing: 6px;
-  color: #3fa9c9;
-  margin-bottom: 4px;
+  font-size: 12.5px;
+  letter-spacing: 3px;
+  color: #1a6b8a;
+  margin-bottom: 5px;
 }
 .journal-head .masthead-en {
-  font-family: "Courier New", monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: #3a5566;
-  margin-bottom: 20px;
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  color: #9aa6af;
+  margin-bottom: 18px;
 }
 .journal-head h1 {
-  font-size: 24px;
-  color: #d6e4ec;
-  letter-spacing: 2px;
+  font-size: 23px;
+  color: #1f2a33;
+  letter-spacing: 1px;
   font-weight: 600;
   line-height: 1.5;
   margin-bottom: 8px;
 }
 .journal-head .title-en {
-  font-family: "Courier New", monospace;
-  font-size: 12px;
-  color: #4d6b7d;
+  font-size: 11.5px;
+  color: #9aa6af;
   line-height: 1.6;
-  margin-bottom: 18px;
+  letter-spacing: .5px;
+  margin-bottom: 16px;
 }
-.authors { font-size: 14px; color: #9fb4c0; line-height: 1.9; margin-bottom: 6px; }
-.authors .corr { color: #3fa9c9; }
-.authors sup { font-size: 10px; color: #6a8290; }
-.affiliation { font-size: 12px; color: #6a8290; line-height: 1.8; }
-.affiliation a { color: #3fa9c9; text-decoration: none; border-bottom: 1px dotted #27566a; }
-.affiliation a:hover { color: #6fd0ea; }
-.affiliation .dot { color: #3a5566; margin: 0 4px; }
+.authors { font-size: 14px; color: #46545f; line-height: 1.9; margin-bottom: 6px; }
+.authors .corr { color: #1a6b8a; }
+.authors sup { font-size: 10px; color: #76838d; }
+.affiliation { font-size: 12px; color: #76838d; line-height: 1.8; }
+.affiliation a { color: #1a6b8a; text-decoration: none; border-bottom: 1px dotted #a8cfdd; }
+.affiliation a:hover { color: #24809f; }
+.affiliation .dot { color: #c3ccd3; margin: 0 4px; }
 
+/* 元信息 */
 .meta-strip {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 20px;
-  padding: 14px 24px;
-  background: #0b1119;
-  border-bottom: 1px solid #16202c;
-  font-family: "Courier New", monospace;
-  font-size: 11px;
-  color: #4d6b7d;
+  padding: 13px 24px;
+  background: #f8fafb;
+  border-bottom: 1px solid #e2e7eb;
+  font-size: 11.5px;
+  color: #9aa6af;
 }
-.meta-strip span b { color: #7a97a8; font-weight: 600; }
-.meta-strip .stamp { color: #8b0000; }
+.meta-strip span b { color: #46545f; font-weight: 600; }
+.meta-strip .stamp {
+  color: #9c3d3d;
+  border: 1px solid #e6cccc;
+  background: #fdf5f5;
+  border-radius: 2px;
+  padding: 1px 7px;
+}
 
+/* 正文 */
 .content { padding: 26px 24px 10px; }
 .abstract {
-  background: #0b1119;
-  border-left: 3px solid #3fa9c9;
-  border-radius: 0 6px 6px 0;
+  background: #f6fafb;
+  border-left: 3px solid #1a6b8a;
+  border-radius: 0 3px 3px 0;
   padding: 16px 18px;
   margin-bottom: 24px;
 }
 .abstract .lbl {
   font-size: 11px;
   letter-spacing: 3px;
-  color: #3fa9c9;
+  color: #1a6b8a;
   margin-bottom: 8px;
   font-weight: 600;
 }
-.abstract p { font-size: 13.5px; line-height: 1.95; color: #a4b6c2; text-align: justify; }
-.keywords { margin-top: 12px; font-size: 12.5px; color: #8ba0ad; line-height: 1.8; }
-.keywords b { color: #3fa9c9; font-weight: 600; }
+.abstract p { font-size: 13.5px; line-height: 1.95; color: #46545f; text-align: justify; }
+.keywords { margin-top: 12px; font-size: 12.5px; color: #76838d; line-height: 1.8; }
+.keywords b { color: #1a6b8a; font-weight: 600; }
 
 h2.sec {
-  font-size: 15px;
-  color: #cfe0ea;
+  font-size: 15.5px;
+  color: #1f2a33;
   letter-spacing: 1px;
-  margin: 26px 0 12px;
-  padding-bottom: 6px;
-  border-bottom: 1px solid #16202c;
+  margin: 28px 0 12px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid #e2e7eb;
 }
-h2.sec .num { color: #3fa9c9; font-family: "Courier New", monospace; margin-right: 8px; }
-h3.sub { font-size: 13.5px; color: #9fb4c0; margin: 16px 0 8px; letter-spacing: 1px; }
+h2.sec .num { color: #1a6b8a; margin-right: 8px; font-weight: 600; }
+h3.sub { font-size: 13.5px; color: #46545f; margin: 16px 0 8px; letter-spacing: .5px; font-weight: 600; }
 .content p.body {
   font-size: 14px;
   line-height: 2;
-  color: #9fb0bc;
+  color: #46545f;
   text-align: justify;
   margin-bottom: 12px;
   text-indent: 2em;
 }
 .content p.body.noindent { text-indent: 0; }
-.content p.body a { color: #3fa9c9; text-decoration: none; border-bottom: 1px dotted #27566a; }
-.content p.body a:hover { color: #6fd0ea; }
+.content p.body a { color: #1a6b8a; text-decoration: none; border-bottom: 1px dotted #a8cfdd; }
+.content p.body a:hover { color: #24809f; }
 
+/* 数据卡片 */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -154,137 +163,150 @@ h3.sub { font-size: 13.5px; color: #9fb4c0; margin: 16px 0 8px; letter-spacing: 
   margin: 6px 0 16px;
 }
 .stat {
-  background: #0b1119;
-  border: 1px solid #16202c;
-  border-radius: 8px;
+  background: #f8fafb;
+  border: 1px solid #e2e7eb;
+  border-radius: 3px;
   padding: 14px 10px;
   text-align: center;
 }
-.stat .num { font-family: "Courier New", monospace; font-size: 20px; color: #3fa9c9; letter-spacing: 1px; }
-.stat .cap { font-size: 11px; color: #5d7787; margin-top: 6px; letter-spacing: 1px; }
-.stat.warn .num { color: #b06a6a; }
+.stat .num { font-size: 20px; color: #1a6b8a; letter-spacing: .5px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat .cap { font-size: 11px; color: #76838d; margin-top: 6px; line-height: 1.6; }
+.stat.warn { background: #fdf7f7; border-color: #eddede; }
+.stat.warn .num { color: #9c3d3d; }
 
+/* 数据表 */
 table.data {
   width: 100%;
   border-collapse: collapse;
-  font-family: "Courier New", monospace;
-  font-size: 12px;
+  font-size: 12.5px;
   margin: 8px 0 16px;
-  background: #0b1119;
+  background: #fff;
 }
 table.data th, table.data td {
-  border: 1px solid #1a2634;
+  border: 1px solid #e2e7eb;
   padding: 8px 10px;
   text-align: left;
-  color: #93a6b2;
+  color: #46545f;
 }
-table.data th { background: #101a24; color: #7a97a8; font-weight: 600; letter-spacing: 1px; }
-table.data td.hl { color: #b06a6a; }
+table.data th { background: #f8fafb; color: #1f2a33; font-weight: 600; letter-spacing: .5px; }
+table.data td.hl { color: #9c3d3d; font-weight: 600; }
 
+/* 技术说明 */
 .callout {
-  background: #0d131b;
-  border: 1px solid #23313f;
-  border-left: 3px solid #8b0000;
-  border-radius: 0 6px 6px 0;
+  background: #fdf7f7;
+  border: 1px solid #eddede;
+  border-left: 3px solid #9c3d3d;
+  border-radius: 0 3px 3px 0;
   padding: 14px 18px;
   margin: 10px 0 18px;
 }
 .callout .ct {
   font-size: 11px;
   letter-spacing: 2px;
-  color: #b06a6a;
+  color: #9c3d3d;
   margin-bottom: 8px;
-  font-family: "Courier New", monospace;
+  font-weight: 600;
 }
-.callout p { font-size: 13px; line-height: 1.9; color: #96a8b4; margin-bottom: 6px; text-align: justify; }
+.callout p { font-size: 13px; line-height: 1.9; color: #55484a; margin-bottom: 6px; text-align: justify; }
 .callout p:last-child { margin-bottom: 0; }
 .callout code {
-  font-family: "Courier New", monospace;
-  color: #cfa0a0;
-  background: #160c0c;
+  color: #9c3d3d;
+  background: #fbeeee;
   padding: 1px 6px;
-  border-radius: 3px;
-  border: 1px solid #341a1a;
+  border-radius: 2px;
+  border: 1px solid #eddede;
+  font-size: 12.5px;
 }
 
+/* 平台引用 */
 .platform-ref {
   margin: 8px 0 18px;
   padding: 16px 18px;
-  background: #0b1119;
-  border: 1px solid #1c3242;
-  border-radius: 8px;
+  background: #f6fafb;
+  border: 1px solid #cfe3ea;
+  border-radius: 3px;
 }
-.platform-ref .pr-title { font-size: 14px; color: #9fd0e2; font-weight: 600; margin-bottom: 6px; }
-.platform-ref p { font-size: 12.5px; color: #7f96a4; line-height: 1.85; margin-bottom: 10px; }
+.platform-ref .pr-title { font-size: 14px; color: #1f2a33; font-weight: 600; margin-bottom: 6px; }
+.platform-ref p { font-size: 12.5px; color: #5c6b75; line-height: 1.85; margin-bottom: 10px; }
 .platform-ref a.pr-link {
   display: inline-block;
   padding: 8px 16px;
-  background: #0e1c26;
-  border: 1px solid #24506a;
-  border-radius: 6px;
-  color: #3fa9c9;
+  background: #fff;
+  border: 1px solid #1a6b8a;
+  border-radius: 3px;
+  color: #1a6b8a;
   text-decoration: none;
   font-size: 12.5px;
-  letter-spacing: 1px;
-  font-family: "Courier New", monospace;
-  transition: background .2s, border-color .2s;
+  letter-spacing: .5px;
+  transition: background .2s, color .2s;
 }
-.platform-ref a.pr-link:hover { background: #122836; border-color: #3fa9c9; color: #6fd0ea; }
+.platform-ref a.pr-link:hover { background: #1a6b8a; color: #fff; }
 
+/* 参考文献 */
 .refs { margin-top: 6px; }
 .refs li {
   list-style: none;
-  font-size: 12px;
-  color: #7f96a4;
+  font-size: 12.5px;
+  color: #5c6b75;
   line-height: 1.9;
   padding-left: 26px;
   text-indent: -26px;
   margin-bottom: 6px;
 }
-.refs li .i { color: #3fa9c9; font-family: "Courier New", monospace; margin-right: 8px; }
+.refs li .i { color: #1a6b8a; margin-right: 8px; font-weight: 600; }
 
+/* 页脚 */
 .foot {
   margin-top: 24px;
   padding: 16px 24px;
-  border-top: 1px solid #16202c;
-  font-family: "Courier New", monospace;
-  font-size: 10.5px;
-  color: #3a5464;
+  border-top: 1px solid #e2e7eb;
+  background: #f8fafb;
+  font-size: 11.5px;
+  color: #9aa6af;
   line-height: 1.9;
 }
-.foot a { color: #3fa9c9; text-decoration: none; }
-.foot a:hover { color: #6fd0ea; }
-.foot .rec { color: #4d6b7d; }
+.foot a { color: #1a6b8a; text-decoration: none; }
+.foot a:hover { color: #24809f; text-decoration: underline; }
+.foot .rec { color: #9aa6af; }
+
+@media (max-width: 560px) {
+  body { padding: 12px 8px 32px; }
+  .bar, .journal-head, .meta-strip, .content, .foot { padding-left: 18px; padding-right: 18px; }
+  .journal-head h1 { font-size: 20px; }
+  .stat-grid { grid-template-columns: 1fr; }
+  table.data { font-size: 11.5px; }
+  table.data th, table.data td { padding: 7px 8px; }
+}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="bar">
-    <a class="t" href="../index.html" style="color:inherit;text-decoration:none;">NORTHLAND ARCHIVE <span class="cy">//</span> 论文留档</a>
+    <a class="t" href="../../index.html" style="color:inherit;text-decoration:none;">山经书店在线服务平台 <span class="cy">//</span> 论文存档</a>
   </div>
 
   <div class="journal-head">
     <div class="vol">
-      <span>北境科技 · 技术论文留档 &nbsp;|&nbsp; NORTHLAND TECH</span>
-      <span>第 12 卷 第 3 期 · 内部备档</span>
+      <span>山经书店在线服务平台 · 论文存档 &nbsp;|&nbsp; SHANJING SERVICE PLATFORM</span>
+      <span>第 12 卷 第 3 期 · 平台留档</span>
     </div>
     <div class="masthead">记忆与神经工程</div>
-    <div class="masthead-en">JOURNAL OF MEMORY AND NEURAL ENGINEERING · INTERNAL ARCHIVE</div>
+    <div class="masthead-en">ARCHIVED PAPER · NORTHLAND TECH · INTERNAL ARCHIVE</div>
     <h1>记忆提取和注入操作的可行性探究</h1>
     <div class="title-en">A FEASIBILITY STUDY ON MEMORY EXTRACTION AND INJECTION OPERATIONS</div>
     <div class="authors">
       陈昱<sup>1</sup>，张纬云<sup>1</sup>，乔维莉<sup>1</sup><span class="corr">*</span>
     </div>
     <div class="affiliation">
-      1. <a href="lab.html">北境科技安和实验室</a> · 认知工程部<span class="dot">|</span>通信作者：乔维莉
+      1. <a href="../../../northland/lab.html">北境科技安和实验室</a> · 认知工程部<span class="dot">|</span>通信作者：乔维莉
     </div>
   </div>
 
   <div class="meta-strip">
-    <span><b>收稿日期：</b>2025-08-27</span>
-    <span><b>修订日期：</b>2025-10-30</span>
+    <span><b>收稿日期：</b>2025-09-26</span>
+    <span><b>修订日期：</b>2025-10-20</span>
     <span><b>存档编号：</b>NL-ANHE-2025-0713</span>
-    <span class="stamp">⚠ 内部资料</span>
+    <span class="stamp">内部资料</span>
   </div>
 
   <div class="content">
@@ -339,7 +361,7 @@ table.data td.hl { color: #b06a6a; }
     <div class="platform-ref">
       <div class="pr-title">记忆提取设备 · 远程前端平台</div>
       <p>实时项目状态 / 受试者名单预览 / 运行模式切换。本平台由安和实验室提供技术支持，仅面向签约合作方开放。</p>
-      <a class="pr-link" href="platform-login.html">进入远程前端平台（需登录）→</a>
+      <a class="pr-link" href="../../../northland/platform-login.html">进入远程前端平台（需登录）→</a>
     </div>
 
     <h2 class="sec"><span class="num">6.</span>结论</h2>
@@ -355,9 +377,9 @@ table.data td.hl { color: #b06a6a; }
   </div>
 
   <div class="foot">
-    <div class="rec">北境科技安和实验室 · 技术论文留档数据库（NL-ANHE-2025-0713）</div>
-    <div class="rec">存档来源：北境科技官网相关论文 · 由合作协议方按需调阅</div>
-    <div class="rec">本页内容受内部保密条款约束，禁止外传 · <a href="lab.html">前往实验室官网 →</a></div>
+    <div class="rec">北境科技安和实验室 · 论文存档（NL-ANHE-2025-0713）</div>
+    <div class="rec">存档来源：北境科技官网（原文已删除）· 由山经书店在线服务平台代为留档</div>
+    <div class="rec">本页内容受内部保密条款约束，禁止外传 · <a href="../../../northland/lab.html">前往实验室官网 →</a></div>
   </div>
 </div>
 </body>
