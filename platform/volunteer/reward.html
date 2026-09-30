@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -149,12 +149,12 @@
 
   /* 演示数据：志愿者 ID -> 志愿者与奖励记录 */
   var TABLE = {
-    'LTQ-TQ-20260314': {
+    'LTQ-TQ-20260606': {
       name: '刘天清', school: '怀璧一中', grade: '高二', total: 3,
       rewards: [
-        { label: '学习能力评估 · 第 1 次', desc: '2026-03-14 · 约 2 小时', state: '已领取' },
-        { label: '学习能力评估 · 第 2 次', desc: '2026-04-11 · 约 2 小时', state: '已领取' },
-        { label: '学习能力评估 · 第 3 次', desc: '2026-05-09 · 约 2 小时', state: '可领取' },
+        { label: '学习能力评估 · 第 1 次', desc: '2026-06-06 · 约 2 小时', state: '已领取' },
+        { label: '学习能力评估 · 第 2 次', desc: '2026-06-13 · 约 2 小时', state: '已领取' },
+        { label: '学习能力评估 · 第 3 次', desc: '2026-06-20 · 约 2 小时', state: '可领取' },
         { label: '连续参与 3 次（每学期）', desc: '额外奖励，到店领取', state: '可领取' }
       ]
     }
@@ -172,7 +172,7 @@
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var v = input.value.trim().toUpperCase();
+    var v = input.value.trim();
     wrap.classList.add('hidden');
 
     if (!v) {

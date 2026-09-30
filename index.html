@@ -585,7 +585,6 @@ body {
     '余皎颖': '她教英语，说话特别有激情。\n这是她的工位照片。\n这人挺年轻，可记忆力和堡一看监控的老头差不离。',
     '陈超武': '他教物理，上课前会给同学发小零食。\n这是他的工位照片。\n他桌上那几本书从来没动过，一直是同一个顺序。',
     '老师': '听说有怀璧来的老师3人：舒巍、余皎颖、陈超武，你想了解哪个？',
-    '老师': '听说有怀璧来的老师3人：舒巍、余皎颖、陈超武，你想了解哪个？',
     '狼堡往事': '给你几条线索：1. 不要直接去找董新飞。他的二楼有警报系统，和当地某个人的关系不一般。\n2. 那个在线平台的后台有完整的交易数据库，IP指向北城东路173号地下层。你能拿到的话，铁证如山。\n3. 论坛里说的那个隐藏服务——从平台的"优秀学员"页面能找到入口。仔细看看。',
   };
 
@@ -623,11 +622,9 @@ body {
 
     const lowerText = text.toLowerCase();
 
-    // 句中关键词匹配：多词规则需全部出现；单词规则只要句中出现即回复（长词优先，避免被短词抢先）
-    function hasAll(terms) { return terms.every(function(t) { return text.indexOf(t) > -1; }); }
+    // 句中关键词匹配：只要句中出现关键词即回复（长词优先，避免被短词抢先）
     function findKeyword() {
-      if (hasAll(['蒂中帝', '老师'])) return '蒂中帝老师';
-      var keys = Object.keys(keywordResponses).filter(function(k) { return k !== '蒂中帝老师'; });
+      var keys = Object.keys(keywordResponses);
       keys.sort(function(a, b) { return b.length - a.length; });
       for (var i = 0; i < keys.length; i++) {
         if (text.indexOf(keys[i]) > -1) return keys[i];
@@ -636,13 +633,6 @@ body {
     }
     const matched = findKeyword();
 
-    if (text === '退出') {
-      pause(function() {
-        addMsg(keywordResponses['退出'], 'in', true, true);
-        isProcessing = false;
-      });
-      return;
-    }
     if (text === '狼堡往事' || lowerText.includes('狼堡往事')) {
       pause(function() {
         addMsg(keywordResponses['狼堡往事'], 'in', false, true);
@@ -663,14 +653,9 @@ body {
         }
         isProcessing = false;
       });
-    } else if (lowerText.includes('帮助') || lowerText.includes('关键词')) {
-      pause(function() {
-        addMsg(keywordResponses['帮助'], 'in', true, true);
-        isProcessing = false;
-      });
     } else {
       pause(function() {
-        addMsg('指令无法识别。试试回复"帮助"。', 'in', true, true);
+        addMsg('未查询到相关的内容。发送调查相关的关键词可以获得更多情报。', 'in', true, true);
         isProcessing = false;
       });
     }
