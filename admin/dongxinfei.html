@@ -124,15 +124,25 @@ input[type=text], input[type=password] { font-family: "Courier New", monospace; 
 .tag { color: #800000; font-weight: bold; }
 .warn { background: #fff0f0; border: 1px solid #800000; color: #800000; padding: 6px 10px; font-size: 13px; font-weight: bold; margin: 8px 0; }
 .log { font-family: "Courier New", monospace; font-size: 12px; background: #fff; border: 1px solid #808080; padding: 8px 10px; white-space: pre-wrap; line-height: 1.55; }
-.log-actions { text-align: right; margin-top: 4px; }
+.log-actions { text-align: right; margin-top: 8px; }
 .wipe-panel { display: none; margin-top: 6px; padding: 8px 10px; border: 1px solid #b0b0b0; background: #f7f7f7; font-size: 12px; }
 .wipe-panel.show { display: block; }
-.wipe-panel label { display: block; margin: 5px 0; color: #333; cursor: pointer; }
+.log-table { margin-top: 6px; }
+.log-table td { font-size: 11px; }
+.wipe-list { margin-top: 6px; background: #fff; }
+.wipe-list td { font-size: 11px; }
+.wipe-list tr.mine { background: #fff8e8; }
+.wipe-list input { vertical-align: middle; }
+.wipe-foot { margin-top: 8px; }
+.wipe-foot button { font: inherit; padding: 3px 12px; cursor: pointer; }
+.wipe-foot button.ghost { background: #e4e4e4; }
+.wipe-foot button[disabled] { color: #999; cursor: default; }
 .report { background: #fffef0; border: 1px solid #808080; padding: 10px 14px; font-size: 13px; }
 .report p { margin: 6px 0; text-indent: 2em; }
 .section { display: none; }
 .section.active { display: block; }
 .note { font-size: 12px; color: #555; }
+.note.bad { color: #800000; font-weight: bold; }
 .tiny { color: #666; font-size: 11px; text-decoration: none; }
 .tiny:hover { color: #000080; text-decoration: underline; }
 .ghost-on { color: #800000; font-weight: bold; }
@@ -196,19 +206,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         <thead>
           <tr><th>记录号</th><th>姓名</th><th>学校</th><th>年级</th><th>评估项目</th><th>评估日期</th><th>操作人</th><th>状态</th></tr>
         </thead>
-        <tbody>
-          <tr><td>PG-2026-0101</td><td>吴昊博</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-01-08</td><td>董--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0104</td><td>李杨梓麟</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-01-19</td><td>姜--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0106</td><td>王宇涵</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-02-02</td><td>姜--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0109</td><td>林晚</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-02-20</td><td>陈--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0111</td><td>陈牧循</td><td>怀璧一中</td><td>高二</td><td>学科能力评估（关联认知强化）</td><td>2026-02-26</td><td>董--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0112</td><td>罗晋铭</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-03-01</td><td>陈--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0113</td><td>徐雨桐</td><td>怀璧一中</td><td>高二</td><td>生物学科评估（第6次）</td><td>2026-03-15</td><td>陈--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0114</td><td>周晓雨</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-03-18</td><td>董--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0115</td><td>赵思航</td><td>怀璧一中</td><td>高三</td><td>数学学科评估（第5次）</td><td>2026-03-20</td><td>陈--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0116</td><td>林婉仪</td><td>怀璧一中</td><td>高三</td><td>英语学科评估（第12次）</td><td>2026-03-22</td><td>陈--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0117</td><td>刘天清</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-04-02</td><td>董--</td><td>已完成</td></tr>
-        </tbody>
+        <tbody id="evalBody"></tbody>
       </table>
     </div>
 
@@ -217,21 +215,9 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       <h2>志愿者能力数据库</h2>
       <table class="grid">
         <thead>
-          <tr><th>编号</th><th>姓名</th><th>学校</th><th>学科</th><th>采集次数</th><th>评级</th><th>状态</th></tr>
+          <tr><th>编号</th><th>姓名</th><th>学校</th><th>学科</th><th>采集次数</th><th>数据评级</th><th>状态</th></tr>
         </thead>
-        <tbody>
-          <tr><td>V-001</td><td>徐雨桐</td><td>怀璧一中</td><td>生物</td><td>6</td><td>A+</td><td>能力衰退</td></tr>
-          <tr><td>V-002</td><td>赵思航</td><td>怀璧一中</td><td>数学</td><td>5</td><td>A</td><td>能力衰退</td></tr>
-          <tr><td>V-003</td><td>林婉仪</td><td>怀璧一中</td><td>英语</td><td>12</td><td>A</td><td>重度衰退</td></tr>
-          <tr><td>V-004</td><td>周晓雨</td><td>怀璧一中</td><td>生物</td><td>3</td><td>A</td><td>记忆污染</td></tr>
-          <tr><td>V-005</td><td>刘天清</td><td>怀璧一中</td><td>数学 / 综合</td><td>3</td><td>A+</td><td>已抹除部分记忆</td></tr>
-          <tr><td>V-006</td><td>吴昊博</td><td>怀璧一中</td><td>综合</td><td>2</td><td>A</td><td>正常</td></tr>
-          <tr><td>V-007</td><td>李杨梓麟</td><td>怀璧一中</td><td>数学</td><td>2</td><td>A</td><td>正常</td></tr>
-          <tr><td>V-008</td><td>王宇涵</td><td>怀璧一中</td><td>语文</td><td>1</td><td>B+</td><td>正常</td></tr>
-          <tr><td>V-009</td><td>林晚</td><td>怀璧一中</td><td>综合</td><td>1</td><td>A</td><td>正常</td></tr>
-          <tr><td>V-010</td><td>陈牧循</td><td>怀璧一中</td><td>生物</td><td>4</td><td>A+</td><td>认知强化关联</td></tr>
-          <tr><td>V-011</td><td>罗晋铭</td><td>怀璧一中</td><td>物理</td><td>1</td><td>B</td><td>正常</td></tr>
-        </tbody>
+        <tbody id="volBody"></tbody>
       </table>
     </div>
 
@@ -240,31 +226,40 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       <h2>认知强化服务 · 申请者数据列表</h2>
       <table class="grid">
         <thead><tr><th>申请编号</th><th>姓名</th><th>申请服务</th><th>关联源数据</th><th>状态</th></tr></thead>
-        <tbody>
-          <tr><td>CS-2026-0031</td><td>陈牧循</td><td>生物认知强化</td><td>XYT-20260220</td><td>已交付</td></tr>
-          <tr><td>CS-2026-0044</td><td>周晓雨</td><td>生物认知强化</td><td>XYT-20260208-H02</td><td>已交付</td></tr>
-          <tr><td>CS-2026-0052</td><td>吴昊博</td><td>综合能力强化</td><td>LWT-20260125</td><td>待匹配</td></tr>
-        </tbody>
+        <tbody id="cogBody"></tbody>
       </table>
     </div>
 
     <!-- 系统日志 -->
     <div class="section" id="log">
       <h2>系统日志</h2>
-      <div class="log"><span id="baseLog">2026-05-11 11:30:52  dongxinfei    修改远程操作权限配置（授权：chenchaowu 仅可查看）
-2026-06-03 22:47:05  dongxinfei    登录系统成功（IP 10.20.1.2）
-2026-06-03 22:51:19  dongxinfei    访问【远程操作 · 山经-蒂中帝联合提取项目】
-2026-06-03 23:02:44  dongxinfei    设置项目倒计时：1 小时 12 分钟
-2026-06-04 01:33:22  dongxinfei    提醒 chenchaowu：记得清理系统记录
-2026-06-04 02:10:07  dongxinfei    检查项目受试者名单（107 人）
-2026-06-05 07:00:00  system        系统自动备份完成</span><span id="playerLog"></span></div>
+      <div class="note" style="margin-bottom:6px;">下面的记录同时包含系统既有日志与本机各账号的操作记录。</div>
+      <table class="grid log-table">
+        <thead><tr><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
+        <tbody id="logBody"></tbody>
+      </table>
+      <div id="logNote" class="note" style="margin-top:8px;"></div>
 
-      <div class="log-actions"><a href="#" class="tiny" id="wipeLink">▸ 日志缓存占用过高，点此清理</a></div>
+      <div class="log-actions"><a href="#" class="tiny" id="wipeLink">清理记录</a></div>
       <div class="wipe-panel" id="wipePanel">
-        <div class="note" style="margin-bottom:4px;">清理范围：</div>
-        <label><input type="radio" name="wipeOpt" value="correct"> 仅清理本项目相关操作痕迹</label>
-        <label><input type="radio" name="wipeOpt" value="incorrect"> 清理全部历史操作记录</label>
-        <label><input type="radio" name="wipeOpt" value="none"> 暂不清理</label>
+        <div class="note" style="margin-bottom:6px;">
+          下面是本次操作产生的记录。<b>只能删除属于本账号（dongxinfei）的记录</b>，
+          勾选其他账号的记录会被拒绝。系统原有的历史日志不在此列，删不到。
+        </div>
+        <table class="grid wipe-list">
+          <thead><tr><th style="width:34px;"></th><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
+          <tbody id="wipeBody"></tbody>
+        </table>
+        <div class="wipe-foot">
+          <button type="button" id="wipeDel">删除所选</button>
+          <button type="button" id="wipeReset" class="ghost">重置日志</button>
+          <button type="button" id="wipeClearSel" class="ghost">取消勾选</button>
+          <span id="wipeMsg" class="note" style="margin-left:8px;"></span>
+        </div>
+        <div class="note" style="margin-top:6px;">
+          「重置日志」会把删除的记录全部恢复、并清除「误删无关记录」的判定，
+          用来反悔重来。只重置日志，不影响运行模式与无痕模式。
+        </div>
       </div>
     </div>
 
@@ -313,19 +308,27 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   </div>
 </div>
 
+<script src="admin-data.js"></script>
+<script src="admin-log.js"></script>
 <script>
 (function () {
   var K_MODE = 'sjsd_remote_mode';
-  var K_WIPE = 'sjsd_wipe_records';
   var K_GHOST = 'sjsd_ghost_mode';
+  var ME = 'dongxinfei';
+  var L = window.SJSDLog;
 
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
+  /* 名单数据来自共用文件 admin-data.js —— 以后改名单只改那一个文件 */
+  window.SJSD.renderEval('evalBody');
+  window.SJSD.renderVolunteer('volBody');
+  window.SJSD.renderCognition('cogBody');
+
   /* 默认值：指向坏结局（强力模式 / 未清理 / 未开无痕） */
   if (get(K_MODE) === null) set(K_MODE, 'strong');
-  if (get(K_WIPE) === null) set(K_WIPE, 'none');
   if (get(K_GHOST) === null) set(K_GHOST, 'off');
+  L.init(ME);
 
   /* 菜单切换 */
   var links = document.querySelectorAll('.menu a');
@@ -346,89 +349,125 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   modeSel.value = get(K_MODE) || 'strong';
   modeSel.addEventListener('change', function () {
     set(K_MODE, modeSel.value);
-    pushLog('设置运行模式：' + (modeSel.value === 'strong' ? '强力模式（超额抽取）' : '测试模式'));
+    L.push(ME, '设置运行模式：' + (modeSel.value === 'strong' ? '强力模式（超额抽取）' : '测试模式'));
+    renderLog();
   });
 
-  /* 清理记录（藏在系统日志里，默认不清理） */
+  /* ---------------------------------------------------- 日志表格与逐条清理 */
+  function renderLog() {
+    var tb = document.getElementById('logBody');
+    if (!tb) return;
+    tb.innerHTML = L.all().map(function (e) {
+      var mine = (e.user === ME);
+      return '<tr' + (mine ? ' class="mine"' : '') + '><td>' + L.esc(e.ts) + '</td><td>' +
+        L.esc(e.user) + '</td><td>' + L.esc(e.text) +
+        (mine ? '　<span class="tag">本账号</span>' : '') + '</td></tr>';
+    }).join('');
+    var note = document.getElementById('logNote');
+    if (note) {
+      note.textContent = L.hasWork(ME)
+        ? '本账号本次留下了操作记录，可在「清理记录」里逐条删除。'
+        : '本账号本次没有留下操作记录。';
+    }
+  }
+
   var wipeLink = document.getElementById('wipeLink');
   var wipePanel = document.getElementById('wipePanel');
+  var wipeBody = document.getElementById('wipeBody');
+  var wipeMsg = document.getElementById('wipeMsg');
+
+  function renderWipe() {
+    var rows = L.list(ME);
+    wipeBody.innerHTML = rows.length
+      ? rows.map(function (r) {
+          return '<tr' + (r.mine ? ' class="mine"' : '') + '>' +
+            '<td><input type="checkbox" data-idx="' + r.idx + '"></td>' +
+            '<td>' + L.esc(r.ts) + '</td><td>' + L.esc(r.user) + '</td><td>' + L.esc(r.text) + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="4" class="note">（日志已空）</td></tr>';
+    if (wipeMsg) {
+      wipeMsg.textContent = L.hasWork(ME)
+        ? '本账号本次还有未清理的记录。'
+        : (L.done(ME) ? '本账号本次的记录已清理干净。' : '本账号本次没有留下记录（无痕模式）。');
+    }
+  }
+
+  function picked() {
+    return Array.prototype.slice.call(wipeBody.querySelectorAll('input[type=checkbox]'))
+      .filter(function (c) { return c.checked; })
+      .map(function (c) { return parseInt(c.getAttribute('data-idx'), 10); });
+  }
+
   wipeLink.addEventListener('click', function (e) {
     e.preventDefault();
     wipePanel.classList.toggle('show');
+    if (wipePanel.classList.contains('show')) renderWipe();
   });
-  var wipeLabels = { correct: '仅清理本项目痕迹', incorrect: '清理全部历史记录', none: '暂不清理' };
-  function saveLog(arr) { try { localStorage.setItem(LOG_KEY, JSON.stringify(arr)); } catch (e) {} }
-  function clearBaseLog() {
-    var base = document.getElementById('baseLog');
-    if (base) base.textContent = '（历史日志已被清空，数据不可恢复）';
-  }
-  function applyWipe(w) {
-    if (w === 'none') return;
-    if (w === 'correct') {
-      // 只清掉本账号自己的操作痕迹
-      saveLog(readLog().filter(function (e) { return e.user !== ME; }));
-    } else if (w === 'incorrect') {
-      // 把全部记录（含历史日志）一并抹掉——数据不可恢复
-      saveLog([]);
-      clearBaseLog();
+
+  var delBtn = document.getElementById('wipeDel');
+  delBtn.addEventListener('click', function () {
+    var sel = picked();
+    var res = L.remove(ME, sel);
+    if (wipeMsg) {
+      wipeMsg.textContent = res.msg;
+      wipeMsg.className = res.ok ? 'note' : 'note bad';
     }
-    renderPlayerLog();
-  }
-  function renderWipe() {
-    var w = get(K_WIPE) || 'none';
-    document.querySelectorAll('input[name="wipeOpt"]').forEach(function (r) {
-      r.checked = (r.value === w);
-    });
-    wipeLink.textContent = '▸ 日志缓存占用过高，点此清理' + (w === 'none' ? '' : '（已选：' + wipeLabels[w] + '）');
-  }
-  document.querySelectorAll('input[name="wipeOpt"]').forEach(function (r) {
-    r.addEventListener('change', function () {
-      if (!window.confirm('确认执行【' + wipeLabels[r.value] + '】？此操作不可撤销。')) {
-        renderWipe();
-        return;
-      }
-      set(K_WIPE, r.value);
-      applyWipe(r.value);
-      renderWipe();
-    });
+    renderWipe(); renderLog();
+  });
+
+  /* 重置日志：恢复被删的记录，并清除"误删无关记录"的判定 */
+  var resetBtn = document.getElementById('wipeReset');
+  resetBtn.addEventListener('click', function () {
+    if (!window.confirm('确认重置日志？\n被删除的记录会全部恢复，本账号的操作记录回到初始状态，"误删无关记录"的判定也会清除。')) return;
+    var res = L.reset(ME);
+    if (wipeMsg) { wipeMsg.textContent = res.msg; wipeMsg.className = 'note'; }
+    renderWipe(); renderLog();
+  });
+
+  var clearSelBtn = document.getElementById('wipeClearSel');
+  clearSelBtn.addEventListener('click', function () {
+    wipeBody.querySelectorAll('input[type=checkbox]').forEach(function (c) { c.checked = false; });
   });
 
   /* 隐私浏览 / 无痕模式（藏在页脚，默认关闭） */
   var ghostLink = document.getElementById('ghostLink');
+  function ghostOn() { return get(K_GHOST) === 'on'; }
   function renderGhost() {
-    var g = get(K_GHOST) || 'off';
-    if (g === 'on') {
-      ghostLink.textContent = '隐私浏览：已开启';
-      ghostLink.className = 'tiny ghost-on';
-    } else {
-      ghostLink.textContent = '隐私浏览：未开启';
-      ghostLink.className = 'tiny';
-    }
+    if (!ghostLink) return;
+    if (ghostOn()) { ghostLink.textContent = '隐私浏览：已开启'; ghostLink.className = 'tiny ghost-on'; }
+    else { ghostLink.textContent = '隐私浏览：未开启'; ghostLink.className = 'tiny'; }
   }
   ghostLink.addEventListener('click', function (e) {
     e.preventDefault();
-    var next = (get(K_GHOST) === 'on') ? 'off' : 'on';
+    var next = ghostOn() ? 'off' : 'on';
     set(K_GHOST, next);
-    pushLog('隐私浏览（无痕模式）：' + (next === 'on' ? '已开启' : '已关闭'));
-    renderGhost();
+    L.push(ME, '隐私浏览（无痕模式）：' + (next === 'on' ? '已开启' : '已关闭'));
+    renderLog(); renderWipe(); renderGhost();
   });
 
-  /* 执行 / 结算：随时可执行，按当前配置路由结局 */
+  /* 执行 / 结算：随时可执行，按当前配置路由结局
+     判定只看本账号（dongxinfei）本次的操作记录有没有清干净 */
+  function wipeText() {
+    if (L.done(ME)) return '本账号本次记录已清理干净';
+    if (L.getFlag(ME, 'rejected')) return '清理时动到了无关记录';
+    return '仍有本账号本次记录未清理';
+  }
   document.getElementById('execBtn').addEventListener('click', function () {
-    var m = get(K_MODE) || 'strong', w = get(K_WIPE) || 'none', g = get(K_GHOST) || 'off';
+    var m = get(K_MODE) || 'strong', g = get(K_GHOST) || 'off';
     var text = '即将执行远程操作。\n' +
       '运行模式：' + (m === 'test' ? '测试模式' : '强力模式') + '\n' +
-      '日志清理：' + wipeLabels[w] + '\n' +
+      '日志清理：' + wipeText() + '\n' +
       '隐私浏览：' + (g === 'on' ? '已开启' : '未开启') + '\n' +
       (m === 'strong' ? '\n警告：强力模式将对 107 人进行超额抽取，后果不可逆！\n' : '') +
       '\n确认执行？';
     if (!window.confirm(text)) return;
-    pushLog('执行远程操作');
+    L.push(ME, '执行远程操作');
+    var clean = L.done(ME);
     var page;
-    if (m === 'strong' && w === 'correct' && g === 'on') {
-      page = 'ending-2.html';   // 强力模式 + 正确清理 + 无痕
-    } else if (m === 'test' && w === 'correct' && g === 'on') {
-      page = 'ending-3.html';   // 测试模式 + 正确清理 + 无痕
+    if (m === 'strong' && clean && g === 'on') {
+      page = 'ending-2.html';   // 强力模式 + 逐条清理干净 + 无痕
+    } else if (m === 'test' && clean && g === 'on') {
+      page = 'ending-3.html';   // 测试模式 + 逐条清理干净 + 无痕
     } else {
       page = 'ending-1.html';   // 其余情况：记录/无痕处理不当
     }
@@ -450,25 +489,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   tick();
   setInterval(tick, 1000);
 
-  /* 玩家操作日志 */
-  var LOG_KEY = 'sjsd_admin_log', ME = 'dongxinfei';
-  function nowStr() {
-    var d = new Date();
-    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' +
-      pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
-  }
-  function readLog() { try { return JSON.parse(localStorage.getItem(LOG_KEY) || '[]'); } catch (e) { return []; } }
-  function pushLog(text) {
-    if (get(K_GHOST) === 'on') return;   // 无痕模式：不写任何操作记录
-    try { var a = readLog(); a.push({ ts: nowStr(), user: ME, text: text }); localStorage.setItem(LOG_KEY, JSON.stringify(a)); } catch (e) {}
-    renderPlayerLog();
-  }
-  function renderPlayerLog() {
-    var slot = document.getElementById('playerLog');
-    if (!slot) return;
-    var mine = readLog().filter(function (e) { return e.user === ME; });
-    slot.textContent = mine.map(function (e) { return '\n' + e.ts + '  ' + e.user + '    ' + e.text; }).join('');
-  }
+  /* 玩家操作日志：写进共用日志，同时刷新上面的表格 */
   var targetLog = {
     remote: '访问【远程操作】',
     eval: '访问【评估服务】',
@@ -480,15 +501,15 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   document.querySelectorAll('.menu a').forEach(function (a) {
     a.addEventListener('click', function () {
       var t = a.getAttribute('data-target');
-      pushLog(targetLog[t] || ('访问【' + a.textContent + '】'));
+      L.push(ME, targetLog[t] || ('访问【' + a.textContent + '】'));
+      renderLog(); renderWipe();
     });
   });
 
   /* 初始化 */
-  if (get(K_WIPE) === 'incorrect') clearBaseLog();
+  renderLog();
   renderWipe();
   renderGhost();
-  renderPlayerLog();
 })();
 </script>
 </body>

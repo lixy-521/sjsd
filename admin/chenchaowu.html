@@ -133,6 +133,9 @@ input[type=text], input[type=password] { font-family: "Courier New", monospace; 
 .section { display: none; }
 .section.active { display: block; }
 .note { font-size: 12px; color: #555; }
+.log-table { margin-top: 6px; }
+.log-table td { font-size: 11px; }
+.log-table tr.mine { background: #fff8e8; }
 .tiny { color: #666; font-size: 11px; text-decoration: none; }
 .tiny:hover { color: #000080; text-decoration: underline; }
 .ghost-on { color: #800000; font-weight: bold; }
@@ -170,14 +173,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         <thead>
           <tr><th>记录号</th><th>姓名</th><th>学校</th><th>年级</th><th>评估项目</th><th>评估日期</th><th>操作人</th><th>状态</th></tr>
         </thead>
-        <tbody>
-          <tr><td>PG-2026-0101</td><td>吴昊博</td><td>怀璧一中</td><td>高三</td><td>学科能力评估</td><td>2026-01-08</td><td>董--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0111</td><td>陈牧循</td><td>怀璧一中</td><td>高二</td><td>学科能力评估（关联认知强化）</td><td>2026-02-26</td><td>董--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0113</td><td>徐雨桐</td><td>怀璧一中</td><td>高二</td><td>生物学科评估（第6次）</td><td>2026-03-15</td><td>陈--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0115</td><td>赵思航</td><td>怀璧一中</td><td>高三</td><td>数学学科评估（第5次）</td><td>2026-03-20</td><td>陈--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0116</td><td>林婉仪</td><td>怀璧一中</td><td>高三</td><td>英语学科评估（第12次）</td><td>2026-03-22</td><td>陈--</td><td>已完成</td></tr>
-          <tr><td>PG-2026-0117</td><td>刘天清</td><td>怀璧一中</td><td>高二</td><td>学科能力评估</td><td>2026-04-02</td><td>董--</td><td>已完成</td></tr>
-        </tbody>
+        <tbody id="evalBody"></tbody>
       </table>
     </div>
 
@@ -191,19 +187,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
           <thead>
             <tr><th>编号</th><th>姓名</th><th>学校</th><th>学科</th><th>采集次数</th><th>数据评级</th><th>状态</th></tr>
           </thead>
-          <tbody id="volBody">
-            <tr class="pick" data-vol="v1"><td>V-001</td><td>徐雨桐</td><td>怀璧一中</td><td>生物</td><td>6</td><td>A+</td><td>重度衰退</td></tr>
-            <tr class="pick" data-vol="v2"><td>V-002</td><td>赵思航</td><td>怀璧一中</td><td>数学</td><td>5</td><td>A</td><td>中度衰退</td></tr>
-            <tr class="pick" data-vol="v3"><td>V-003</td><td>林婉仪</td><td>怀璧一中</td><td>英语</td><td>12</td><td>A</td><td>重度衰退</td></tr>
-            <tr class="pick" data-vol="v4"><td>V-004</td><td>周晓雨</td><td>怀璧一中</td><td>生物</td><td>1</td><td>B</td><td>买方（记忆污染）</td></tr>
-            <tr class="pick" data-vol="v5"><td>V-005</td><td>刘天清</td><td>怀璧一中</td><td>数学 / 综合</td><td>3</td><td>A+</td><td>已抹除部分记忆</td></tr>
-            <tr class="pick" data-vol="v6"><td>V-006</td><td>吴昊博</td><td>怀璧一中</td><td>综合</td><td>2</td><td>A</td><td>正常</td></tr>
-            <tr class="pick" data-vol="v7"><td>V-007</td><td>李杨梓麟</td><td>怀璧一中</td><td>数学</td><td>2</td><td>A</td><td>正常</td></tr>
-            <tr class="pick" data-vol="v8"><td>V-008</td><td>王宇涵</td><td>怀璧一中</td><td>语文</td><td>1</td><td>B+</td><td>正常</td></tr>
-            <tr class="pick" data-vol="v9"><td>V-009</td><td>林晚</td><td>怀璧一中</td><td>综合</td><td>1</td><td>A</td><td>正常</td></tr>
-            <tr class="pick" data-vol="v10"><td>V-010</td><td>陈牧循</td><td>怀璧一中</td><td>生物</td><td>4</td><td>A+</td><td>认知强化关联</td></tr>
-            <tr class="pick" data-vol="v11"><td>V-011</td><td>罗晋铭</td><td>怀璧一中</td><td>物理</td><td>1</td><td>B</td><td>正常</td></tr>
-          </tbody>
+          <tbody id="volBody"></tbody>
         </table>
         <div class="detail" id="volDetail"></div>
       </fieldset>
@@ -248,20 +232,9 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 
           <h3>抽取名单（前 10 人）</h3>
           <table class="grid">
-            <thead><tr><th>序号</th><th>姓名</th><th>学校</th><th>年级</th><th>学科</th><th>数据评级</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>刘天清</td><td>怀璧一中</td><td>高二</td><td>数学 / 综合</td><td>A+</td></tr>
-              <tr><td>2</td><td>徐雨桐</td><td>怀璧一中</td><td>高二</td><td>生物</td><td>A+</td></tr>
-              <tr><td>3</td><td>赵思航</td><td>怀璧一中</td><td>高三</td><td>数学</td><td>A</td></tr>
-              <tr><td>4</td><td>林婉仪</td><td>怀璧一中</td><td>高三</td><td>英语</td><td>A</td></tr>
-              <tr><td>5</td><td>周晓雨</td><td>怀璧一中</td><td>高二</td><td>生物</td><td>B</td></tr>
-              <tr><td>6</td><td>吴昊博</td><td>怀璧一中</td><td>高三</td><td>综合</td><td>A</td></tr>
-              <tr><td>7</td><td>李杨梓麟</td><td>怀璧一中</td><td>高三</td><td>数学</td><td>A</td></tr>
-              <tr><td>8</td><td>王宇涵</td><td>怀璧一中</td><td>高二</td><td>语文</td><td>B+</td></tr>
-              <tr><td>9</td><td>林晚</td><td>怀璧一中</td><td>高三</td><td>综合</td><td>A</td></tr>
-              <tr><td>10</td><td>陈牧循</td><td>怀璧一中</td><td>高二</td><td>生物</td><td>A+</td></tr>
-            </tbody>
-          </table>
+            <thead><tr><th>序号</th><th>姓名</th><th>学校</th><th>年级</th><th>学科</th><th>采集次数</th><th>数据评级</th></tr></thead>
+              <tbody id="extractBody"></tbody>
+            </table>
 
           <h3>详细报告</h3>
           <p>本次联合提取为“批量采集”模式。系统将在倒计时结束后，统一对名单内全部受试者执行学科认知抽取，并进行记忆剥离与数据打包。由于受试者名单跨越两所学校、多个年级，单一个体重复采集次数普遍超过建议阈值（单一个体不超过 3 次），预计将造成不可逆的能力衰退与生活记忆丢失。</p>
@@ -277,11 +250,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         <legend>申请者列表</legend>
         <table class="grid">
           <thead><tr><th>申请编号</th><th>姓名</th><th>申请服务</th><th>关联源数据</th><th>状态</th></tr></thead>
-          <tbody id="cogBody">
-            <tr class="pick" data-cog="c1"><td>CS-2026-0031</td><td>陈牧循</td><td>生物认知强化</td><td>XYT-20260220</td><td>已交付</td></tr>
-            <tr class="pick" data-cog="c2"><td>CS-2026-0044</td><td>周晓雨</td><td>生物认知强化</td><td>XYT-20260208-H02</td><td>已交付</td></tr>
-            <tr class="pick" data-cog="c3"><td>CS-2026-0052</td><td>吴昊博</td><td>综合能力强化</td><td>LWT-20260125</td><td>待匹配</td></tr>
-          </tbody>
+          <tbody id="cogBody"></tbody>
         </table>
         <div class="detail" id="cogDetail"></div>
       </fieldset>
@@ -309,12 +278,11 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       </fieldset>
 
       <h3>系统操作记录</h3>
-      <div class="log">2026-05-11 11:11:11  chenchaowu    登录系统成功（IP 10.20.9.88）
-2026-06-04 01:15:37  chenchaowu    访问【志愿者能力抽取数据库】
-2026-06-04 01:19:48  chenchaowu    执行抽取操作（对象：PG-2026-0117）
-2026-06-04 01:26:10  chenchaowu    执行记忆抹除操作（对象：PG-2026-0117）
-2026-06-04 01:31:00  chenchaowu    备注：按“重点关照”名单处理完毕
-2026-06-05 07:00:00  system        系统自动备份完成<span id="playerLog"></span></div>
+      <table class="grid log-table">
+        <thead><tr><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
+        <tbody id="logBody"></tbody>
+      </table>
+      <div id="logNote" class="note" style="margin-top:8px;"></div>
     </div>
 
   </div>
@@ -322,8 +290,16 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   <div class="footer">安和实验室内部后台 v0.9b ｜ 技术支持：北境科技·安和实验室　｜ <a href="#" class="tiny" id="ghostLink">隐私浏览：未开启</a></div>
 </div>
 
+<script src="admin-data.js"></script>
+<script src="admin-log.js"></script>
 <script>
 (function () {
+  /* 名单数据来自共用文件 admin-data.js —— 以后改名单只改那一个文件 */
+  window.SJSD.renderEval('evalBody');
+  window.SJSD.renderVolunteer('volBody', { pick: true });
+  window.SJSD.renderCognition('cogBody', { pick: true });
+  window.SJSD.renderExtract('extractBody');
+
   /* 菜单切换 */
   var links = document.querySelectorAll('.menu a');
   var sections = document.querySelectorAll('.section');
@@ -512,12 +488,40 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 </script>
 <script>
 (function () {
-  var LOG_KEY = 'sjsd_admin_log', ME = 'chenchaowu';
-  function pad2(n){ return n < 10 ? '0' + n : '' + n; }
-  function nowStr(){ var d = new Date(); return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()) + ' ' + pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()); }
-  function readLog(){ try { return JSON.parse(localStorage.getItem(LOG_KEY) || '[]'); } catch (e) { return []; } }
-  function pushLog(text){ var g = null; try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {} if (g === 'on') return; try { var a = readLog(); a.push({ ts: nowStr(), user: ME, text: text }); localStorage.setItem(LOG_KEY, JSON.stringify(a)); } catch (e) {} }
-  function render(){ var slot = document.getElementById('playerLog'); if (!slot) return; var mine = readLog().filter(function(e){ return e.user === ME; }); slot.textContent = mine.map(function(e){ return '\n' + e.ts + '  ' + e.user + '    ' + e.text; }).join(''); }
+  var ME = 'chenchaowu';
+  var L = window.SJSDLog;
+  L.init(ME);
+
+  /* 无痕模式（隐私浏览） */
+  var ghostLink = document.getElementById('ghostLink');
+  function ghostOn() {
+    var g = null; try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
+    return g === 'on';
+  }
+  function renderGhost() {
+    if (!ghostLink) return;
+    if (ghostOn()) { ghostLink.textContent = '隐私浏览：已开启'; ghostLink.className = 'tiny ghost-on'; }
+    else { ghostLink.textContent = '隐私浏览：未开启'; ghostLink.className = 'tiny'; }
+  }
+
+  /* 系统操作记录：系统既有记录 + 本账号操作记录 */
+  function renderLog() {
+    var tb = document.getElementById('logBody');
+    if (!tb) return;
+    tb.innerHTML = L.all().map(function (e) {
+      var mine = (e.user === ME);
+      return '<tr' + (mine ? ' class="mine"' : '') + '><td>' + L.esc(e.ts) + '</td><td>' +
+        L.esc(e.user) + '</td><td>' + L.esc(e.text) +
+        (mine ? '　<span class="tag">本账号</span>' : '') + '</td></tr>';
+    }).join('');
+    var note = document.getElementById('logNote');
+    if (note) {
+      note.textContent = L.hasWork(ME)
+        ? '本账号在系统日志中留有自己的操作记录，可逐条清理。'
+        : '本账号在系统日志中已无操作记录。';
+    }
+  }
+
   var targetLog = {
     eval: '访问【评估服务后台】',
     vdb: '访问【志愿者能力抽取数据库】',
@@ -528,51 +532,44 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   document.querySelectorAll('.menu a').forEach(function (a) {
     a.addEventListener('click', function () {
       var t = a.getAttribute('data-target');
-      pushLog(targetLog[t] || ('访问【' + a.textContent + '】'));
-      render();
+      L.push(ME, targetLog[t] || ('访问【' + a.textContent + '】'));
+      renderLog();
     });
   });
   var mb = document.getElementById('matchBtn');
-  if (mb) { mb.addEventListener('click', function () { var s = document.getElementById('mSubject').value; pushLog('使用【匹配工具】（目标学科：' + s + '）'); render(); }); }
+  if (mb) { mb.addEventListener('click', function () { var s = document.getElementById('mSubject').value; L.push(ME, '使用【匹配工具】（目标学科：' + s + '）'); renderLog(); }); }
   /* 其它操作也留下记录 */
   var volBody = document.getElementById('volBody');
   if (volBody) { volBody.addEventListener('click', function (e) {
     var tr = e.target.closest ? e.target.closest('tr.pick') : null; if (!tr) return;
     var nm = tr.children[1] ? tr.children[1].textContent : '';
-    pushLog('查看志愿者报告（' + nm + '）'); render();
+    L.push(ME, '查看志愿者报告（' + nm + '）'); renderLog();
   }); }
   var cogBody = document.getElementById('cogBody');
   if (cogBody) { cogBody.addEventListener('click', function (e) {
     var tr = e.target.closest ? e.target.closest('tr.pick') : null; if (!tr) return;
     var nm = tr.children[1] ? tr.children[1].textContent : '';
-    pushLog('查看认知强化申请数据（' + nm + '）'); render();
+    L.push(ME, '查看认知强化申请数据（' + nm + '）'); renderLog();
   }); }
   var cogDetail = document.getElementById('cogDetail');
   if (cogDetail) { cogDetail.addEventListener('click', function (e) {
     var q = (e.target && e.target.getAttribute) ? e.target.getAttribute('data-quick') : null;
-    if (q) { pushLog('执行快速匹配（' + q + '类）'); render(); }
+    if (q) { L.push(ME, '执行快速匹配（' + q + '类）'); renderLog(); }
   }); }
   var projBtnEl = document.getElementById('projBtn');
-  if (projBtnEl) { projBtnEl.addEventListener('click', function () { pushLog('查看当前项目详情'); render(); }); }
-  /* 无痕模式（隐私浏览） */
-  var ghostLink = document.getElementById('ghostLink');
-  function renderGhost() {
-    var g = null; try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
-    if (g === 'on') { ghostLink.textContent = '隐私浏览：已开启'; ghostLink.className = 'tiny ghost-on'; }
-    else { ghostLink.textContent = '隐私浏览：未开启'; ghostLink.className = 'tiny'; }
-  }
+  if (projBtnEl) { projBtnEl.addEventListener('click', function () { L.push(ME, '查看当前项目详情'); renderLog(); }); }
+
   if (ghostLink) {
     ghostLink.addEventListener('click', function (e) {
       e.preventDefault();
-      var cur = null; try { cur = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
-      var next = (cur === 'on') ? 'off' : 'on';
-      try { localStorage.setItem('sjsd_ghost_mode', next); } catch (e) {}
-      if (next === 'off') pushLog('隐私浏览（无痕模式）：已关闭');
-      renderGhost();
+      var next = ghostOn() ? 'off' : 'on';
+      try { localStorage.setItem('sjsd_ghost_mode', next); } catch (err) {}
+      if (next === 'off') L.push(ME, '隐私浏览（无痕模式）：已关闭');
+      renderLog(); renderGhost();
     });
-    renderGhost();
   }
-  render();
+  renderLog();
+  renderGhost();
 })();
 </script>
 </body>
