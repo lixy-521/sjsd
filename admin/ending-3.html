@@ -121,22 +121,27 @@ button:active { border-style: inset; }
   <div class="foot">山经书店内部后台 v0.9b ｜ 技术支持：MirrorSync</div>
 </div>
 
+<script src="admin-data.js"></script>
+<script src="admin-log.js"></script>
 <script>
 (function () {
   var K_MODE = 'sjsd_remote_mode';
-  var K_WIPE = 'sjsd_wipe_records';
+  var K_STATE = 'sjsd_wipe_state';
   var K_GHOST = 'sjsd_ghost_mode';
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 
-  var m = get(K_MODE), w = get(K_WIPE), g = get(K_GHOST);
+  var m = get(K_MODE), g = get(K_GHOST);
   document.getElementById('cfgMode').textContent = m === 'test' ? '测试模式（不进行实际抽取）' : (m === 'strong' ? '强力模式（进行超额抽取）' : '未配置');
-  document.getElementById('cfgWipe').textContent = { correct: '正确消除记录', incorrect: '错误消除记录', none: '未消除记录' }[w] || '未配置';
+  document.getElementById('cfgWipe').textContent = window.SJSDLog.wipeSummary('dongxinfei');
+
+  /* 兼容旧存档 */
+  try { localStorage.removeItem('sjsd_wipe_records'); } catch (e) {}
   document.getElementById('cfgGhost').textContent = g === 'on' ? '已启动无痕模式' : (g === 'off' ? '未启动无痕模式' : '未配置');
 
   document.getElementById('restartBtn').addEventListener('click', function () {
     try {
       localStorage.removeItem(K_MODE);
-      localStorage.removeItem(K_WIPE);
+      localStorage.removeItem(K_STATE);
       localStorage.removeItem(K_GHOST);
     } catch (e) {}
     window.location.href = 'dongxinfei.html';

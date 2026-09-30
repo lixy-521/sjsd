@@ -21,7 +21,7 @@
 | `news/` | 开业新闻报道 |
 | `platform/` | 山经书店在线服务平台（见下方结构） |
 | `northland/` | 北境科技·安和实验室官网、研究平台登录、记忆提取设备远程前端 |
-| `admin/` | 山经书店内部后台：登录、姜游亮/陈超武/董新飞后台、三个结局 |
+| `admin/` | 山经书店内部后台：登录、姜游亮/陈超武/董新飞后台、三个结局；`admin-data.js` 为共用名单、`admin-log.js` 为共用日志与清理逻辑 |
 | `pinggu.html` | 学霸访谈（林晚 686 分）文章页 |
 | `assets/` | 图片素材（刘天清对话配图、三名老师工位照片、聊天头像） |
 
@@ -92,7 +92,17 @@ platform/
   `platform/` 各页页脚只保留机构信息与版权，**不放任何导航链接**。
 - 陈牧循的评估报告（`platform/assessment/reports/chenmuxun.html`）中不出现他的个人 ID，
   该处改为指向其认知强化服务报告（`platform/cognitive/reports/chenmuxun.html`）的超链接文本。
-- 结局拆为三页：`admin/ending-1.html`（数据蒸发）、`admin/ending-2.html`（无法复原）、`admin/ending-3.html`（及时收网）。在 `admin/dongxinfei.html` 执行结算时，依据「远程模式 / 消除记录 / 无痕模式」三项配置跳转到对应结局页。
+- 结局拆为三页：`admin/ending-1.html`（数据蒸发）、`admin/ending-2.html`（无法复原）、`admin/ending-3.html`（及时收网）。在 `admin/dongxinfei.html` 执行结算时，依据「远程模式 / 记录是否清理干净 / 无痕模式」三项配置跳转到对应结局页。
+- 后台名单唯一数据源：`admin/admin-data.js`。志愿者名单、评估记录、认知强化申请者、联合提取名单、系统既有日志都只写在这一个文件里，
+  `jiang.html` / `chenchaowu.html` / `dongxinfei.html` 通过 `SJSD.renderXxx()` 渲染表格。改名单只改这一个文件。
+- 清理记录（`admin/admin-log.js`）：三个后台账号的系统日志页都能打开清理面板，但**必须逐条勾选删除**，没有一键清空。
+  面板只列出**本次进入后台之后产生的记录**（`sess` 标记），系统里原有的历史日志不在面板里，因此删不到别人的旧记录；
+  勾选不属于本账号的本次记录会被整体拒绝并记为「误删无关记录」。
+  判定：本账号本次记录全部逐条删净且没有误删 → `sjsd_wipe_state[账号].incorrect = false`。
+- **影响结局的只有 `admin/dongxinfei.html` 上董新飞本人的记录。** 姜游亮页、陈超武页清理得对不对都不进入结局判定。
+- `admin/dongxinfei.html` 的清理面板里有「重置日志」：恢复被删除的记录、清掉本次操作记录、清除「误删无关记录」的判定，
+  只重置日志，不动远程模式与无痕模式。误删之后用它反悔重来。
+- 系统既有日志只在首次进入后台时落一份到 localStorage（`sjsd_base_seeded`），删掉后不会重新灌回来，只有「重置日志」能恢复。
 
 ## 说明
 
