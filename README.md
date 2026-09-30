@@ -69,7 +69,8 @@ platform/
 - 认知强化服务的入口不在平台首页，仅由小程序进入（`platform/cognitive/intro.html`）。
 - 导航约定：**全站只有页头品牌标记（logo / 站点名）是返回入口**，指向所属层级的 index
   （`platform/` 下各页 → `platform/index.html`；其余页面 → 根 `index.html`）。
-  不设面包屑，页面内也不设「返回上一页」按钮或返回箭头。
+  不设面包屑，页面内也不设「返回上一页」按钮或返回箭头；
+  `platform/` 各页页脚只保留机构信息与版权，**不放任何导航链接**。
 - 陈牧循的评估报告（`platform/assessment/reports/chenmuxun.html`）中不出现他的个人 ID，
   该处改为指向其认知强化服务报告（`platform/cognitive/reports/chenmuxun.html`）的超链接文本。
 - 结局拆为三页：`admin/ending-1.html`（数据蒸发）、`admin/ending-2.html`（无法复原）、`admin/ending-3.html`（及时收网）。在 `admin/dongxinfei.html` 执行结算时，依据「远程模式 / 消除记录 / 无痕模式」三项配置跳转到对应结局页。

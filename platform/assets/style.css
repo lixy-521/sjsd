@@ -370,13 +370,10 @@ table.tbl tbody tr:hover { background: var(--brand-025); }
 .media .m-img { flex: none; width: 300px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line); }
 .media .m-body { flex: 1; min-width: 0; }
 
-/* ---------- 页脚 ---------- */
+/* ---------- 页脚（只有机构信息与版权，不设返回上级的导航） ---------- */
 .site-footer { background: #10314f; color: rgba(255, 255, 255, .62); margin-top: 56px; }
-.site-footer .fi { max-width: 1080px; margin: 0 auto; padding: 34px 16px 22px; }
-.site-footer .fnav { display: flex; flex-wrap: wrap; gap: 26px; padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, .12); }
-.site-footer .fnav a { color: rgba(255, 255, 255, .72); font-size: 13px; }
-.site-footer .fnav a:hover { color: #fff; }
-.site-footer .fmeta { padding-top: 18px; font-size: 12px; line-height: 1.9; }
+.site-footer .fi { max-width: 1080px; margin: 0 auto; padding: 30px 16px 22px; }
+.site-footer .fmeta { font-size: 12px; line-height: 1.9; }
 .site-footer .fmeta b { color: rgba(255, 255, 255, .82); font-weight: 600; }
 .site-footer .fcopy { margin-top: 12px; font-size: 11.5px; color: rgba(255, 255, 255, .38); line-height: 1.9; }
 
@@ -418,7 +415,6 @@ table.tbl tbody tr:hover { background: var(--brand-025); }
   .kv td { padding: 9px 10px; font-size: 12.5px; }
   .doc-item { padding: 14px; gap: 12px; }
   .doc-item .di-act .btn { padding: 9px 14px; font-size: 13px; }
-  .site-footer .fnav { gap: 16px 22px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
