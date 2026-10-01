@@ -75,9 +75,16 @@
   }
 
   /* --------------------------------------------------------------- 日志  */
+  /* 每个账号只能看到自己的日志：系统日志表格与清理面板都按 user 过滤，
+     别人的记录既不显示也删不到。system 记录归入系统自身，不展示。 */
   function base() { return read(K_BASE); }
   function userLog() { return read(K_USER); }
-  function all() { return base().concat(userLog()); }
+  function all(user) {
+    var b = base(), u = userLog();
+    var rows = b.concat(u);
+    if (!user) return rows;
+    return rows.filter(function (e) { return e.user === user; });
+  }
   function isMine(e, user) { return e.user === user; }
 
   function push(user, text) {
@@ -85,42 +92,33 @@
     try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
     if (g === 'on') return;   // 无痕模式：不写任何操作记录
     var a = userLog();
-    /* sess 标记"本次进入后台之后产生的记录"。清理面板只列这些，
-       系统里原有的历史日志（各账号的旧记录）在面板里不可删。 */
+    /* sess 标记"本次进入后台之后产生的记录"，与历史日志区分显示 */
     a.push({ ts: nowStr(), user: user, text: text, sess: true });
     write(K_USER, a);
   }
 
   /* ------------------------------------------------- 清理面板：逐条勾选  */
-  /* 清理面板只列"本次操作产生"的记录（sess 标记）。
-     系统原有的历史日志不出现在面板里，因此删不到别人的旧记录。 */
+  /* 面板只列本账号自己的记录——历史日志 + 本次操作记录。
+     别人的记录根本不在这个列表里，所以删不到。 */
   function list(user) {
-    return all().map(function (e, i) {
-      return { idx: i, ts: e.ts, user: e.user, text: e.text, sess: !!e.sess, mine: isMine(e, user) };
-    }).filter(function (r) { return r.sess; });
-  }
-  function sessionAll() {
-    return all().filter(function (e) { return e.sess; });
+    return all(user).map(function (e, i) {
+      return { idx: i, ts: e.ts, user: e.user, text: e.text, sess: !!e.sess };
+    });
   }
 
-  /* 本账号还有没有"本次操作"留下的记录（这才是要清掉的东西） */
+  /* 本账号还有没有没清掉的记录（历史日志 + 本次操作记录） */
   function hasWork(user) {
-    return userLog().some(function (e) { return e.user === user && e.sess; });
-  }
-  function hasForeign() {
-    return base().some(function (e) {
-      return e.user !== 'system';
-    });
+    return all(user).length > 0;
   }
   function done(user) {
     return getFlag(user, 'incorrect') === false && getFlag(user, 'rejected') !== true;
   }
 
-  /* 执行逐条删除。user 只能删自己的；勾选别人的整体拒绝。 */
+  /* 执行逐条删除。列表里只有自己的记录，索引按 all(user) 计算。 */
   function remove(user, indices) {
     if (!indices.length) return { ok: false, msg: '请先勾选要删除的记录。' };
 
-    var entries = all();
+    var entries = all(user);
     var mineSel = [], foreignSel = [];
     indices.forEach(function (i) {
       var e = entries[i];
@@ -146,20 +144,22 @@
     strip(K_BASE);
     strip(K_USER);
 
-    var remain = userLog().some(function (e) { return e.user === user && e.sess; });
+    var remain = all(user).length > 0;
     setFlag(user, 'incorrect', remain);   // 自己的记录还有剩 → 清理不彻底
     return {
       ok: true,
-      msg: '已删除 ' + mineSel.length + ' 条记录' + (remain ? '，本账号本次仍留有未清理的记录。' : '，本账号本次的操作记录已全部清除。')
+      msg: '已删除 ' + mineSel.length + ' 条记录' + (remain ? '，本账号仍有未清理的记录。' : '，本账号的操作记录已全部清除。')
     };
   }
 
-  /* 重置日志：恢复被删掉的历史日志、清掉本次操作记录、
+  /* 重置日志：恢复被删掉的历史日志、清掉本账号的本次操作记录、
      并抹掉"误删无关记录"的判定。给玩家一条反悔的路。
+     只动本账号的记录，别的账号的日志一概不碰。
      只重置日志，不碰远程模式 / 无痕模式。 */
   function reset(user) {
     seedBase(true);
-    write(K_USER, []);   // 本次操作记录全部清掉
+    /* 只清掉本账号的本次操作记录，保留其他账号的 */
+    write(K_USER, userLog().filter(function (e) { return e.user !== user; }));
 
     var st = readState();
     if (st[user]) { st[user].rejected = false; st[user].incorrect = true; }
@@ -178,22 +178,27 @@
     base: base,
     userLog: userLog,
     all: all,
-    sessionAll: sessionAll,
     push: push,
     list: list,
     hasWork: hasWork,
-    hasForeign: hasForeign,
     done: done,
     remove: remove,
     reset: reset,
     esc: esc,
     nowStr: nowStr,
+    /* 供结局页显示「远程模式」这一项 */
+    modeLabel: function (m) {
+      if (m === 'normal') return '正常模式（不进行抽取）';
+      if (m === 'test') return '测试模式（不进行实际抽取）';
+      if (m === 'strong') return '强力模式（进行超额抽取）';
+      return '未配置';
+    },
     /* 供结局页显示「消除记录」这一项 */
     wipeSummary: function (user) {
-      if (done(user)) return '逐条清理，本账号记录已清空';
-      if (getFlag(user, 'rejected')) return '清理时动到了无关记录';
-      if (hasWork(user)) return '仍有本账号记录未清理';
-      return '没有需要清理的本账号记录';
-    },    KEYS: { base: K_BASE, user: K_USER, state: K_STATE, seed: K_SEED }
+      if (done(user)) return '已清理';
+      if (getFlag(user, 'rejected')) return '清理异常';
+      return '未清理';
+    },
+    KEYS: { base: K_BASE, user: K_USER, state: K_STATE, seed: K_SEED }
   };
 })();

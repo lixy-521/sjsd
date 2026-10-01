@@ -223,7 +223,6 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         <thead><tr><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
         <tbody id="logBody"></tbody>
       </table>
-      <div id="logNote" class="note" style="margin-top:8px;"></div>
     </div>
 
   </div>
@@ -285,22 +284,14 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     else { ghostLink.textContent = '隐私浏览：未开启'; ghostLink.className = 'tiny'; }
   }
 
-  /* 系统操作记录：系统既有记录 + 本账号操作记录 */
+  /* 系统操作记录：只显示本账号自己的日志 */
   function renderLog() {
     var tb = document.getElementById('logBody');
     if (!tb) return;
-    tb.innerHTML = L.all().map(function (e) {
-      var mine = (e.user === ME);
-      return '<tr' + (mine ? ' class="mine"' : '') + '><td>' + L.esc(e.ts) + '</td><td>' +
-        L.esc(e.user) + '</td><td>' + L.esc(e.text) +
-        (mine ? '　<span class="tag">本账号</span>' : '') + '</td></tr>';
+    tb.innerHTML = L.all(ME).map(function (e) {
+      return '<tr><td>' + L.esc(e.ts) + '</td><td>' + L.esc(e.user) + '</td><td>' + L.esc(e.text) + '</td></tr>';
     }).join('');
-    var note = document.getElementById('logNote');
-    if (note) {
-      note.textContent = L.hasWork(ME)
-        ? '本账号在系统日志中留有自己的操作记录，可逐条清理。'
-        : '本账号在系统日志中已无操作记录。';
-    }
+
   }
 
   var targetLog = {

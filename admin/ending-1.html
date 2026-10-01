@@ -96,8 +96,9 @@ button:active { border-style: inset; }
     </div>
 
     <div class="report">
-      <p>你没有消除记录，或者消除方式不对，无痕模式也没有打开。项目的倒计时照常走完了。</p>
-      <p>107 名学生被逐一抽取。可就在数据尚未打包完成的时候，董新飞察觉事情已经败露——他嗅到了危险，连夜把手中掌握的志愿者能力数据转交给了别人。</p>
+      <p>董新飞发现了你留下的记录。他察觉自己的账号被人登录过，立刻把远程操作改回了正常模式。</p>
+      <p>也就是在这一刻，他意识到事情已经败露，决定逃跑。他连夜把手中掌握的志愿者能力数据转交给了别人，自己动身离开。</p>
+      <p>但项目本身并没有停下。正常模式就是董新飞原本的计划——倒计时照常走完，107 名学生被逐一抽取，和什么都没发生过一样。</p>
       <p>警方随之介入，董新飞和陈超武相继被抓。但最要命的是：数据已经不在了。没有原始数据，就无法对受试者进行任何逆向恢复。</p>
       <p>很多人从此再也无法恢复。曾经生物竞赛拿奖的徐雨桐、稳居前列的赵思航、英语成绩优异的林婉仪……一个个都停在了被抽走的那一天。</p>
       <p>而刘天清，那个曾经最聪明的男生，数学水平变得普普通通，还失去了大量记忆。他甚至不记得自己调查过什么。</p>
@@ -105,7 +106,7 @@ button:active { border-style: inset; }
     </div>
 
     <fieldset>
-      <legend>操作配置（本次判定依据）</legend>
+      <legend>操作配置</legend>
       <table class="grid">
         <tr><th style="width:130px;">远程模式</th><td id="cfgMode">—</td></tr>
         <tr><th>消除记录</th><td id="cfgWipe">—</td></tr>
@@ -131,7 +132,7 @@ button:active { border-style: inset; }
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 
   var m = get(K_MODE), g = get(K_GHOST);
-  document.getElementById('cfgMode').textContent = m === 'test' ? '测试模式（不进行实际抽取）' : (m === 'strong' ? '强力模式（进行超额抽取）' : '未配置');
+  document.getElementById('cfgMode').textContent = window.SJSDLog.modeLabel(m);
   document.getElementById('cfgWipe').textContent = window.SJSDLog.wipeSummary('dongxinfei');
 
   /* 兼容旧存档 */
