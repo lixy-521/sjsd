@@ -112,8 +112,7 @@ button {
   margin: 2px 4px 2px 0;
 }
 button:active { border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
-button.exec { background: #800000; color: #fff; border: 2px outset #a04040; font-size: 15px; font-weight: bold; padding: 8px 28px; letter-spacing: 3px; }
-button.exec:hover { background: #a00000; }
+button.exec { letter-spacing: 2px; }
 select.mode-sel { font-family: "Courier New", monospace; font-size: 13px; background: #fff; padding: 2px 4px; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
 input[type=text], input[type=password] { font-family: "Courier New", monospace; font-size: 13px; background: #fff; padding: 2px 4px; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
 .countdown { font-family: "Courier New", monospace; font-size: 22px; font-weight: bold; color: #800000; background: #000; letter-spacing: 3px; padding: 6px 14px; display: inline-block; }
@@ -131,7 +130,6 @@ input[type=text], input[type=password] { font-family: "Courier New", monospace; 
 .log-table td { font-size: 11px; }
 .wipe-list { margin-top: 6px; background: #fff; }
 .wipe-list td { font-size: 11px; }
-.wipe-list tr.mine { background: #fff8e8; }
 .wipe-list input { vertical-align: middle; }
 .wipe-foot { margin-top: 8px; }
 .wipe-foot button { font: inherit; padding: 3px 12px; cursor: pointer; }
@@ -185,17 +183,18 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
           <tr><th>剩余时间</th><td><span class="countdown" id="cd">01:12:00</span></td></tr>
           <tr><th>运行模式</th><td>
             <select id="modeSel" class="mode-sel">
-              <option value="strong">强力模式（进行超额抽取）</option>
+              <option value="normal">正常模式（不进行抽取）</option>
               <option value="test">测试模式（不进行实际抽取）</option>
+              <option value="strong">强力模式（进行超额抽取）</option>
             </select>
           </td></tr>
         </table>
       </fieldset>
 
       <fieldset>
-        <legend>执行</legend>
-        <div class="note" style="margin-bottom:8px;">倒计时结束后将按当前配置统一执行，无法撤销。</div>
-        <button type="button" class="exec" id="execBtn">执 行 远 程 操 作</button>
+        <legend>运行模式</legend>
+        <div class="note" style="margin-bottom:8px;">修改后立即生效，无法撤销。</div>
+        <button type="button" id="execBtn">修改模式</button>
       </fieldset>
     </div>
 
@@ -233,19 +232,13 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     <!-- 系统日志 -->
     <div class="section" id="log">
       <h2>系统日志</h2>
-      <div class="note" style="margin-bottom:6px;">下面的记录同时包含系统既有日志与本机各账号的操作记录。</div>
       <table class="grid log-table">
         <thead><tr><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
         <tbody id="logBody"></tbody>
       </table>
-      <div id="logNote" class="note" style="margin-top:8px;"></div>
 
       <div class="log-actions"><a href="#" class="tiny" id="wipeLink">清理记录</a></div>
       <div class="wipe-panel" id="wipePanel">
-        <div class="note" style="margin-bottom:6px;">
-          下面是本次操作产生的记录。<b>只能删除属于本账号（dongxinfei）的记录</b>，
-          勾选其他账号的记录会被拒绝。系统原有的历史日志不在此列，删不到。
-        </div>
         <table class="grid wipe-list">
           <thead><tr><th style="width:34px;"></th><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
           <tbody id="wipeBody"></tbody>
@@ -255,10 +248,6 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
           <button type="button" id="wipeReset" class="ghost">重置日志</button>
           <button type="button" id="wipeClearSel" class="ghost">取消勾选</button>
           <span id="wipeMsg" class="note" style="margin-left:8px;"></span>
-        </div>
-        <div class="note" style="margin-top:6px;">
-          「重置日志」会把删除的记录全部恢复、并清除「误删无关记录」的判定，
-          用来反悔重来。只重置日志，不影响运行模式与无痕模式。
         </div>
       </div>
     </div>
@@ -325,8 +314,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   window.SJSD.renderVolunteer('volBody');
   window.SJSD.renderCognition('cogBody');
 
-  /* 默认值：指向坏结局（强力模式 / 未清理 / 未开无痕） */
-  if (get(K_MODE) === null) set(K_MODE, 'strong');
+  /* 默认正常模式（不抽取），未开无痕 */
+  if (get(K_MODE) === null) set(K_MODE, 'normal');
   if (get(K_GHOST) === null) set(K_GHOST, 'off');
   L.init(ME);
 
@@ -344,31 +333,22 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     });
   });
 
-  /* 运行模式（默认强力） */
+  /* 运行模式（默认正常模式） */
+  var MODE_LABEL = {
+    normal: '正常模式（不进行抽取）',
+    test: '测试模式（不进行实际抽取）',
+    strong: '强力模式（进行超额抽取）'
+  };
   var modeSel = document.getElementById('modeSel');
-  modeSel.value = get(K_MODE) || 'strong';
-  modeSel.addEventListener('change', function () {
-    set(K_MODE, modeSel.value);
-    L.push(ME, '设置运行模式：' + (modeSel.value === 'strong' ? '强力模式（超额抽取）' : '测试模式'));
-    renderLog();
-  });
+  modeSel.value = get(K_MODE) || 'normal';
 
-  /* ---------------------------------------------------- 日志表格与逐条清理 */
+  /* ---------------------------------------------------------- 系统日志 */
   function renderLog() {
     var tb = document.getElementById('logBody');
     if (!tb) return;
-    tb.innerHTML = L.all().map(function (e) {
-      var mine = (e.user === ME);
-      return '<tr' + (mine ? ' class="mine"' : '') + '><td>' + L.esc(e.ts) + '</td><td>' +
-        L.esc(e.user) + '</td><td>' + L.esc(e.text) +
-        (mine ? '　<span class="tag">本账号</span>' : '') + '</td></tr>';
+    tb.innerHTML = L.all(ME).map(function (e) {
+      return '<tr><td>' + L.esc(e.ts) + '</td><td>' + L.esc(e.user) + '</td><td>' + L.esc(e.text) + '</td></tr>';
     }).join('');
-    var note = document.getElementById('logNote');
-    if (note) {
-      note.textContent = L.hasWork(ME)
-        ? '本账号本次留下了操作记录，可在「清理记录」里逐条删除。'
-        : '本账号本次没有留下操作记录。';
-    }
   }
 
   var wipeLink = document.getElementById('wipeLink');
@@ -380,16 +360,12 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     var rows = L.list(ME);
     wipeBody.innerHTML = rows.length
       ? rows.map(function (r) {
-          return '<tr' + (r.mine ? ' class="mine"' : '') + '>' +
+          return '<tr>' +
             '<td><input type="checkbox" data-idx="' + r.idx + '"></td>' +
             '<td>' + L.esc(r.ts) + '</td><td>' + L.esc(r.user) + '</td><td>' + L.esc(r.text) + '</td></tr>';
         }).join('')
       : '<tr><td colspan="4" class="note">（日志已空）</td></tr>';
-    if (wipeMsg) {
-      wipeMsg.textContent = L.hasWork(ME)
-        ? '本账号本次还有未清理的记录。'
-        : (L.done(ME) ? '本账号本次的记录已清理干净。' : '本账号本次没有留下记录（无痕模式）。');
-    }
+    if (wipeMsg) wipeMsg.textContent = '';
   }
 
   function picked() {
@@ -408,20 +384,19 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   delBtn.addEventListener('click', function () {
     var sel = picked();
     var res = L.remove(ME, sel);
+    renderWipe(); renderLog();
     if (wipeMsg) {
       wipeMsg.textContent = res.msg;
       wipeMsg.className = res.ok ? 'note' : 'note bad';
     }
-    renderWipe(); renderLog();
   });
 
-  /* 重置日志：恢复被删的记录，并清除"误删无关记录"的判定 */
   var resetBtn = document.getElementById('wipeReset');
   resetBtn.addEventListener('click', function () {
-    if (!window.confirm('确认重置日志？\n被删除的记录会全部恢复，本账号的操作记录回到初始状态，"误删无关记录"的判定也会清除。')) return;
+    if (!window.confirm('确认重置日志？此操作不可撤销。')) return;
     var res = L.reset(ME);
-    if (wipeMsg) { wipeMsg.textContent = res.msg; wipeMsg.className = 'note'; }
     renderWipe(); renderLog();
+    if (wipeMsg) { wipeMsg.textContent = res.msg; wipeMsg.className = 'note'; }
   });
 
   var clearSelBtn = document.getElementById('wipeClearSel');
@@ -445,28 +420,22 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     renderLog(); renderWipe(); renderGhost();
   });
 
-  /* 执行 / 结算：随时可执行，按当前配置路由结局
-     判定只看本账号（dongxinfei）本次的操作记录有没有清干净 */
-  function wipeText() {
-    if (L.done(ME)) return '本账号本次记录已清理干净';
-    if (L.getFlag(ME, 'rejected')) return '清理时动到了无关记录';
-    return '仍有本账号本次记录未清理';
-  }
+  /* 修改模式：把下拉框所选模式写入配置。
+     正常模式对外不产生任何效果，不进入结算；
+     测试 / 强力模式会立即生效，按清理与无痕情况路由结局。 */
   document.getElementById('execBtn').addEventListener('click', function () {
-    var m = get(K_MODE) || 'strong', g = get(K_GHOST) || 'off';
-    var text = '即将执行远程操作。\n' +
-      '运行模式：' + (m === 'test' ? '测试模式' : '强力模式') + '\n' +
-      '日志清理：' + wipeText() + '\n' +
-      '隐私浏览：' + (g === 'on' ? '已开启' : '未开启') + '\n' +
-      (m === 'strong' ? '\n警告：强力模式将对 107 人进行超额抽取，后果不可逆！\n' : '') +
-      '\n确认执行？';
-    if (!window.confirm(text)) return;
-    L.push(ME, '执行远程操作');
+    var m = modeSel.value;
+    set(K_MODE, m);
+    L.push(ME, '修改运行模式为：' + MODE_LABEL[m]);
+    renderLog(); renderWipe();
+
+    if (m === 'normal') return;   // 正常模式：项目不执行，本次操作无实际效果
+
     var clean = L.done(ME);
     var page;
-    if (m === 'strong' && clean && g === 'on') {
+    if (m === 'strong' && clean && (get(K_GHOST) || 'off') === 'on') {
       page = 'ending-2.html';   // 强力模式 + 逐条清理干净 + 无痕
-    } else if (m === 'test' && clean && g === 'on') {
+    } else if (m === 'test' && clean && (get(K_GHOST) || 'off') === 'on') {
       page = 'ending-3.html';   // 测试模式 + 逐条清理干净 + 无痕
     } else {
       page = 'ending-1.html';   // 其余情况：记录/无痕处理不当
