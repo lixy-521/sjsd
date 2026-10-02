@@ -136,7 +136,7 @@
           <label class="check">
             <input type="checkbox" id="agree" required>
             <span>我已阅读并同意
-              <a href="#" onclick="return showConsent()">《数据采集知情同意书》</a>
+              <a href="#" onclick="return showConsent()">《评估知情同意书》</a>
               与 <a href="#" onclick="return showPrivacy()">《个人信息保护说明》</a>
               <span class="req">*</span>
             </span>
@@ -185,11 +185,11 @@
 <script src="../assets/site.js"></script>
 <script>
 function consentText() {
-  return '《数据采集知情同意书》\n\n'
-    + '一、本次评估将采集学生的作答过程数据与认知指标数据，用于生成评估报告。\n'
+  return '《评估知情同意书》\n\n'
+    + '一、本次评估将记录学生的作答过程与认知指标，用于生成评估报告。\n'
     + '二、本人确认已充分了解评估内容与流程，自愿参与本次评估，无任何强迫情形。\n'
     + '三、评估过程中可能出现轻微疲劳、注意力下降等正常反应，可随时要求中止。\n'
-    + '四、采集数据仅用于学习科学研究及报告生成，不作其他用途。\n'
+    + '四、评估记录仅用于学习科学研究及报告生成，不作其他用途。\n'
     + '五、本人及监护人有权随时查询、更正或要求停止使用相关数据。';
 }
 function showConsent() { alert(consentText()); return false; }

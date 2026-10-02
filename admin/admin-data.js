@@ -22,13 +22,13 @@
     { key: 'v2',  id: 'V-002', name: '赵思航', school: '怀璧一中', subject: '数学',        count: 5,  level: 'A',  status: '中度衰退' },
     { key: 'v3',  id: 'V-003', name: '林婉仪', school: '怀璧一中', subject: '英语',        count: 12, level: 'A',  status: '重度衰退' },
     { key: 'v4',  id: 'V-004', name: '周晓雨', school: '怀璧一中', subject: '生物',        count: 1,  level: 'B',  status: '记忆污染' },
-    { key: 'v5',  id: 'V-005', name: '刘天清', school: '怀璧一中', subject: '数学 / 综合', count: 3,  level: 'A+', status: '已抹除部分记忆' },
+    { key: 'v5',  id: 'V-005', name: '刘天清', school: '狼堡一中', subject: '数学 / 综合', count: 3,  level: 'A+', status: '已抹除部分记忆' },
     { key: 'v6',  id: 'V-006', name: '吴昊博', school: '怀璧一中', subject: '综合',        count: 2,  level: 'A',  status: '正常' },
     { key: 'v7',  id: 'V-007', name: '李杨梓麟', school: '怀璧一中', subject: '数学',      count: 2,  level: 'A',  status: '正常' },
     { key: 'v8',  id: 'V-008', name: '王宇涵', school: '怀璧一中', subject: '语文',        count: 1,  level: 'B+', status: '正常' },
     { key: 'v9',  id: 'V-009', name: '林晚',   school: '怀璧一中', subject: '综合',        count: 1,  level: 'A',  status: '正常' },
     { key: 'v10', id: 'V-010', name: '陈牧循', school: '怀璧一中', subject: '生物',        count: 4,  level: 'A+', status: '认知强化关联' },
-    { key: 'v11', id: 'V-011', name: '罗晋铭', school: '怀璧二中', subject: '物理',        count: 1,  level: 'B',  status: '正常' }
+    { key: 'v11', id: 'V-011', name: '罗晋铭', school: '怀璧一中', subject: '物理',        count: 1,  level: 'B',  status: '正常' }
   ];
 
   /* ---------------------------------------------------------------- 评估记录
@@ -39,12 +39,12 @@
     { no: 'PG-2026-0603', name: '王宇涵',   school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-06-08', op: 'jian*********', status: '已完成' },
     { no: 'PG-2026-0604', name: '林晚',     school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-06-10', op: 'chen******', status: '已完成' },
     { no: 'PG-2026-0605', name: '陈牧循',   school: '怀璧一中', grade: '高二', item: '学科能力评估（关联认知强化）', date: '2026-06-15', op: 'dong******', status: '已完成' },
-    { no: 'PG-2026-0606', name: '罗晋铭',   school: '怀璧二中', grade: '高三', item: '学科能力评估',                date: '2026-06-12', op: 'chen******', status: '已完成' },
+    { no: 'PG-2026-0606', name: '罗晋铭',   school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-06-12', op: 'chen******', status: '已完成' },
     { no: 'PG-2026-0607', name: '徐雨桐',   school: '怀璧一中', grade: '高二', item: '生物学科评估（第 6 次）',      date: '2026-06-20', op: 'chen******', status: '已完成' },
     { no: 'PG-2026-0608', name: '周晓雨',   school: '怀璧一中', grade: '高二', item: '学科能力评估',                date: '2026-06-18', op: 'dong******', status: '已完成' },
     { no: 'PG-2026-0609', name: '赵思航',   school: '怀璧一中', grade: '高三', item: '数学学科评估（第 5 次）',      date: '2026-06-19', op: 'chen******', status: '已完成' },
     { no: 'PG-2026-0610', name: '林婉仪',   school: '怀璧一中', grade: '高三', item: '英语学科评估（第 12 次）',     date: '2026-06-21', op: 'chen******', status: '已完成' },
-    { no: 'PG-2026-0611', name: '刘天清',   school: '怀璧一中', grade: '高二', item: '学科能力评估',                date: '2026-06-06', op: 'dong******', status: '已完成' }
+    { no: 'PG-2026-0611', name: '刘天清',   school: '狼堡一中', grade: '高二', item: '学科能力评估',                date: '2026-06-06', op: 'dong******', status: '已完成' }
   ];
 
   /* ---------------------------------------------------------- 认知强化申请者
@@ -59,7 +59,7 @@
      序号 / 姓名 / 学校 / 年级 / 学科 / 数据评级
      采集次数取自志愿者名单，两者天然一致                                  */
   var EXTRACT = [
-    { name: '刘天清',   school: '怀璧一中', grade: '高二', subject: '数学 / 综合' },
+    { name: '刘天清',   school: '狼堡一中', grade: '高二', subject: '数学 / 综合' },
     { name: '徐雨桐',   school: '怀璧一中', grade: '高二', subject: '生物' },
     { name: '赵思航',   school: '怀璧一中', grade: '高三', subject: '数学' },
     { name: '林婉仪',   school: '怀璧一中', grade: '高三', subject: '英语' },
