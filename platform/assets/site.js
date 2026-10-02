@@ -70,10 +70,30 @@
     });
   }
 
+  /* 点击页眉/页脚的电话号码，弹出一句想不起来的印象。
+     用的是浏览器自带的弹窗，和预约页的《数据采集知情同意书》同一套做法。 */
+  var PEEK_TEXT = '87，143，212，0，这串数字你似乎听刘天清说过，但是不记得是什么意思了。';
+
+  function initPhonePeek() {
+    var phones = document.querySelectorAll('.hm-phone');
+    if (!phones.length) return;
+
+    function show() { alert(PEEK_TEXT); }
+
+    Array.prototype.forEach.call(phones, function (el) {
+      el.setAttribute('tabindex', '0');
+      el.addEventListener('click', function (e) { e.preventDefault(); show(); });
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(); }
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     stampYear();
     initTabs();
     initForms();
     initCopy();
+    initPhonePeek();
   });
 })();

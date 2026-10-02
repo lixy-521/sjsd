@@ -136,7 +136,13 @@ input[type=text], input[type=password] { font-family: "Courier New", monospace; 
 .log-table { margin-top: 6px; }
 .log-table td { font-size: 11px; }
 .log-table tr.mine { background: #fff8e8; }
-.tiny { color: #666; font-size: 11px; text-decoration: none; }
+.wipe-list { margin-top: 6px; background: #fff; }
+.wipe-list td { font-size: 11px; }
+.wipe-list input { vertical-align: middle; }
+.wipe-foot { margin-top: 8px; }
+.wipe-foot button { font: inherit; padding: 3px 12px; cursor: pointer; }
+.wipe-foot button.ghost { background: #e4e4e4; }
+.note.bad { color: #800000; font-weight: bold; }.tiny { color: #666; font-size: 11px; text-decoration: none; }
 .tiny:hover { color: #000080; text-decoration: underline; }
 .ghost-on { color: #800000; font-weight: bold; }
 .footer { border-top: 1px solid #808080; background: #d4d0c8; color: #444; font-size: 11px; text-align: center; padding: 6px; }
@@ -282,7 +288,19 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         <thead><tr><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
         <tbody id="logBody"></tbody>
       </table>
-    </div>
+      <div class="log-actions"><a href="#" class="tiny" id="wipeLink">清理记录</a></div>
+      <div class="wipe-panel" id="wipePanel">
+        <table class="grid wipe-list">
+          <thead><tr><th style="width:34px;"></th><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
+          <tbody id="wipeBody"></tbody>
+        </table>
+        <div class="wipe-foot">
+          <button type="button" id="wipeDel">删除所选</button>
+          <button type="button" id="wipeReset" class="ghost">重置日志</button>
+          <button type="button" id="wipeClearSel" class="ghost">取消勾选</button>
+          <span id="wipeMsg" class="note" style="margin-left:8px;"></span>
+        </div>
+      </div>    </div>
 
   </div>
 
@@ -357,7 +375,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       '<div class="mem">近几日此人印象深刻的内容：<br>' +
       '  · 牟通雪<br>' +
       '  · 董新飞<br>' +
-      '  · fhuehwuiaa</div>' +
+      '  · G7y0k293s</div>' +
       '<p class="note">系统提示：以上条目为本次记忆抹除操作的目标内容，抹除后当事人将无法回忆。请确认无遗漏。</p>' },
     v6: { name: '吴昊博', html:
       '<h4>志愿者报告 · V-006 吴昊博</h4>' +
@@ -493,10 +511,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 
   /* 无痕模式（隐私浏览） */
   var ghostLink = document.getElementById('ghostLink');
-  function ghostOn() {
-    var g = null; try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
-    return g === 'on';
-  }
+  /* 无痕模式（隐私浏览）按账号独立存放：sjsd_ghost_mode_<账号> */
+  function ghostOn() { return L.isGhost(ME); }
   function renderGhost() {
     if (!ghostLink) return;
     if (ghostOn()) { ghostLink.textContent = '隐私浏览：已开启'; ghostLink.className = 'tiny ghost-on'; }
@@ -510,9 +526,57 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     tb.innerHTML = L.all(ME).map(function (e) {
       return '<tr><td>' + L.esc(e.ts) + '</td><td>' + L.esc(e.user) + '</td><td>' + L.esc(e.text) + '</td></tr>';
     }).join('');
-
   }
 
+  /* ---------------------------------------------------- 清理记录：逐条勾选 */
+  var wipeLink = document.getElementById('wipeLink');
+  var wipePanel = document.getElementById('wipePanel');
+  var wipeBody = document.getElementById('wipeBody');
+  var wipeMsg = document.getElementById('wipeMsg');
+
+  function renderWipe() {
+    var rows = L.list(ME);
+    wipeBody.innerHTML = rows.length
+      ? rows.map(function (r) {
+          return '<tr>' +
+            '<td><input type="checkbox" data-idx="' + r.idx + '"></td>' +
+            '<td>' + L.esc(r.ts) + '</td><td>' + L.esc(r.user) + '</td><td>' + L.esc(r.text) + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="4" class="note">（没有可清理的记录）</td></tr>';
+    if (wipeMsg) wipeMsg.textContent = '';
+  }
+
+  function picked() {
+    return Array.prototype.slice.call(wipeBody.querySelectorAll('input[type=checkbox]'))
+      .filter(function (c) { return c.checked; })
+      .map(function (c) { return parseInt(c.getAttribute('data-idx'), 10); });
+  }
+
+  wipeLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    wipePanel.classList.toggle('show');
+    if (wipePanel.classList.contains('show')) renderWipe();
+  });
+
+  document.getElementById('wipeDel').addEventListener('click', function () {
+    var res = L.remove(ME, picked());
+    renderWipe(); renderLog();
+    if (wipeMsg) {
+      wipeMsg.textContent = res.msg;
+      wipeMsg.className = res.ok ? 'note' : 'note bad';
+    }
+  });
+
+  document.getElementById('wipeReset').addEventListener('click', function () {
+    if (!window.confirm('确认重置日志？此操作不可撤销。')) return;
+    var res = L.reset(ME);
+    renderWipe(); renderLog();
+    if (wipeMsg) { wipeMsg.textContent = res.msg; wipeMsg.className = 'note'; }
+  });
+
+  document.getElementById('wipeClearSel').addEventListener('click', function () {
+    wipeBody.querySelectorAll('input[type=checkbox]').forEach(function (c) { c.checked = false; });
+  });
   var targetLog = {
     eval: '访问【评估服务后台】',
     vdb: '访问【志愿者能力抽取数据库】',
@@ -524,43 +588,42 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     a.addEventListener('click', function () {
       var t = a.getAttribute('data-target');
       L.push(ME, targetLog[t] || ('访问【' + a.textContent + '】'));
-      renderLog();
+      renderLog(); renderWipe();
     });
   });
   var mb = document.getElementById('matchBtn');
-  if (mb) { mb.addEventListener('click', function () { var s = document.getElementById('mSubject').value; L.push(ME, '使用【匹配工具】（目标学科：' + s + '）'); renderLog(); }); }
+  if (mb) { mb.addEventListener('click', function () { var s = document.getElementById('mSubject').value; L.push(ME, '使用【匹配工具】（目标学科：' + s + '）'); renderLog(); renderWipe(); }); }
   /* 其它操作也留下记录 */
   var volBody = document.getElementById('volBody');
   if (volBody) { volBody.addEventListener('click', function (e) {
     var tr = e.target.closest ? e.target.closest('tr.pick') : null; if (!tr) return;
     var nm = tr.children[1] ? tr.children[1].textContent : '';
-    L.push(ME, '查看志愿者报告（' + nm + '）'); renderLog();
+    L.push(ME, '查看志愿者报告（' + nm + '）'); renderLog(); renderWipe();
   }); }
   var cogBody = document.getElementById('cogBody');
   if (cogBody) { cogBody.addEventListener('click', function (e) {
     var tr = e.target.closest ? e.target.closest('tr.pick') : null; if (!tr) return;
     var nm = tr.children[1] ? tr.children[1].textContent : '';
-    L.push(ME, '查看认知强化申请数据（' + nm + '）'); renderLog();
+    L.push(ME, '查看认知强化申请数据（' + nm + '）'); renderLog(); renderWipe();
   }); }
   var cogDetail = document.getElementById('cogDetail');
   if (cogDetail) { cogDetail.addEventListener('click', function (e) {
     var q = (e.target && e.target.getAttribute) ? e.target.getAttribute('data-quick') : null;
-    if (q) { L.push(ME, '执行快速匹配（' + q + '类）'); renderLog(); }
+    if (q) { L.push(ME, '执行快速匹配（' + q + '类）'); renderLog(); renderWipe(); }
   }); }
   var projBtnEl = document.getElementById('projBtn');
-  if (projBtnEl) { projBtnEl.addEventListener('click', function () { L.push(ME, '查看当前项目详情'); renderLog(); }); }
+  if (projBtnEl) { projBtnEl.addEventListener('click', function () { L.push(ME, '查看当前项目详情'); renderLog(); renderWipe(); }); }
 
   if (ghostLink) {
     ghostLink.addEventListener('click', function (e) {
       e.preventDefault();
       var next = ghostOn() ? 'off' : 'on';
-      try { localStorage.setItem('sjsd_ghost_mode', next); } catch (err) {}
+      L.setGhost(ME, next === 'on');
       if (next === 'off') L.push(ME, '隐私浏览（无痕模式）：已关闭');
-      renderLog(); renderGhost();
+      renderLog(); renderWipe(); renderGhost();
     });
   }
-  renderLog();
-  renderGhost();
+  renderLog(); renderWipe(); renderGhost();
 })();
 </script>
 </body>

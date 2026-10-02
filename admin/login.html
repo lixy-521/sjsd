@@ -205,12 +205,14 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   </div>
 </div>
 
+<script src="admin-data.js"></script>
+<script src="admin-log.js"></script>
 <script>
 (function () {
   var ACCOUNTS = {
     'jiangyouliang': { pw: 'BeiJg12z',   url: 'jiang.html' },
     'chenchaowu':   { pw: '37842516',   url: 'chenchaowu.html' },
-    'dongxinfei':   { pw: 'fhuehwuiaa', url: 'dongxinfei.html' }
+    'dongxinfei':   { pw: 'G7y0k293s', url: 'dongxinfei.html' }
   };
 
   function pad2(n) { return n < 10 ? '0' + n : '' + n; }
@@ -237,13 +239,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     if (acc && acc.pw === p) {
       status.className = 'status ok';
       status.textContent = '登录成功，正在进入系统…';
-      try {
-        if (localStorage.getItem('sjsd_ghost_mode') !== 'on') {
-          var log = JSON.parse(localStorage.getItem('sjsd_admin_log') || '[]');
-          log.push({ ts: nowStr(), user: u, text: '登录系统成功' });
-          localStorage.setItem('sjsd_admin_log', JSON.stringify(log));
-        }
-      } catch (e) {}
+      /* 登录本身也是一条"本次登录产生的记录"（无痕模式除外） */
+      if (window.SJSDLog) window.SJSDLog.push(u, '登录系统成功');
       setTimeout(function () { window.location.href = acc.url; }, 600);
     } else {
       status.className = 'status err';

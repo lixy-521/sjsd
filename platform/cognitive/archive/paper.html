@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -218,30 +218,6 @@ table.data td.hl { color: #9c3d3d; font-weight: 600; }
   font-size: 12.5px;
 }
 
-/* 平台引用 */
-.platform-ref {
-  margin: 8px 0 18px;
-  padding: 16px 18px;
-  background: #f6fafb;
-  border: 1px solid #cfe3ea;
-  border-radius: 3px;
-}
-.platform-ref .pr-title { font-size: 14px; color: #1f2a33; font-weight: 600; margin-bottom: 6px; }
-.platform-ref p { font-size: 12.5px; color: #5c6b75; line-height: 1.85; margin-bottom: 10px; }
-.platform-ref a.pr-link {
-  display: inline-block;
-  padding: 8px 16px;
-  background: #fff;
-  border: 1px solid #1a6b8a;
-  border-radius: 3px;
-  color: #1a6b8a;
-  text-decoration: none;
-  font-size: 12.5px;
-  letter-spacing: .5px;
-  transition: background .2s, color .2s;
-}
-.platform-ref a.pr-link:hover { background: #1a6b8a; color: #fff; }
-
 /* 参考文献 */
 .refs { margin-top: 6px; }
 .refs li {
@@ -356,18 +332,11 @@ table.data td.hl { color: #9c3d3d; font-weight: 600; }
     </div>
     <p class="body">上述结论已同步至本实验室的操作规范。需要说明的是，现行设备对"磨损"尚无补偿手段，过滤算法（用于分离记忆碎片）仍处于设计阶段，尚未实现。</p>
 
-    <h2 class="sec"><span class="num">5.</span>实时前端平台</h2>
-    <p class="body">为便于合作方远程监控提取进程，本实验室在设备层之上搭建了<strong>实时前端平台</strong>。该平台可实时显示当前项目、受试者规模与剩余时间，并支持运行模式的切换。平台以内部技术支持网页的形式提供给合作方使用（详见实验室研究平台入口）。</p>
-    <div class="platform-ref">
-      <div class="pr-title">记忆提取设备 · 远程前端平台</div>
-      <p>实时项目状态 / 受试者名单预览 / 运行模式切换。本平台由安和实验室提供技术支持，仅面向签约合作方开放。</p>
-      <a class="pr-link" href="../../../northland/platform-login.html">进入远程前端平台（需登录）→</a>
-    </div>
 
-    <h2 class="sec"><span class="num">6.</span>结论</h2>
+    <h2 class="sec"><span class="num">5.</span>结论</h2>
     <p class="body">记忆提取与注入操作在技术上可行，注入端效果显著。但提取过程对源个体存在不可逆的神经磨损，且伴随记忆碎片残留；在过滤算法实现之前，本技术不具备大规模商用条件。建议合作方严格遵守采集间隔与次数限制，并充分评估长期影响。</p>
 
-    <h2 class="sec"><span class="num">7.</span>参考文献</h2>
+    <h2 class="sec"><span class="num">6.</span>参考文献</h2>
     <ul class="refs">
       <li><span class="i">[1]</span>陈昱, 张纬云. 非侵入式脑波采集中的噪声抑制方法[J]. 北境神经工程学报, 2024, 9(2): 44-57.</li>
       <li><span class="i">[2]</span>乔维莉, 赵筠. 认知负荷与神经可塑性的耦合模型[J]. 记忆与神经工程, 2025, 12(1): 12-29.</li>

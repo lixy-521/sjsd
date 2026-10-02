@@ -136,7 +136,13 @@ input[type=text], input[type=password] { font-family: "Courier New", monospace; 
 .log-table { margin-top: 6px; }
 .log-table td { font-size: 11px; }
 .log-table tr.mine { background: #fff8e8; }
-.tiny { color: #666; font-size: 11px; text-decoration: none; }
+.wipe-list { margin-top: 6px; background: #fff; }
+.wipe-list td { font-size: 11px; }
+.wipe-list input { vertical-align: middle; }
+.wipe-foot { margin-top: 8px; }
+.wipe-foot button { font: inherit; padding: 3px 12px; cursor: pointer; }
+.wipe-foot button.ghost { background: #e4e4e4; }
+.note.bad { color: #800000; font-weight: bold; }.tiny { color: #666; font-size: 11px; text-decoration: none; }
 .tiny:hover { color: #000080; text-decoration: underline; }
 .ghost-on { color: #800000; font-weight: bold; }
 .footer { border-top: 1px solid #808080; background: #d4d0c8; color: #444; font-size: 11px; text-align: center; padding: 6px; }
@@ -209,12 +215,41 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       <h2>个人记录 · 姜游亮</h2>
 
       <h3>个人操作报告</h3>
+
+      <fieldset>
+        <legend>2026 年 6 月 7 日 · 开通</legend>
+        <div class="report">
+          <p>学校跟山经书店有合作，让我来注册一个合作老师的账号，说是以后学生的评估成绩可以直接在后台看，不用再等他们寄纸质报告。</p>
+          <p>账号是系统自动给的，用户名就是全名拼音。密码是默认的那个，一直没让我改，我也懒得动。当时觉得挺省事，现在想想，这东西从第一天就有点不对劲。</p>
+          <p>注册完我就退出去了，没细看后台里到底有什么。</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2026 年 6 月 8 日 · 第一次上手</legend>
+        <div class="report">
+          <p>第一次真的用起来，是帮怀璧一中一个班主任查学生。我按名字搜，出来一长串记录，连操作人、评估项目、状态都列得清清楚楚。我当时还感慨，这系统做得比我们学校自己的教务系统好多了。</p>
+          <p>顺手帮他把那份记录导出来发过去了。他那边满意得不行，说以后就靠我了。</p>
+          <p>其实我什么都没做，就是把系统里的东西点了一下。这种“举手之劳”的感觉，后来害了我。</p>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2026 年 6 月 20 日 · 权限</legend>
+        <div class="report">
+          <p>今天手滑点开了「志愿者能力数据库」的标签。页面直接甩给我一句权限不足。</p>
+          <p>我换到「认知强化服务」，一样。再换「远程操作」，还是一样。</p>
+          <p>那就说明这些菜单本来就不该出现在我这个账号里。也不知道是配权限的人偷懒，还是故意留给我们看的。</p>
+          <p>我没点确认，也没截屏，就是默默记着。如果哪天真出事了，上面第一个查的，肯定是权限是怎么开出来的。而我最怕的就是有人查到我头上。</p>
+        </div>
+      </fieldset>
+
       <fieldset>
         <legend>报告记录时间：2026-06</legend>
         <div class="report">
           <p>我本来只是通过这个后台核对学生的评估预约，帮一些家长看看成绩分析。最近越看越觉得不对劲。</p>
-          <p>评估记录里有个操作人署名“陈--”。我认得，那是我们学校原来的物理老师。他前阵子已经从怀璧一中辞职，去了羊村市那个“蒂中帝教育”当老师了。人都走了，账号却还天天在后台里操作，好几份评估单上都是他的名字。</p>
-          <p>这个平台的功能还真是多,还需要权限,感觉不像什么好东西</p>
+          <p>听店长说他们在羊村市的“蒂中帝教育”还有门路。听名字好像是我们学校原来的物理老师。他前阵子已经从怀璧一中辞职，去了蒂中帝当老师了。</p>
+          <p>这个平台的功能还真是多,还需要权限,感觉不像什么好东西。</p>
         </div>
       </fieldset>
 
@@ -223,7 +258,19 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         <thead><tr><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
         <tbody id="logBody"></tbody>
       </table>
-    </div>
+      <div class="log-actions"><a href="#" class="tiny" id="wipeLink">清理记录</a></div>
+      <div class="wipe-panel" id="wipePanel">
+        <table class="grid wipe-list">
+          <thead><tr><th style="width:34px;"></th><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
+          <tbody id="wipeBody"></tbody>
+        </table>
+        <div class="wipe-foot">
+          <button type="button" id="wipeDel">删除所选</button>
+          <button type="button" id="wipeReset" class="ghost">重置日志</button>
+          <button type="button" id="wipeClearSel" class="ghost">取消勾选</button>
+          <span id="wipeMsg" class="note" style="margin-left:8px;"></span>
+        </div>
+      </div>    </div>
 
   </div>
 
@@ -274,10 +321,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 
   /* 无痕模式（隐私浏览） */
   var ghostLink = document.getElementById('ghostLink');
-  function ghostOn() {
-    var g = null; try { g = localStorage.getItem('sjsd_ghost_mode'); } catch (e) {}
-    return g === 'on';
-  }
+  /* 无痕模式（隐私浏览）按账号独立存放：sjsd_ghost_mode_<账号> */
+  function ghostOn() { return L.isGhost(ME); }
   function renderGhost() {
     if (!ghostLink) return;
     if (ghostOn()) { ghostLink.textContent = '隐私浏览：已开启'; ghostLink.className = 'tiny ghost-on'; }
@@ -291,9 +336,57 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     tb.innerHTML = L.all(ME).map(function (e) {
       return '<tr><td>' + L.esc(e.ts) + '</td><td>' + L.esc(e.user) + '</td><td>' + L.esc(e.text) + '</td></tr>';
     }).join('');
-
   }
 
+  /* ---------------------------------------------------- 清理记录：逐条勾选 */
+  var wipeLink = document.getElementById('wipeLink');
+  var wipePanel = document.getElementById('wipePanel');
+  var wipeBody = document.getElementById('wipeBody');
+  var wipeMsg = document.getElementById('wipeMsg');
+
+  function renderWipe() {
+    var rows = L.list(ME);
+    wipeBody.innerHTML = rows.length
+      ? rows.map(function (r) {
+          return '<tr>' +
+            '<td><input type="checkbox" data-idx="' + r.idx + '"></td>' +
+            '<td>' + L.esc(r.ts) + '</td><td>' + L.esc(r.user) + '</td><td>' + L.esc(r.text) + '</td></tr>';
+        }).join('')
+      : '<tr><td colspan="4" class="note">（没有可清理的记录）</td></tr>';
+    if (wipeMsg) wipeMsg.textContent = '';
+  }
+
+  function picked() {
+    return Array.prototype.slice.call(wipeBody.querySelectorAll('input[type=checkbox]'))
+      .filter(function (c) { return c.checked; })
+      .map(function (c) { return parseInt(c.getAttribute('data-idx'), 10); });
+  }
+
+  wipeLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    wipePanel.classList.toggle('show');
+    if (wipePanel.classList.contains('show')) renderWipe();
+  });
+
+  document.getElementById('wipeDel').addEventListener('click', function () {
+    var res = L.remove(ME, picked());
+    renderWipe(); renderLog();
+    if (wipeMsg) {
+      wipeMsg.textContent = res.msg;
+      wipeMsg.className = res.ok ? 'note' : 'note bad';
+    }
+  });
+
+  document.getElementById('wipeReset').addEventListener('click', function () {
+    if (!window.confirm('确认重置日志？此操作不可撤销。')) return;
+    var res = L.reset(ME);
+    renderWipe(); renderLog();
+    if (wipeMsg) { wipeMsg.textContent = res.msg; wipeMsg.className = 'note'; }
+  });
+
+  document.getElementById('wipeClearSel').addEventListener('click', function () {
+    wipeBody.querySelectorAll('input[type=checkbox]').forEach(function (c) { c.checked = false; });
+  });
   var targetLog = {
     eval: '访问【评估服务后台】',
     vol: '尝试访问【志愿者能力数据库】（拒绝：权限不足）',
@@ -305,25 +398,24 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     a.addEventListener('click', function () {
       var t = a.getAttribute('data-target');
       L.push(ME, targetLog[t] || ('访问【' + a.textContent + '】'));
-      renderLog();
+      renderLog(); renderWipe();
     });
   });
   var qBtn = document.getElementById('qBtn');
-  if (qBtn) { qBtn.addEventListener('click', function () { var k = document.getElementById('qName').value.trim(); L.push(ME, k ? ('查询评估记录（关键字：' + k + '）') : '查看全部评估记录'); renderLog(); }); }
+  if (qBtn) { qBtn.addEventListener('click', function () { var k = document.getElementById('qName').value.trim(); L.push(ME, k ? ('查询评估记录（关键字：' + k + '）') : '查看全部评估记录'); renderLog(); renderWipe(); }); }
   var qClear = document.getElementById('qClear');
-  if (qClear) { qClear.addEventListener('click', function () { L.push(ME, '查看全部评估记录'); renderLog(); }); }
+  if (qClear) { qClear.addEventListener('click', function () { L.push(ME, '查看全部评估记录'); renderLog(); renderWipe(); }); }
 
   if (ghostLink) {
     ghostLink.addEventListener('click', function (e) {
       e.preventDefault();
       var next = ghostOn() ? 'off' : 'on';
-      try { localStorage.setItem('sjsd_ghost_mode', next); } catch (err) {}
+      L.setGhost(ME, next === 'on');
       if (next === 'off') L.push(ME, '隐私浏览（无痕模式）：已关闭');
-      renderLog(); renderGhost();
+      renderLog(); renderWipe(); renderGhost();
     });
   }
-  renderLog();
-  renderGhost();
+  renderLog(); renderWipe(); renderGhost();
 })();
 </script>
 </body>

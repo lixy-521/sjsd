@@ -302,7 +302,6 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 <script>
 (function () {
   var K_MODE = 'sjsd_remote_mode';
-  var K_GHOST = 'sjsd_ghost_mode';
   var ME = 'dongxinfei';
   var L = window.SJSDLog;
 
@@ -316,7 +315,6 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 
   /* 默认正常模式（不抽取），未开无痕 */
   if (get(K_MODE) === null) set(K_MODE, 'normal');
-  if (get(K_GHOST) === null) set(K_GHOST, 'off');
   L.init(ME);
 
   /* 菜单切换 */
@@ -364,7 +362,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
             '<td><input type="checkbox" data-idx="' + r.idx + '"></td>' +
             '<td>' + L.esc(r.ts) + '</td><td>' + L.esc(r.user) + '</td><td>' + L.esc(r.text) + '</td></tr>';
         }).join('')
-      : '<tr><td colspan="4" class="note">（日志已空）</td></tr>';
+      : '<tr><td colspan="4" class="note">（没有可清理的记录）</td></tr>';
     if (wipeMsg) wipeMsg.textContent = '';
   }
 
@@ -406,7 +404,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 
   /* 隐私浏览 / 无痕模式（藏在页脚，默认关闭） */
   var ghostLink = document.getElementById('ghostLink');
-  function ghostOn() { return get(K_GHOST) === 'on'; }
+  /* 无痕模式（隐私浏览）按账号独立存放：sjsd_ghost_mode_<账号> */
+  function ghostOn() { return L.isGhost(ME); }
   function renderGhost() {
     if (!ghostLink) return;
     if (ghostOn()) { ghostLink.textContent = '隐私浏览：已开启'; ghostLink.className = 'tiny ghost-on'; }
@@ -415,7 +414,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   ghostLink.addEventListener('click', function (e) {
     e.preventDefault();
     var next = ghostOn() ? 'off' : 'on';
-    set(K_GHOST, next);
+    L.setGhost(ME, next === 'on');
     L.push(ME, '隐私浏览（无痕模式）：' + (next === 'on' ? '已开启' : '已关闭'));
     renderLog(); renderWipe(); renderGhost();
   });
@@ -431,14 +430,16 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 
     if (m === 'normal') return;   // 正常模式：项目不执行，本次操作无实际效果
 
-    var clean = L.done(ME);
+    /* 结算：直接比较「当前记录」和「系统原有的记录」。
+       两者完全一致 → 好结局；否则一律坏结局。 */
+    var matched = L.logsMatch(ME);
     var page;
-    if (m === 'strong' && clean && (get(K_GHOST) || 'off') === 'on') {
-      page = 'ending-2.html';   // 强力模式 + 逐条清理干净 + 无痕
-    } else if (m === 'test' && clean && (get(K_GHOST) || 'off') === 'on') {
-      page = 'ending-3.html';   // 测试模式 + 逐条清理干净 + 无痕
+    if (m === 'strong' && matched && ghostOn()) {
+      page = 'ending-2.html';   // 强力模式 + 记录与原有记录一致 + 无痕
+    } else if (m === 'test' && matched && ghostOn()) {
+      page = 'ending-3.html';   // 测试模式 + 记录与原有记录一致 + 无痕
     } else {
-      page = 'ending-1.html';   // 其余情况：记录/无痕处理不当
+      page = 'ending-1.html';   // 其余情况：记录没恢复到原样，或没开无痕
     }
     window.location.href = page;
   });

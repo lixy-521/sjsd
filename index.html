@@ -197,7 +197,46 @@ body {
   width: 240px;
   max-width: 100%;
   border-radius: 4px;
+  cursor: zoom-in;
 }
+/* 点击图片放大查看 */
+.img-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.78);
+  cursor: zoom-out;
+  padding: 24px;
+  box-sizing: border-box;
+}
+.img-viewer.show { display: flex; }
+.img-viewer img {
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 6px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.5);
+  cursor: default;
+}
+.img-viewer .viewer-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  line-height: 34px;
+  text-align: center;
+  font-size: 22px;
+  color: #fff;
+  background: rgba(255,255,255,.14);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+}
+.img-viewer .viewer-close:hover { background: rgba(255,255,255,.28); }
 /* 时间戳：居中显示的浅灰底小字 */
 .msg-stamp {
   align-self: center;
@@ -298,6 +337,12 @@ body {
   </div>
 </div>
 
+<!-- 图片放大查看 -->
+<div class="img-viewer" id="imgViewer">
+  <img id="imgViewerPic" src="" alt="图片">
+  <button type="button" class="viewer-close" id="imgViewerClose" aria-label="关闭">×</button>
+</div>
+
 <script>
 (function() {
   const scrollBox = document.getElementById('chatMessages');
@@ -305,6 +350,28 @@ body {
   const input = document.getElementById('msgInput');
   const sendBtn = document.getElementById('sendBtn');
   let isProcessing = false;
+
+  /* --------------------------------------------------- 图片放大查看
+     点气泡里的图片放大；再点任意处或按 Esc 关闭。 */
+  const viewer = document.getElementById('imgViewer');
+  const viewerPic = document.getElementById('imgViewerPic');
+  function openViewer(src, alt) {
+    viewerPic.src = src;
+    viewerPic.alt = alt || '图片';
+    viewer.classList.add('show');
+  }
+  function closeViewer() {
+    viewer.classList.remove('show');
+    viewerPic.src = '';
+  }
+  container.addEventListener('click', function (e) {
+    const img = e.target.closest('.msg-bubble.img-bubble img');
+    if (img) openViewer(img.src, img.alt);
+  });
+  viewer.addEventListener('click', closeViewer);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && viewer.classList.contains('show')) closeViewer();
+  });
 
   const STORAGE_KEY = 'lbyz_chat_history_v2';
   let history = loadHistory();

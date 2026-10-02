@@ -124,24 +124,23 @@ button:active { border-style: inset; }
 <script src="admin-log.js"></script>
 <script>
 (function () {
+  var L = window.SJSDLog;
   var K_MODE = 'sjsd_remote_mode';
-  var K_STATE = 'sjsd_wipe_state';
-  var K_GHOST = 'sjsd_ghost_mode';
+  var ME = 'dongxinfei';
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 
-  var m = get(K_MODE), g = get(K_GHOST);
-  document.getElementById('cfgMode').textContent = window.SJSDLog.modeLabel(m);
-  document.getElementById('cfgWipe').textContent = window.SJSDLog.wipeSummary('dongxinfei');
+  document.getElementById('cfgMode').textContent = L.modeLabel(get(K_MODE));
+  document.getElementById('cfgWipe').textContent = L.wipeSummary(ME);
+  document.getElementById('cfgGhost').textContent = L.isGhost(ME) ? '已启动无痕模式' : '未启动无痕模式';
 
   /* 兼容旧存档 */
-  try { localStorage.removeItem('sjsd_wipe_records'); } catch (e) {}
-  document.getElementById('cfgGhost').textContent = g === 'on' ? '已启动无痕模式' : (g === 'off' ? '未启动无痕模式' : '未配置');
+  try { localStorage.removeItem('sjsd_wipe_records'); localStorage.removeItem('sjsd_ghost_mode'); } catch (e) {}
 
   document.getElementById('restartBtn').addEventListener('click', function () {
     try {
       localStorage.removeItem(K_MODE);
-      localStorage.removeItem(K_STATE);
-      localStorage.removeItem(K_GHOST);
+      localStorage.removeItem(L.KEYS.state);
+      ['jiangyouliang', 'chenchaowu', 'dongxinfei'].forEach(function (u) { localStorage.removeItem(L.ghostKey(u)); });
     } catch (e) {}
     window.location.href = 'dongxinfei.html';
   });

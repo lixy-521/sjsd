@@ -98,6 +98,10 @@ img { max-width: 100%; display: block; }
 .header-meta .hm svg { width: 15px; height: 15px; fill: var(--ink-4); flex: none; }
 .header-meta b { color: var(--brand); font-weight: 600; font-variant-numeric: tabular-nums; }
 
+/* ---------- 页眉/页脚电话号码：可点，但外观与普通文字完全一致 ---------- */
+.hm-phone { cursor: pointer; color: inherit; font: inherit; }
+.hm-phone:hover, .hm-phone:focus { text-decoration: none; outline: none; }
+
 /* ---------- 页面标题区 ---------- */
 .page-head { padding: 26px 0 20px; }
 .page-head h1 { font-size: 23px; letter-spacing: .5px; }
