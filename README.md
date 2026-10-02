@@ -92,7 +92,7 @@ platform/
   `platform/` 各页页脚只保留机构信息与版权，**不放任何导航链接**。
 - 陈牧循的评估报告（`platform/assessment/reports/chenmuxun.html`）中不出现他的个人 ID，
   该处改为指向其认知强化服务报告（`platform/cognitive/reports/chenmuxun.html`）的超链接文本。
-- 结局拆为三页：`admin/ending-1.html`（数据蒸发）、`admin/ending-2.html`（无法复原）、`admin/ending-3.html`（及时收网）。在 `admin/dongxinfei.html` 点「修改模式」结算，
+- 结局拆为三页：`admin/ending-250365.html`（数据蒸发）、`admin/ending-272585.html`（无法复原）、`admin/ending-428406.html`（及时收网）。在 `admin/dongxinfei.html` 点「修改模式」结算，
   依据「远程模式 / 记录是否清理干净 / 无痕模式」三项配置跳转到对应结局页。
   远程模式默认 `normal`（正常模式），此时点击「修改模式」只写入配置、**不进入任何结局**；只有切到 `test` / `strong` 才会结算。
   结算不弹二次确认。
