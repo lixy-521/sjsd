@@ -34,25 +34,25 @@
   /* ---------------------------------------------------------------- 评估记录
      记录号 / 姓名 / 学校 / 年级 / 评估项目 / 评估日期 / 操作人 / 状态        */
   var EVAL = [
-    { no: 'PG-2026-0601', name: '吴昊博',   school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-06-06', op: 'dong******', status: '已完成' },
-    { no: 'PG-2026-0602', name: '李杨梓麟', school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-06-07', op: 'jian*********', status: '已完成' },
-    { no: 'PG-2026-0603', name: '王宇涵',   school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-06-08', op: 'jian*********', status: '已完成' },
-    { no: 'PG-2026-0604', name: '林晚',     school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-06-10', op: 'chen******', status: '已完成' },
-    { no: 'PG-2026-0605', name: '陈牧循',   school: '怀璧一中', grade: '高二', item: '学科能力评估（关联认知强化）', date: '2026-06-15', op: 'dong******', status: '已完成' },
-    { no: 'PG-2026-0606', name: '罗晋铭',   school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-06-12', op: 'chen******', status: '已完成' },
-    { no: 'PG-2026-0607', name: '徐雨桐',   school: '怀璧一中', grade: '高二', item: '生物学科评估（第 6 次）',      date: '2026-06-20', op: 'chen******', status: '已完成' },
-    { no: 'PG-2026-0608', name: '周晓雨',   school: '怀璧一中', grade: '高二', item: '学科能力评估',                date: '2026-06-18', op: 'dong******', status: '已完成' },
-    { no: 'PG-2026-0609', name: '赵思航',   school: '怀璧一中', grade: '高三', item: '数学学科评估（第 5 次）',      date: '2026-06-19', op: 'chen******', status: '已完成' },
-    { no: 'PG-2026-0610', name: '林婉仪',   school: '怀璧一中', grade: '高三', item: '英语学科评估（第 12 次）',     date: '2026-06-21', op: 'chen******', status: '已完成' },
-    { no: 'PG-2026-0611', name: '刘天清',   school: '狼堡一中', grade: '高二', item: '学科能力评估',                date: '2026-06-06', op: 'dong******', status: '已完成' }
+    { no: 'PG-2026-0601', name: '吴昊博',   school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-07-06', op: 'dong******', status: '已完成' },
+    { no: 'PG-2026-0602', name: '李杨梓麟', school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-07-08', op: 'jian*********', status: '已完成' },
+    { no: 'PG-2026-0603', name: '王宇涵',   school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-07-11', op: 'jian*********', status: '已完成' },
+    { no: 'PG-2026-0604', name: '林晚',     school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-07-13', op: 'chen******', status: '已完成' },
+    { no: 'PG-2026-0605', name: '陈牧循',   school: '怀璧一中', grade: '高二', item: '学科能力评估（关联认知强化）', date: '2026-07-26', op: 'dong******', status: '已完成' },
+    { no: 'PG-2026-0606', name: '罗晋铭',   school: '怀璧一中', grade: '高三', item: '学科能力评估',                date: '2026-07-16', op: 'chen******', status: '已完成' },
+    { no: 'PG-2026-0607', name: '徐雨桐',   school: '怀璧一中', grade: '高二', item: '生物学科评估（第 6 次）',      date: '2026-07-21', op: 'chen******', status: '已完成' },
+    { no: 'PG-2026-0608', name: '周晓雨',   school: '怀璧一中', grade: '高二', item: '学科能力评估',                date: '2026-07-18', op: 'dong******', status: '已完成' },
+    { no: 'PG-2026-0609', name: '赵思航',   school: '怀璧一中', grade: '高三', item: '数学学科评估（第 5 次）',      date: '2026-07-23', op: 'chen******', status: '已完成' },
+    { no: 'PG-2026-0610', name: '林婉仪',   school: '怀璧一中', grade: '高三', item: '英语学科评估（第 12 次）',     date: '2026-07-24', op: 'chen******', status: '已完成' },
+    { no: 'PG-2026-0611', name: '刘天清',   school: '狼堡一中', grade: '高二', item: '学科能力评估',                date: '2026-07-18', op: 'dong******', status: '已完成' }
   ];
 
   /* ---------------------------------------------------------- 认知强化申请者
      编号 / 姓名 / 申请服务 / 关联源数据 / 状态                              */
   var COGNITION = [
     { no: 'CS-2026-0031', name: '陈牧循', service: '生物认知强化', source: 'XYT-20260606',      status: '已交付' },
-    { no: 'CS-2026-0044', name: '周晓雨', service: '生物认知强化', source: 'XYT-20260620-H02',  status: '已交付' },
-    { no: 'CS-2026-0052', name: '吴昊博', service: '综合能力强化', source: 'LWT-20260606',      status: '待匹配' }
+    { no: 'CS-2026-0044', name: '周晓雨', service: '生物认知强化', source: 'XYT-20260718-H02',  status: '已交付' },
+    { no: 'CS-2026-0052', name: '吴昊博', service: '综合能力强化', source: 'LWT-20260711',      status: '待匹配' }
   ];
 
   /* -------------------------------------------------------- 联合提取项目名单
@@ -75,25 +75,25 @@
      ts / user / text。user = 'system' 的条目不属于任何账号。               */
   var baseLog = [
     { ts: '2026-06-07 09:12:44', user: 'jiangyouliang', text: '登录系统成功（IP 10.20.3.17）' },
-    { ts: '2026-06-07 09:15:02', user: 'jiangyouliang', text: '查询评估记录 PG-2026-0602' },
-    { ts: '2026-06-08 10:03:21', user: 'jiangyouliang', text: '查询评估记录 PG-2026-0603' },
-    { ts: '2026-06-08 10:05:33', user: 'jiangyouliang', text: '申请导出报告（被拒绝：权限不足）' },
-    { ts: '2026-06-15 16:40:18', user: 'jiangyouliang', text: '查询评估记录 PG-2026-0605' },
-    { ts: '2026-06-20 14:22:09', user: 'jiangyouliang', text: '尝试访问【志愿者能力数据库】（拒绝：权限不足）' },
-    { ts: '2026-06-20 14:22:31', user: 'jiangyouliang', text: '尝试访问【远程操作】（拒绝：权限不足）' },
-    { ts: '2026-06-22 08:58:47', user: 'jiangyouliang', text: '查询评估记录 PG-2026-0611' },
-    { ts: '2026-06-25 11:11:11', user: 'chenchaowu',   text: '登录系统成功（IP 10.20.9.88）' },
-    { ts: '2026-06-25 11:30:52', user: 'dongxinfei',   text: '修改远程操作权限配置（授权：chenchaowu 仅可查看）' },
-    { ts: '2026-06-25 22:47:05', user: 'dongxinfei',   text: '登录系统成功（IP 10.20.1.2）' },
-    { ts: '2026-06-25 22:51:19', user: 'dongxinfei',   text: '访问【远程操作 · 山经-蒂中帝联合提取项目】' },
-    { ts: '2026-06-25 23:02:44', user: 'dongxinfei',   text: '设置项目倒计时：1 小时 12 分钟' },
-    { ts: '2026-06-26 01:15:37', user: 'chenchaowu',   text: '访问【志愿者能力抽取数据库】' },
-    { ts: '2026-06-26 01:19:48', user: 'chenchaowu',   text: '执行抽取操作（对象：PG-2026-0611）' },
-    { ts: '2026-06-26 01:26:10', user: 'chenchaowu',   text: '执行记忆抹除操作（对象：PG-2026-0611）' },
-    { ts: '2026-06-26 01:31:00', user: 'chenchaowu',   text: '备注：按“重点关照”名单处理完毕' },
-    { ts: '2026-06-26 01:33:22', user: 'dongxinfei',   text: '提醒 chenchaowu：记得清理系统记录' },
-    { ts: '2026-06-26 02:10:07', user: 'dongxinfei',   text: '检查项目受试者名单（107 人）' },
-    { ts: '2026-06-27 07:00:00', user: 'system',       text: '系统自动备份完成' }
+    { ts: '2026-07-08 09:15:02', user: 'jiangyouliang', text: '查询评估记录 PG-2026-0602' },
+    { ts: '2026-07-11 10:03:21', user: 'jiangyouliang', text: '查询评估记录 PG-2026-0603' },
+    { ts: '2026-07-11 10:05:33', user: 'jiangyouliang', text: '申请导出报告（被拒绝：权限不足）' },
+    { ts: '2026-07-20 14:22:09', user: 'jiangyouliang', text: '尝试访问【志愿者能力数据库】（拒绝：权限不足）' },
+    { ts: '2026-07-20 14:22:31', user: 'jiangyouliang', text: '尝试访问【远程操作】（拒绝：权限不足）' },
+    { ts: '2026-07-25 08:58:47', user: 'jiangyouliang', text: '查询评估记录 PG-2026-0611' },
+    { ts: '2026-07-26 19:40:18', user: 'jiangyouliang', text: '查询评估记录 PG-2026-0605' },
+    { ts: '2026-07-27 08:35:52', user: 'dongxinfei',   text: '修改远程操作权限配置（授权：chenchaowu 仅可查看）' },
+    { ts: '2026-07-27 08:41:11', user: 'chenchaowu',   text: '登录系统成功（IP 10.20.9.88）' },
+    { ts: '2026-07-27 08:52:37', user: 'chenchaowu',   text: '访问【志愿者能力抽取数据库】' },
+    { ts: '2026-07-27 09:09:48', user: 'chenchaowu',   text: '执行抽取操作（对象：PG-2026-0611）' },
+    { ts: '2026-07-27 09:34:10', user: 'chenchaowu',   text: '执行记忆抹除操作（对象：PG-2026-0611）' },
+    { ts: '2026-07-27 09:55:00', user: 'chenchaowu',   text: '备注：按“重点关照”名单处理完毕' },
+    { ts: '2026-07-27 10:18:22', user: 'dongxinfei',   text: '提醒 chenchaowu：记得清理系统记录' },
+    { ts: '2026-07-27 10:37:07', user: 'dongxinfei',   text: '检查项目受试者名单（107 人）' },
+    { ts: '@DONG_LOGIN@', user: 'dongxinfei', text: '登录系统成功（IP 10.20.1.2）' },
+    { ts: '@DONG_VISIT@', user: 'dongxinfei', text: '访问【远程操作 · 山经-蒂中帝联合提取项目】' },
+    { ts: '@COUNTDOWN_SET@',        user: 'dongxinfei', text: '设置项目倒计时：1 小时 12 分钟' },
+    { ts: '2026-07-28 23:00:00', user: 'system',       text: '系统自动备份完成' }
   ];
 
   /* ------------------------------------------------------------ 渲染辅助  */

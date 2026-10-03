@@ -145,13 +145,30 @@ input[type=text], input[type=password] { font-family: "Courier New", monospace; 
 .tiny:hover { color: #000080; text-decoration: underline; }
 .ghost-on { color: #800000; font-weight: bold; }
 .footer { border-top: 1px solid #808080; background: #d4d0c8; color: #444; font-size: 11px; text-align: center; padding: 6px; }
-hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 18px 0; }</style>
+hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 18px 0; }
+.sysclock {
+  background: #d4d0c8;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  margin: 6px 8px 0;
+  padding: 4px 10px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  color: #000080;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+}
+.sysclock .zone { color: #555; }</style>
 </head>
 <body>
 <div class="page">
   <div class="header">北境科技 · 安和实验室 内部后台
     <span class="en">NORTHLAND TECH · ANHE LABORATORY - INTERNAL ADMIN SYSTEM</span>
   </div>
+  <div class="sysclock"><span>系统时间：<b id="sysclock">----</b></span><span class="zone">时区：UTC+8</span></div>
   <div class="notice">
     <marquee scrollamount="3">系统公告：该账号为店长账号。远程操作权限为店长专属。</marquee>
   </div>
@@ -281,10 +298,18 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         </div>
       </fieldset>
       <fieldset>
-        <legend>2026 年 6 月 · 最近</legend>
+        <legend>2026 年 6 月</legend>
         <div class="report">
           <p>联合提取项目拖不得了。蒂中帝那边催得紧，山经这边名单也定了，107 个人，一次收干净。</p>
           <p>不管最后切成什么模式，操作完都得把系统记录清掉、把无痕模式打开。小心驶得万年船。</p>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>2026 年 7 月 27 日 · 下午 · 最近</legend>
+        <div class="report">
+          <p>上午超武那边把事办了，名单上的人一个个都过了。接下来这一趟得我自己去。</p>
+          <p>下午动身去羊村市的蒂中帝。场地、设备、人都已经就位，剩下的就是我把大规模抽取的流程亲自过一遍，确保到时候不出岔子。</p>
+          <p>走之前把后台的倒计时设好了，也交代过超武记得清记录。等这趟回来，一切就该结束了。建延的钱也够了。</p>
         </div>
       </fieldset>
     </div>
@@ -423,6 +448,13 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
      正常模式对外不产生任何效果，不进入结算；
      测试 / 强力模式会立即生效，按清理与无痕情况路由结局。 */
   document.getElementById('execBtn').addEventListener('click', function () {
+    /* 倒计时已经归零：项目早一步执行完了，这时改什么都没用，
+       无论选的是哪个模式、记录清没清、无痕开没开，一律进结局零。 */
+    if (L.countdownText() === '00:00:00') {
+      window.location.href = 'ending-000000.html';
+      return;
+    }
+
     var m = modeSel.value;
     set(K_MODE, m);
     L.push(ME, '修改运行模式为：' + MODE_LABEL[m]);
@@ -444,20 +476,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     window.location.href = page;
   });
 
-  /* 倒计时 */
-  var remain = 72 * 60;
-  var cd = document.getElementById('cd');
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function tick() {
-    if (remain < 0) remain = 0;
-    var h = Math.floor(remain / 3600);
-    var mm = Math.floor((remain % 3600) / 60);
-    var ss = remain % 60;
-    cd.textContent = pad(h) + ':' + pad(mm) + ':' + pad(ss);
-    if (remain > 0) remain -= 1;
-  }
-  tick();
-  setInterval(tick, 1000);
+  /* 倒计时由 admin-log.js 统一驱动：董新飞设的 1 小时 12 分钟里已经过去 1 小时，
+     玩家看到的是剩下的 12 分钟，之后按真实时间往下走。 */
 
   /* 玩家操作日志：写进共用日志，同时刷新上面的表格 */
   var targetLog = {

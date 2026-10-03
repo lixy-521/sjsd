@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>结局三 · 及时收网 · 山经书店内部后台</title>
+<title>结局零 · 为时已晚 · 山经书店内部后台</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
@@ -83,25 +83,24 @@ button:active { border-style: inset; }
     <span class="en">SHANJING BOOKSTORE - OPERATION RESULT</span>
   </div>
   <div class="notice">
-    <marquee scrollamount="3">结算完成。本报告由系统根据远程操作配置自动生成，不可修改。</marquee>
+    <marquee scrollamount="3">项目倒计时已归零。本条结算由系统自动触发，操作不可撤销。</marquee>
   </div>
 
   <div class="main">
     <h2>操作结算报告</h2>
 
-    <div class="ending-head good">
-      <div class="no">结 局 三</div>
-      <div class="name">及 时 收 网</div>
-      <div class="en">ENDING 3 · NIPPED IN THE BUD</div>
+    <div class="ending-head bad">
+      <div class="no">结 局 零</div>
+      <div class="name">为 时 已 晚</div>
+      <div class="en">ENDING 0 · TOO LATE</div>
     </div>
 
     <div class="report">
-      <p>你切换到了测试模式，正确消除了记录，并开启了无痕模式。</p>
-      <p>项目在最后关头被执行——但只是测试模式，没有对任何一名受试者进行实际抽取。107 名学生安然无恙，甚至不知道自己曾出现在那份名单上。</p>
-      <p>而董新飞，因为记录被干净地清除、无痕模式又抹去了痕迹，直到被控制之前都没有察觉事情已经败露。</p>
-      <p>警方随后将董新飞和陈超武抓获，并顺藤摸瓜，抓到了安和实验室的乔维莉。</p>
-      <p>遗憾的是，安和实验室的其他人在收网前就已得到风声，逃往了国外。</p>
-      <p class="quote">好结局：没有人被抽取，坏人落网，只是没能一网打尽。</p>
+      <p>你点下「修改模式」的那一刻，屏幕右下角的倒计时刚好跳到 <b>00:00:00</b>。</p>
+      <p>一切都太晚了。倒计时归零的瞬间，蒂中帝那边的设备已经按原定计划启动。107 名受试者的认知数据在几十秒内被完整抽取——其中就包括刘天清。</p>
+      <p>你现在无论把模式改成什么，都没有任何作用了。正常模式也好，测试模式也好，强力模式也好，都是在抽取完成之后才写进去的一行字而已。</p>
+      <p>董新飞从一开始就没打算等你。这个倒计时不是留给你的时间，是他给自己留的退路——等你想明白的时候，他早就收工了。</p>
+      <p class="quote">坏结局：你迟了一步。数据已经离开，再也回不来了。</p>
     </div>
 
     <fieldset>
@@ -130,6 +129,7 @@ button:active { border-style: inset; }
   var ME = 'dongxinfei';
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
 
+  /* 结算时倒计时已经归零，模式还没写进去，所以这里显示的是未修改的状态。 */
   document.getElementById('cfgMode').textContent = L.modeLabel(get(K_MODE));
   document.getElementById('cfgWipe').textContent = L.wipeSummary(ME);
   document.getElementById('cfgGhost').textContent = L.isGhost(ME) ? '已启动无痕模式' : '未启动无痕模式';

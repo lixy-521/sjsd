@@ -36,7 +36,10 @@
       if (seeded === '1') return;
     }
     var src = (window.SJSD && window.SJSD.baseLog) ? window.SJSD.baseLog : [];
-    write(K_BASE, src.slice());
+    write(K_BASE, src.map(function (e) {
+      var o = { ts: resolveTs(e.ts), user: e.user, text: e.text };
+      return o;
+    }));
     try { localStorage.setItem(K_SEED, '1'); } catch (e) {}
   }
   function esc(s) {
@@ -45,10 +48,79 @@
     });
   }
   function pad2(n) { return n < 10 ? '0' + n : '' + n; }
-  function nowStr() {
-    var d = new Date();
-    return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()) + ' ' +
-      pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds());
+
+  /* 后台的"现在"。日期固定在管理员离开后的第二天，时刻跟着真实时钟走，
+     所以不管哪一天打开后台，都还是同一个工作日的延续。 */
+  var FIXED_DATE = '2026-07-28';
+  var K_SESSION = 'sjsd_session_start';   // 玩家本次登录时刻
+
+  function hms(d) { return pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()); }
+  function nowStr() { return FIXED_DATE + ' ' + hms(new Date()); }
+
+  function sessionStart() {
+    var v = null;
+    try { v = localStorage.getItem(K_SESSION); } catch (e) {}
+    if (!v) {
+      v = String(Date.now());
+      try { localStorage.setItem(K_SESSION, v); } catch (e) {}
+    }
+    return parseInt(v, 10) || Date.now();
+  }
+  /* 把玩家首次登录时刻之前的某个间隔换算成 'YYYY-MM-DD HH:MM:SS'。
+     日期锚在 FIXED_DATE（2026-07-28）上，只有时分秒跟着真实登录时刻走；
+     否则玩家在真实世界的任何月份登录，日志日期都会跟着跳成当月。
+     例外一：首次登录发生在 00:00–01:00 时，设置倒计时那一刻要退到
+     前一天（07-27）——这正是「凌晨登录」那条规则。
+     例外二：往前推算时真的跨过了午夜，那一天也要退。 */
+  function stampBack(offsetMin) {
+    var base = sessionStart();
+    var d = new Date(base);
+    var baseSec = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
+    var targetSec = baseSec - offsetMin * 60;
+    var ymd = (baseSec < 3600 || targetSec < 0) ? '2026-07-27' : FIXED_DATE;
+    return ymd + ' ' + hms(new Date(base - offsetMin * 60000));
+  }
+  /* baseLog 里董新飞那三条的时间要跟着玩家首次登录时刻走。
+     相对关系：玩家登录 T−75 分、看项目 T−71 分、设倒计时 T−60 分；
+     倒计时总长 72 分，所以玩家在 T 时刻看到的是剩下的 12 分钟。 */
+  function resolveTs(ts) {
+    if (ts === '@DONG_LOGIN@') return stampBack(75);
+    if (ts === '@DONG_VISIT@') return stampBack(71);
+    if (ts === '@COUNTDOWN_SET@') return stampBack(60);
+    return ts;
+  }
+
+  /* 项目倒计时：董新飞设的是 1 小时 12 分钟，设置时刻 = 玩家首次登录前 1 小时，
+     所以玩家第一次进来时正好还剩 12 分钟，之后按真实时间往下走。 */
+  var COUNTDOWN_TOTAL = 72 * 60;   // 1 小时 12 分钟
+  var COUNTDOWN_ELAPSED = 60 * 60; // 设置到现在已经过去的 1 小时
+  function countdownLeft() {
+    var elapsed = Math.floor((Date.now() - sessionStart()) / 1000);
+    var left = COUNTDOWN_TOTAL - COUNTDOWN_ELAPSED - elapsed;
+    return left > 0 ? left : 0;
+  }
+  function countdownText() {
+    var r = countdownLeft();
+    return pad2(Math.floor(r / 3600)) + ':' + pad2(Math.floor((r % 3600) / 60)) + ':' + pad2(r % 60);
+  }
+  /* 页眉的时间显示：日期固定，时刻每秒刷新。 */
+  function initClock() {
+    var el = document.getElementById('sysclock');
+    if (!el) return;
+    function draw() { el.textContent = nowStr(); }
+    draw();
+    setInterval(draw, 1000);
+  }
+  /* 倒计时显示：每页都挂一个 #cd，没有就跳过。 */
+  function initCountdown() {
+    var el = document.getElementById('cd');
+    if (!el) return;
+    function draw() { el.textContent = countdownText(); }
+    draw();
+    setInterval(draw, 1000);
+  }
+  function clearSession() {
+    try { localStorage.removeItem(K_SESSION); } catch (e) {}
   }
 
   /* ------------------------------------------------- 无痕模式（按账号独立） */
@@ -67,7 +139,10 @@
   function writeState(o) { try { localStorage.setItem(K_STATE, JSON.stringify(o)); } catch (e) {} }
 
   function init(user) {
+    sessionStart();   // 记下玩家本次登录时刻，倒计时与时间戳都以它为基准
     seedBase();
+    initClock();
+    initCountdown();
     var st = readState();
     if (st[user] === undefined) { st[user] = { incorrect: true }; writeState(st); }
     return st[user];
@@ -138,8 +213,13 @@
      所以它始终是"原有自带记录"的标准答案。 */
   function originalLog(user) {
     var src = (window.SJSD && window.SJSD.baseLog) ? window.SJSD.baseLog : [];
-    if (!user) return src.slice();
-    return src.filter(function (e) { return e.user === user; });
+    /* baseLog 里董新飞的几条时间是与玩家登录时刻绑定的占位值，
+       比对前要先解析成真正会写进日志的那个时间戳。 */
+    var out = src.map(function (e) {
+      return { ts: resolveTs(e.ts), user: e.user, text: e.text };
+    });
+    if (!user) return out;
+    return out.filter(function (e) { return e.user === user; });
   }
 
   /* 当前记录是否已经和系统原有的记录一致。
@@ -218,6 +298,9 @@
     isGhost: isGhost,
     setGhost: setGhost,
     ghostKey: ghostKey,
+    /* 供结局页清场：清掉本次登录时刻，下次进来倒计时重新从 12 分钟开始 */
+    clearSession: clearSession,
+    countdownText: countdownText,
     /* 供结局页显示「远程模式」这一项 */
     modeLabel: function (m) {
       if (m === 'normal') return '正常模式（不进行抽取）';

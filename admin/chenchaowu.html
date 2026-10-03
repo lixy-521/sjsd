@@ -146,13 +146,30 @@ input[type=text], input[type=password] { font-family: "Courier New", monospace; 
 .tiny:hover { color: #000080; text-decoration: underline; }
 .ghost-on { color: #800000; font-weight: bold; }
 .footer { border-top: 1px solid #808080; background: #d4d0c8; color: #444; font-size: 11px; text-align: center; padding: 6px; }
-hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 18px 0; }</style>
+hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 18px 0; }
+.sysclock {
+  background: #d4d0c8;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  margin: 6px 8px 0;
+  padding: 4px 10px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  color: #000080;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+}
+.sysclock .zone { color: #555; }</style>
 </head>
 <body>
 <div class="page">
   <div class="header">北境科技 · 安和实验室 内部后台
     <span class="en">NORTHLAND TECH · ANHE LABORATORY - INTERNAL ADMIN SYSTEM</span>
   </div>
+  <div class="sysclock"><span>系统时间：<b id="sysclock">----</b></span><span class="zone">时区：UTC+8</span></div>
   <div class="notice">
     <marquee scrollamount="3">系统公告：【山经-蒂中帝联合提取项目】已进入执行阶段，请相关操作人密切关注项目倒计时。本后台数据严禁外传。</marquee>
   </div>
@@ -428,8 +445,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     var g = document.getElementById('mGain').value;
     var pool = {
       '数学': '数学思维强化包 · 高中（数据包 XYJ-2026-0317）',
-      '生物': '生物学科能力包 · 高中全套（数据包 XYT-20260620-H02）',
-      '英语': '英语语感包 · 高中（数据包 LWT-20260606）',
+      '生物': '生物学科能力包 · 高中全套（数据包 XYT-20260718-H02）',
+      '英语': '英语语感包 · 高中（数据包 LWT-20260711）',
       '物理': '物理模型构建包 · 高中（数据包 WJ-2026-0210）',
       '语文': '语文阅读强化包 · 高中（数据包 WY-2026-0305）',
       '综合': '综合能力强化包 · 高中（数据包 ZH-2026-0411）'
@@ -447,20 +464,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     box.classList.add('open');
   });
 
-  /* 当前项目倒计时 1小时12分钟 */
-  var remain = 72 * 60;
-  var cd = document.getElementById('cd');
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function tick() {
-    if (remain < 0) remain = 0;
-    var h = Math.floor(remain / 3600);
-    var m = Math.floor((remain % 3600) / 60);
-    var s = remain % 60;
-    cd.textContent = pad(h) + ':' + pad(m) + ':' + pad(s);
-    if (remain > 0) remain -= 1;
-  }
-  tick();
-  setInterval(tick, 1000);
+  /* 当前项目倒计时由 admin-log.js 统一驱动 */
 
   document.getElementById('projBtn').addEventListener('click', function () {
     var d = document.getElementById('projDetail');
@@ -478,13 +482,13 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     c2: { name: '周晓雨', html:
       '<h4>申请者数据 · CS-2026-0044 周晓雨</h4>' +
       '<table class="grid"><tr><th>申请服务</th><td>生物认知强化</td><th>状态</th><td>已交付</td></tr>' +
-      '<tr><th>关联源数据</th><td>XYT-20260620-H02</td><th>备注</th><td>买家（出现记忆污染）</td></tr>' +
+      '<tr><th>关联源数据</th><td>XYT-20260718-H02</td><th>备注</th><td>买家（出现记忆污染）</td></tr>' +
       '<tr><th>能力数据</th><td colspan="3">生物学科模式匹配度 88%；杂质记忆残留较高</td></tr></table>' +
       '<button type="button" data-quick="生物">快速匹配</button> <span class="note">建议优先过滤杂质记忆后再注入。</span>' },
     c3: { name: '吴昊博', html:
       '<h4>申请者数据 · CS-2026-0052 吴昊博</h4>' +
       '<table class="grid"><tr><th>申请服务</th><td>综合能力强化</td><th>状态</th><td>待匹配</td></tr>' +
-      '<tr><th>关联源数据</th><td>LWT-20260606</td><th>备注</th><td>等待匹配注入数据</td></tr>' +
+      '<tr><th>关联源数据</th><td>LWT-20260711</td><th>备注</th><td>等待匹配注入数据</td></tr>' +
       '<tr><th>能力数据</th><td colspan="3">综合模式匹配度 81%</td></tr></table>' +
       '<button type="button" data-quick="综合">快速匹配</button> <span class="note">将按当前数据自动匹配可注入方案。</span>' }
   };

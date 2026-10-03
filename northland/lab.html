@@ -431,8 +431,16 @@ footer .row { display: flex; flex-wrap: wrap; gap: 6px 20px; }
 <script>
 (function() {
   var clock = document.getElementById('clock');
-  // 站点时钟固定在同一时刻，作为官网的"最后更新于"
-  clock.textContent = '2025-10-24 09:00:00';
+  /* 实验室 2025-11-25 之后数日被查封，官网从此停更。
+     页脚时钟的日期固定为 2026-07-28，时刻跟着真实时钟走。 */
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function draw() {
+    var d = new Date();
+    clock.textContent = '2026-07-28 ' + pad(d.getHours()) + ':' +
+      pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+  draw();
+  setInterval(draw, 1000);
 })();
 </script>
 </body>

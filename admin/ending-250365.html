@@ -137,6 +137,9 @@ button:active { border-style: inset; }
 
   /* 兼容旧存档 */
   try { localStorage.removeItem('sjsd_wipe_records'); localStorage.removeItem('sjsd_ghost_mode'); } catch (e) {}
+/* 到了结局，本次登录的时刻就作废：清掉它，
+   之后重新进来倒计时会重新从 12 分钟开始，系统原有记录的时间戳也跟着重排。 */
+try { L.clearSession(); localStorage.removeItem(L.KEYS.seed); } catch (e) {}
 
   document.getElementById('restartBtn').addEventListener('click', function () {
     try {

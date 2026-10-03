@@ -146,13 +146,30 @@ input[type=text], input[type=password] { font-family: "Courier New", monospace; 
 .tiny:hover { color: #000080; text-decoration: underline; }
 .ghost-on { color: #800000; font-weight: bold; }
 .footer { border-top: 1px solid #808080; background: #d4d0c8; color: #444; font-size: 11px; text-align: center; padding: 6px; }
-hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 18px 0; }</style>
+hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #fff; margin: 18px 0; }
+.sysclock {
+  background: #d4d0c8;
+  border-top: 1px solid #fff;
+  border-left: 1px solid #fff;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  margin: 6px 8px 0;
+  padding: 4px 10px;
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  color: #000080;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+}
+.sysclock .zone { color: #555; }</style>
 </head>
 <body>
 <div class="page">
   <div class="header">北境科技 · 安和实验室 内部后台
     <span class="en">NORTHLAND TECH · ANHE LABORATORY - INTERNAL ADMIN SYSTEM</span>
   </div>
+  <div class="sysclock"><span>系统时间：<b id="sysclock">----</b></span><span class="zone">时区：UTC+8</span></div>
   <div class="notice">
     <marquee scrollamount="3">系统公告：评估数据属内部资料，严禁截图外传。近期后台出现异常登录记录，请各位操作人核查本人操作报告。</marquee>
   </div>
@@ -235,7 +252,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       </fieldset>
 
       <fieldset>
-        <legend>2026 年 6 月 20 日 · 权限</legend>
+        <legend>2026 年 7 月 20 日 · 权限</legend>
         <div class="report">
           <p>今天手滑点开了「志愿者能力数据库」的标签。页面直接甩给我一句权限不足。</p>
           <p>我换到「认知强化服务」，一样。再换「远程操作」，还是一样。</p>
@@ -245,7 +262,7 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       </fieldset>
 
       <fieldset>
-        <legend>报告记录时间：2026-06</legend>
+        <legend>报告记录时间：2026-07</legend>
         <div class="report">
           <p>我本来只是通过这个后台核对学生的评估预约，帮一些家长看看成绩分析。最近越看越觉得不对劲。</p>
           <p>听店长说他们在羊村市的“蒂中帝教育”还有门路。听名字好像是我们学校原来的物理老师。他前阵子已经从怀璧一中辞职，去了蒂中帝当老师了。</p>
