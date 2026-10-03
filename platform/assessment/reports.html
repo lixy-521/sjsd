@@ -60,7 +60,7 @@
 <main class="main" id="main">
     <div class="page-head">
       <h1>评估报告下载</h1>
-      <p class="lede">请输入评估时登记的专属 ID 查询报告。专属 ID 在预约提交成功时生成，也可在评估报告首页查看。</p>
+      <p class="lede">请输入评估时登记的专属 ID 查询报告，查询成功后将直接打开对应的报告。</p>
       <div class="rule"></div>
     </div>
 
@@ -70,7 +70,7 @@
           <label for="pid">个人 ID <span class="req">*</span></label>
           <input class="input nums" type="text" id="pid" style="letter-spacing:2px"
                  placeholder="请输入个人 ID" autocomplete="off" spellcheck="false">
-          <div class="hint">个人 ID 在预约提交成功时生成，请注意区分大小写。</div>
+          <div class="hint">个人 ID 由店内提供，请注意区分大小写。</div>
         </div>
         <button class="btn btn-primary btn-lg btn-block" type="submit" id="queryBtn">
           <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-search"/></svg>
@@ -114,14 +114,28 @@
   var wrap = document.getElementById('resultWrap');
   var list = document.getElementById('resultList');
 
-  /* 演示数据：个人 ID -> 报告条目 */
+  /* 查询表：每条 ID 对应 platform/assessment/reports/ 下实际存在的一份报告 */
   var TABLE = {
-    'XYT-YT-20260721': [
-      { title: '徐雨桐 · 生物学科评估', no: 'XYT-20260606-01', date: '2026-06-06', desc: '第 1 次评估 · 数据评级 A+', href: 'reports/xuyutong.html' },
-      { title: '徐雨桐 · 生物学科评估', no: 'XYT-20260721-02', date: '2026-07-21', desc: '第 2 次评估 · 数据评级 A', href: 'reports/xuyutong.html' }
-    ],
     'CMX-MX-20260726': [
-      { title: '陈牧循 · 生物学科评估', no: 'CMX-20260726-02', date: '2026-07-26', desc: '第 2 次评估 · 数据评级 A', href: 'reports/chenmuxun.html' }
+      { id: 'CMX-MX-20260726', title: '陈牧循 · 生物学科评估', no: 'CMX-20260726-02', date: '2026-07-26', desc: '第 2 次评估', href: 'reports/chenmuxun.html' }
+    ],
+    'XYT-YT-20260721': [
+      { id: 'XYT-YT-20260721', title: '徐雨桐 · 生物学科评估', no: 'XYT-20260721-02', date: '2026-07-21', desc: '第 2 次评估', href: 'reports/xuyutong.html' }
+    ],
+    'WHB-HB-20260706': [
+      { id: 'WHB-HB-20260706', title: '吴昊博 · 生物学科评估', no: 'WHB-20260706-01', date: '2026-07-06', desc: '第 1 次评估', href: 'reports/wuhaobo.html' }
+    ],
+    'LYZ-YZ-20260708': [
+      { id: 'LYZ-YZ-20260708', title: '李杨梓麟 · 生物学科评估', no: 'LYZ-20260708-01', date: '2026-07-08', desc: '第 1 次评估', href: 'reports/liyangzilin.html' }
+    ],
+    'WYH-YH-20260711': [
+      { id: 'WYH-YH-20260711', title: '王宇涵 · 生物学科评估', no: 'WYH-20260711-01', date: '2026-07-11', desc: '第 1 次评估', href: 'reports/wangyuhan.html' }
+    ],
+    'LW-LW-20260713': [
+      { id: 'LW-LW-20260713', title: '林晚 · 生物学科评估', no: 'LW-20260713-01', date: '2026-07-13', desc: '第 1 次评估', href: 'reports/linwan.html' }
+    ],
+    'LJM-JM-20260716': [
+      { id: 'LJM-JM-20260716', title: '罗晋铭 · 生物学科评估', no: 'LJM-20260716-01', date: '2026-07-16', desc: '第 1 次评估', href: 'reports/luojinming.html' }
     ]
   };
 
@@ -186,6 +200,13 @@
     }
 
     if (hit) {
+      /* 一条记录直接跳转到对应报告页；多条则列出结果供选择 */
+      if (hit.length === 1 && hit[0].href) {
+        status.className = 'status ok';
+        status.textContent = '查询成功，正在打开报告…';
+        window.location.href = hit[0].href;
+        return;
+      }
       status.className = 'status ok';
       status.textContent = '查询成功，共找到 ' + hit.length + ' 份报告。';
       render(hit);

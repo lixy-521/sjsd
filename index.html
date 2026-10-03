@@ -414,6 +414,35 @@ body {
     el.appendChild(im);
   }
 
+  /* 大图统一走「webp 优先、jpg 回落」：两种格式都比原 PNG 小得多
+     （webp 小 94%，jpg 小 89%），所以不管浏览器支持哪种都会快很多。
+     用的是 <img> 的 onerror 回落，不是 <picture>——因为下面有代码直接读
+     img.src、img.alt，保持 <img> 结构最省事。                            */
+  function makeImg(src, alt, opts) {
+    opts = opts || {};
+    const im = document.createElement('img');
+    im.alt = alt;
+    im.decoding = 'async';
+    if (opts.lazy) im.loading = 'lazy';
+    const base = String(src).replace(/\.(png|jpe?g)$/i, '');
+    if (base !== src) {
+      const jpg = base + '.jpg';
+      im.dataset.fallback = jpg;
+      im.onerror = function() {
+        /* 只回落一次，避免 webp / jpg 都挂掉时无限循环 */
+        if (im.dataset.fallback) {
+          const next = im.dataset.fallback;
+          im.dataset.fallback = '';
+          im.src = next;
+        }
+      };
+      im.src = base + '.webp';
+    } else {
+      im.src = src;
+    }
+    return im;
+  }
+
   // 开场消息（蒂中帝原文保留，不改动）
   const messages = [
     { img: 'assets/mx1.png', type: 'out' },
@@ -515,9 +544,7 @@ body {
     const wrap = document.createElement('div');
     const bubble = document.createElement('div');
     bubble.className = 'msg-bubble img-bubble';
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = '图片';
+    const img = makeImg(src, '图片');
     bubble.appendChild(img);
 
     wrap.appendChild(bubble);
@@ -640,9 +667,12 @@ body {
     '董新飞': '董新飞，42岁，前狼堡技术员。\n以教辅书店为掩护，化名"董鑫"。\n目的：为儿子留学筹款80万/年。',
     '技术': '技术来源：北境神经科学研究院。\n非侵入式脑波采集 + 音频同步。\n提取设备为狼堡时期改良版。\n以"学习能力评估"为名，实际提取认知数据。',
     '小程序': '你想知道小程序在哪,直接在公众号里面问就行。',
-    '认知强化': '我去查了他们的公众号。\n你去公众号发两个字试试："合作"。\n（他们说那是给合作老师留的口子。）',
-    '认知强化服务': '我去查了他们的公众号。\n你去公众号发两个字试试："合作"。\n（他们说那是给合作老师留的口子。）',
-    '北境': '北境神经科学研究院——向董新飞提供脑电波诱导技术支持的组织。\n我怀疑北境与狼堡事件有更深关联。\n\n如需我本人介入，发送暗号：狼堡往事',
+    '认知强化': '听说小程序里面有入口，可以进平台上的认知强化服务。另外我去查了他们的公众号。\n你去公众号发两个字试试："合作"。\n（他们说那是给合作老师留的口子。）',
+    '认知强化服务': '听说小程序里面有入口，可以进平台上的认知强化服务。另外我去查了他们的公众号。\n你去公众号发两个字试试："合作"。\n（他们说那是给合作老师留的口子。）',
+    '北境': '北境他们给dxf一个内部平台，你去公众号发两个字试试："合作"。',
+    '内部技术支持网页': '北境他们给dxf一个内部平台，你去公众号发两个字试试："合作"。',
+    '技术支持': '北境他们给dxf一个内部平台，你去公众号发两个字试试："合作"。',
+    '安和实验室': '陈昱就是安和实验室的，他们现在跑出来的人应该还在和dxf合作，你去公众号发两个字试试："合作"。',
     '平台': '网址我单独发你了，点开看。\n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容[5]。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
     '山经书店在线服务平台': '网址我单独发你了，点开看。\n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容[5]。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
     '在线服务平台': '网址我单独发你了，点开看。\n我之前调查过这玩意，在论坛里也看到有人说了一些相关的内容[5]。\n你帮我查查这个平台到底藏了什么服务，查到了告诉我，我给你解锁更多情报。',
@@ -653,6 +683,7 @@ body {
     '陈超武': '他教物理，上课前会给同学发小零食。\n这是他的工位照片。\n他桌上那几本书从来没动过，一直是同一个顺序。',
     '老师': '听说蒂中帝有怀璧来的老师3人：舒巍、余皎颖、陈超武，你想了解哪个？',
     '公众号': '就是山经bookstore那个公众号啊，给你发过了，你试试给这个公众号发一些东西，设了自动回复。',
+    '傻逼': '傻逼',
   };
 
   // 部分关键词会额外附上可点击的网页卡片 [4][5]
@@ -687,8 +718,6 @@ body {
     input.value = '';
     isProcessing = true;
 
-    const lowerText = text.toLowerCase();
-
     // 句中关键词匹配：只要句中出现关键词即回复（长词优先，避免被短词抢先）
     function findKeyword() {
       var keys = Object.keys(keywordResponses);
@@ -700,13 +729,6 @@ body {
     }
     const matched = findKeyword();
 
-    if (text === '狼堡往事' || lowerText.includes('狼堡往事')) {
-      pause(function() {
-        addMsg(keywordResponses['狼堡往事'], 'in', false, true);
-        isProcessing = false;
-      });
-      return;
-    }
     if (matched) {
       pause(function() {
         addMsg(keywordResponses[matched], 'in', true, true);
