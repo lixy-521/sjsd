@@ -118,6 +118,8 @@ select.mode-sel { font-family: "Courier New", monospace; font-size: 13px; backgr
 input[type=text], input[type=password] { font-family: "Courier New", monospace; font-size: 13px; background: #fff; padding: 2px 4px; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
 .countdown { font-family: "Courier New", monospace; font-size: 22px; font-weight: bold; color: #800000; background: #000; letter-spacing: 3px; padding: 6px 14px; display: inline-block; }
 .deny { color: #800000; font-weight: bold; border: 2px dashed #800000; background: #fff0f0; padding: 22px; text-align: center; margin: 10px 0; font-size: 15px; }
+.detail-link { color: #000080; text-decoration: underline; cursor: pointer; }
+.detail-link:hover { color: #800000; }
 .detail { display: none; }
 .detail.open { display: block; margin: 10px 0; background: #fffef0; border: 1px solid #808080; padding: 10px 14px; }
 .mem { font-family: "Courier New", monospace; background: #fff; border-left: 3px solid #800000; padding: 6px 12px; font-size: 13px; color: #800000; margin: 6px 0; }
@@ -180,10 +182,11 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   </div>
 
   <div class="menu">
-    <a href="#" data-target="eval" class="active">评估服务后台</a>
-    <a href="#" data-target="vol">志愿者能力数据库</a>
+    <a href="#" data-target="eval" class="active">评估服务</a>
+    <a href="#" data-target="vol">志愿者数据库</a>
     <a href="#" data-target="cog">认知强化服务</a>
     <a href="#" data-target="remote">远程操作</a>
+    <a href="#" data-target="log">系统日志</a>
     <a href="#" data-target="record">个人记录</a>
   </div>
 
@@ -270,11 +273,16 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         </div>
       </fieldset>
 
-      <h3>系统操作记录</h3>
+    </div>
+
+    <!-- 系统日志 -->
+    <div class="section" id="log">
+      <h2>系统日志</h2>
       <table class="grid log-table">
         <thead><tr><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
         <tbody id="logBody"></tbody>
       </table>
+
       <div class="log-actions"><a href="#" class="tiny" id="wipeLink">清理记录</a></div>
       <div class="wipe-panel" id="wipePanel">
         <table class="grid wipe-list">
@@ -287,7 +295,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
           <button type="button" id="wipeClearSel" class="ghost">取消勾选</button>
           <span id="wipeMsg" class="note" style="margin-left:8px;"></span>
         </div>
-      </div>    </div>
+      </div>
+    </div>
 
   </div>
 
@@ -405,10 +414,11 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     wipeBody.querySelectorAll('input[type=checkbox]').forEach(function (c) { c.checked = false; });
   });
   var targetLog = {
-    eval: '访问【评估服务后台】',
-    vol: '尝试访问【志愿者能力数据库】（拒绝：权限不足）',
+    eval: '访问【评估服务】',
+    vol: '尝试访问【志愿者数据库】（拒绝：权限不足）',
     cog: '尝试访问【认知强化服务】（拒绝：权限不足）',
     remote: '尝试访问【远程操作】（拒绝：权限不足）',
+    log: '访问【系统日志】',
     record: '访问【个人记录】'
   };
   document.querySelectorAll('.menu a').forEach(function (a) {

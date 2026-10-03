@@ -53,6 +53,7 @@
      所以不管哪一天打开后台，都还是同一个工作日的延续。 */
   var FIXED_DATE = '2026-07-28';
   var K_SESSION = 'sjsd_session_start';   // 玩家本次登录时刻
+  var K_ANCHOR  = 'sjsd_cd_anchor';       // 倒计时基准时刻（只写一次，永不重置）
 
   function hms(d) { return pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()); }
   function nowStr() { return FIXED_DATE + ' ' + hms(new Date()); }
@@ -63,26 +64,44 @@
     if (!v) {
       v = String(Date.now());
       try { localStorage.setItem(K_SESSION, v); } catch (e) {}
+      /* 倒计时基准在"第一次打开后台"这一刻就定死，而且是写一次就不再动。
+         正常流程（陈超武 → 董新飞）下，第一次打开后台就是进入陈超武页面，
+         所以基准 = 进入陈超武页面的那一刻；万一玩家跳过陈超武先去别的页面，
+         基准就退化成那一刻，之后进了陈超武也不会被重置。 */
+      try {
+        if (!localStorage.getItem(K_ANCHOR)) localStorage.setItem(K_ANCHOR, v);
+      } catch (e) {}
     }
     return parseInt(v, 10) || Date.now();
   }
-  /* 把玩家首次登录时刻之前的某个间隔换算成 'YYYY-MM-DD HH:MM:SS'。
-     日期锚在 FIXED_DATE（2026-07-28）上，只有时分秒跟着真实登录时刻走；
+  /* ---------------------------------------------------------- 倒计时基准
+     倒计时是董新飞在【进入陈超武页面】那一刻的 1 小时之前设好的：
+       设倒计时 = 基准 − 60 分，总长 72 分 ⇒ 进陈超武页面时正好剩 12 分钟。
+     基准由 sessionStart() 在第一次打开后台时写下，只写一次、永不重置。 */
+  function look(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function anchor() {
+    var v = look(K_ANCHOR);
+    return v ? (parseInt(v, 10) || sessionStart()) : sessionStart();
+  }
+  /* 在陈超武页面调用：基准已经定下就什么都不做（刷新、重进、来回切页面都不重置）。 */
+  function markAnchor() { return anchor(); }
+  /* 把基准时刻之前的某个间隔换算成 'YYYY-MM-DD HH:MM:SS'。
+     日期锚在 FIXED_DATE（2026-07-28）上，只有时分秒跟着真实时刻走；
      否则玩家在真实世界的任何月份登录，日志日期都会跟着跳成当月。
-     例外一：首次登录发生在 00:00–01:00 时，设置倒计时那一刻要退到
-     前一天（07-27）——这正是「凌晨登录」那条规则。
-     例外二：往前推算时真的跨过了午夜，那一天也要退。 */
+     例外一：往前推算会退到 00:00 之前时，那一天要退到前一天（07-27）——
+     这正是「凌晨登录」那条规则。
+     例外二：基准本身落在 00:00–01:00 时，所有条目一起退到 07-27，
+     免得日志里出现"倒计时设于 07-28 23:xx"这种自相矛盾的时间。 */
   function stampBack(offsetMin) {
-    var base = sessionStart();
+    var base = anchor();
     var d = new Date(base);
     var baseSec = d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds();
     var targetSec = baseSec - offsetMin * 60;
     var ymd = (baseSec < 3600 || targetSec < 0) ? '2026-07-27' : FIXED_DATE;
     return ymd + ' ' + hms(new Date(base - offsetMin * 60000));
   }
-  /* baseLog 里董新飞那三条的时间要跟着玩家首次登录时刻走。
-     相对关系：玩家登录 T−75 分、看项目 T−71 分、设倒计时 T−60 分；
-     倒计时总长 72 分，所以玩家在 T 时刻看到的是剩下的 12 分钟。 */
+  /* baseLog 里董新飞那三条的时间要跟着倒计时基准走。
+     相对关系：董新飞登录 基准−75 分、看项目 基准−71 分、设倒计时 基准−60 分。 */
   function resolveTs(ts) {
     if (ts === '@DONG_LOGIN@') return stampBack(75);
     if (ts === '@DONG_VISIT@') return stampBack(71);
@@ -90,12 +109,12 @@
     return ts;
   }
 
-  /* 项目倒计时：董新飞设的是 1 小时 12 分钟，设置时刻 = 玩家首次登录前 1 小时，
-     所以玩家第一次进来时正好还剩 12 分钟，之后按真实时间往下走。 */
+  /* 项目倒计时：董新飞设的是 1 小时 12 分钟，设置时刻 = 基准前 1 小时，
+     所以第一次进陈超武页面时正好还剩 12 分钟，之后按真实时间往下走。 */
   var COUNTDOWN_TOTAL = 72 * 60;   // 1 小时 12 分钟
-  var COUNTDOWN_ELAPSED = 60 * 60; // 设置到现在已经过去的 1 小时
+  var COUNTDOWN_ELAPSED = 60 * 60; // 设置到基准之间已经过去的 1 小时
   function countdownLeft() {
-    var elapsed = Math.floor((Date.now() - sessionStart()) / 1000);
+    var elapsed = Math.floor((Date.now() - anchor()) / 1000);
     var left = COUNTDOWN_TOTAL - COUNTDOWN_ELAPSED - elapsed;
     return left > 0 ? left : 0;
   }
@@ -119,8 +138,13 @@
     draw();
     setInterval(draw, 1000);
   }
+  /* 结局页的收尾清场：把本次登录时刻、倒计时基准、以及"系统既有记录已经落过一份"
+     的标记一起清掉，下一局重新落一份、倒计时也重新从 12 分钟起算。
+     玩家自己增删过的记录（K_BASE）不在这里动——那是清场，不是重置日志。 */
   function clearSession() {
     try { localStorage.removeItem(K_SESSION); } catch (e) {}
+    try { localStorage.removeItem(K_ANCHOR); } catch (e) {}
+    try { localStorage.removeItem(K_SEED); } catch (e) {}
   }
 
   /* ------------------------------------------------- 无痕模式（按账号独立） */
@@ -298,8 +322,10 @@
     isGhost: isGhost,
     setGhost: setGhost,
     ghostKey: ghostKey,
-    /* 供结局页清场：清掉本次登录时刻，下次进来倒计时重新从 12 分钟开始 */
+    /* 供结局页清场：清掉本次登录时刻、倒计时基准与落档标记，下一局重新开始 */
     clearSession: clearSession,
+    /* 供陈超武页面把倒计时基准定在"进入本页那一刻"；只写一次，之后不再改动 */
+    markAnchor: markAnchor,
     countdownText: countdownText,
     /* 供结局页显示「远程模式」这一项 */
     modeLabel: function (m) {
@@ -312,6 +338,6 @@
     wipeSummary: function (user) {
       return logsMatch(user) ? '已清理' : '未清理';
     },
-    KEYS: { base: K_BASE, user: K_USER, state: K_STATE, seed: K_SEED }
+    KEYS: { base: K_BASE, user: K_USER, state: K_STATE, seed: K_SEED, session: K_SESSION, anchor: K_ANCHOR }
   };
 })();

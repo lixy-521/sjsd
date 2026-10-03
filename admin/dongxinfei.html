@@ -117,6 +117,8 @@ select.mode-sel { font-family: "Courier New", monospace; font-size: 13px; backgr
 input[type=text], input[type=password] { font-family: "Courier New", monospace; font-size: 13px; background: #fff; padding: 2px 4px; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
 .countdown { font-family: "Courier New", monospace; font-size: 22px; font-weight: bold; color: #800000; background: #000; letter-spacing: 3px; padding: 6px 14px; display: inline-block; }
 .deny { color: #800000; font-weight: bold; border: 2px dashed #800000; background: #fff0f0; padding: 22px; text-align: center; margin: 10px 0; font-size: 15px; }
+.detail-link { color: #000080; text-decoration: underline; cursor: pointer; }
+.detail-link:hover { color: #800000; }
 .detail { display: none; }
 .detail.open { display: block; margin: 10px 0; background: #fffef0; border: 1px solid #808080; padding: 10px 14px; }
 .mem { font-family: "Courier New", monospace; background: #fff; border-left: 3px solid #800000; padding: 6px 12px; font-size: 13px; color: #800000; margin: 6px 0; }
@@ -179,10 +181,10 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   </div>
 
   <div class="menu">
-    <a href="#" data-target="remote" class="active">远程操作</a>
     <a href="#" data-target="eval">评估服务</a>
     <a href="#" data-target="vol">志愿者数据库</a>
     <a href="#" data-target="cog">认知强化服务</a>
+    <a href="#" data-target="remote" class="active">远程操作</a>
     <a href="#" data-target="log">系统日志</a>
     <a href="#" data-target="record">个人记录</a>
   </div>
@@ -213,6 +215,23 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         <div class="note" style="margin-bottom:8px;">修改后立即生效，无法撤销。</div>
         <button type="button" id="execBtn">修改模式</button>
       </fieldset>
+
+      <fieldset>
+        <legend>项目详情 · 山经-蒂中帝联合提取项目</legend>
+        <div class="report">
+          <p>本项目由 <b>蒂中帝教育</b> 与 <b>山经书店</b> 联合发起。由蒂中帝方面组织在校学生参加“学习能力评估”，评估过程中对学生的学科认知进行大规模抽取，所得数据统一打包，以供后续出售给有需求的买家。</p>
+          <p>抽取所得数据将按照学科、评级分类，伪装为“内部教辅资料”在小程序渠道出售。本次受试者共 <b>107 人</b>。</p>
+
+          <table class="grid">
+            <thead><tr><th colspan="7">抽取名单（前 10 人）</th></tr>
+              <tr><th>序号</th><th>姓名</th><th>学校</th><th>年级</th><th>学科</th><th>采集次数</th><th>数据评级</th></tr></thead>
+            <tbody id="extractBody"></tbody>
+          </table>
+
+          <p>本次联合提取为“批量采集”模式。系统将在倒计时结束后，统一对名单内全部受试者执行学科认知抽取，并进行记忆剥离与数据打包。由于受试者名单跨越两所学校、多个年级，单一个体重复采集次数普遍超过建议阈值（单一个体不超过 3 次），预计将造成不可逆的能力衰退与生活记忆丢失。</p>
+          <p>抽取所得数据将由董新飞统一对外出售，用于其个人资金需求。</p>
+        </div>
+      </fieldset>
     </div>
 
     <!-- 评估服务 -->
@@ -229,12 +248,40 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     <!-- 志愿者数据库 -->
     <div class="section" id="vol">
       <h2>志愿者能力数据库</h2>
-      <table class="grid">
-        <thead>
-          <tr><th>编号</th><th>姓名</th><th>学校</th><th>学科</th><th>采集次数</th><th>数据评级</th><th>状态</th></tr>
-        </thead>
-        <tbody id="volBody"></tbody>
-      </table>
+
+      <fieldset>
+        <legend>全部志愿者详细数据</legend>
+        <table class="grid">
+          <thead>
+            <tr><th>编号</th><th>姓名</th><th>学校</th><th>学科</th><th>采集次数</th><th>数据评级</th><th>状态</th><th>详情</th></tr>
+          </thead>
+          <tbody id="volBody"></tbody>
+        </table>
+        <div class="detail" id="volDetail"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend>匹配工具 · 输入个人能力数据，匹配适合的注入数据</legend>
+        <table>
+          <tr><td>目标学科：</td><td>
+            <select id="mSubject">
+              <option>数学</option><option>生物</option><option>英语</option><option>物理</option><option>语文</option><option>综合</option>
+            </select>
+          </td></tr>
+          <tr><td>当前水平：</td><td>
+            <select id="mLevel">
+              <option>下游</option><option>中游</option><option>上游</option><option>年级前列</option>
+            </select>
+          </td></tr>
+          <tr><td>期望提升：</td><td>
+            <select id="mGain">
+              <option>快速提分</option><option>稳定提升</option><option>竞赛拔高</option>
+            </select>
+          </td></tr>
+          <tr><td></td><td><button type="button" id="matchBtn">开始匹配</button></td></tr>
+        </table>
+        <div id="matchResult" class="detail"></div>
+      </fieldset>
     </div>
 
     <!-- 认知强化服务 -->
@@ -335,8 +382,9 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 
   /* 名单数据来自共用文件 admin-data.js —— 以后改名单只改那一个文件 */
   window.SJSD.renderEval('evalBody');
-  window.SJSD.renderVolunteer('volBody');
+  window.SJSD.renderVolunteer('volBody', { pick: true });
   window.SJSD.renderCognition('cogBody');
+  window.SJSD.renderExtract('extractBody');   // 远程操作 → 项目详情里的抽取名单
 
   /* 默认正常模式（不抽取），未开无痕 */
   if (get(K_MODE) === null) set(K_MODE, 'normal');
@@ -354,6 +402,52 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       sections.forEach(function (s) { s.classList.toggle('active', s.id === t); });
       window.scrollTo(0, 0);
     });
+  });
+
+  /* 志愿者数据库：点「详情」两个字展开该志愿者的报告。
+     报告内容在共用文件 admin-data.js 的 SJSD.VOL_DETAIL 里。 */
+  var volDetail = document.getElementById('volDetail');
+  document.getElementById('volBody').addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a.detail-link') : null;
+    if (!a) return;
+    e.preventDefault();
+    var key = a.getAttribute('data-vol');
+    var html = window.SJSD.VOL_DETAIL[key];
+    if (!html) return;
+    volDetail.innerHTML = html;
+    volDetail.classList.add('open');
+    volDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    var rec = (window.SJSD.VOLUNTEER || []).filter(function (v) { return v.key === key; })[0];
+    L.push(ME, '查看志愿者详情（' + (rec ? rec.id + ' ' + rec.name : key) + '）');
+    renderLog(); renderWipe();
+  });
+
+  /* 匹配工具（与陈超武页面一致） */
+  document.getElementById('matchBtn').addEventListener('click', function () {
+    var s = document.getElementById('mSubject').value;
+    var lv = document.getElementById('mLevel').value;
+    var g = document.getElementById('mGain').value;
+    var pool = {
+      '数学': '数学思维强化包 · 高中（数据包 XYJ-2026-0317）',
+      '生物': '生物学科能力包 · 高中全套（数据包 XYT-20260718-H02）',
+      '英语': '英语语感包 · 高中（数据包 LWT-20260711）',
+      '物理': '物理模型构建包 · 高中（数据包 WJ-2026-0210）',
+      '语文': '语文阅读强化包 · 高中（数据包 WY-2026-0305）',
+      '综合': '综合能力强化包 · 高中（数据包 ZH-2026-0411）'
+    };
+    var score = { '下游': 96, '中游': 91, '上游': 87, '年级前列': 82 }[lv];
+    var box = document.getElementById('matchResult');
+    box.innerHTML =
+      '<h4>匹配结果</h4>' +
+      '<table class="grid">' +
+      '<tr><th>目标学科</th><td>' + s + '</td><th>当前水平</th><td>' + lv + '</td></tr>' +
+      '<tr><th>需求</th><td>' + g + '</td><th>相似度</th><td><b>' + score + '%</b></td></tr>' +
+      '<tr><th>推荐注入数据</th><td colspan="3">' + pool[s] + '</td></tr>' +
+      '<tr><th>备注</th><td colspan="3">建议单一个体采集不超过 3 次，否则源学生恢复率将大幅下降。</td></tr>' +
+      '</table>';
+    box.classList.add('open');
+    L.push(ME, '使用【匹配工具】（目标学科：' + s + '）');
+    renderLog(); renderWipe();
   });
 
   /* 运行模式（默认正常模式） */

@@ -118,6 +118,8 @@ select.mode-sel { font-family: "Courier New", monospace; font-size: 13px; backgr
 input[type=text], input[type=password] { font-family: "Courier New", monospace; font-size: 13px; background: #fff; padding: 2px 4px; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
 .countdown { font-family: "Courier New", monospace; font-size: 22px; font-weight: bold; color: #800000; background: #000; letter-spacing: 3px; padding: 6px 14px; display: inline-block; }
 .deny { color: #800000; font-weight: bold; border: 2px dashed #800000; background: #fff0f0; padding: 22px; text-align: center; margin: 10px 0; font-size: 15px; }
+.detail-link { color: #000080; text-decoration: underline; cursor: pointer; }
+.detail-link:hover { color: #800000; }
 .detail { display: none; }
 .detail.open { display: block; margin: 10px 0; background: #fffef0; border: 1px solid #808080; padding: 10px 14px; }
 .mem { font-family: "Courier New", monospace; background: #fff; border-left: 3px solid #800000; padding: 6px 12px; font-size: 13px; color: #800000; margin: 6px 0; }
@@ -180,10 +182,11 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   </div>
 
   <div class="menu">
-    <a href="#" data-target="eval" class="active">评估服务后台</a>
-    <a href="#" data-target="vdb">志愿者能力抽取数据库</a>
+    <a href="#" data-target="eval" class="active">评估服务</a>
+    <a href="#" data-target="vol">志愿者数据库</a>
     <a href="#" data-target="cog">认知强化服务</a>
     <a href="#" data-target="remote">远程操作</a>
+    <a href="#" data-target="log">系统日志</a>
     <a href="#" data-target="record">个人记录</a>
   </div>
 
@@ -200,15 +203,15 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       </table>
     </div>
 
-    <!-- 志愿者能力抽取数据库 -->
-    <div class="section" id="vdb">
-      <h2>志愿者能力抽取数据库</h2>
+    <!-- 志愿者数据库 -->
+    <div class="section" id="vol">
+      <h2>志愿者能力数据库</h2>
 
       <fieldset>
         <legend>全部志愿者详细数据</legend>
         <table class="grid">
           <thead>
-            <tr><th>编号</th><th>姓名</th><th>学校</th><th>学科</th><th>采集次数</th><th>数据评级</th><th>状态</th></tr>
+            <tr><th>编号</th><th>姓名</th><th>学校</th><th>学科</th><th>采集次数</th><th>数据评级</th><th>状态</th><th>详情</th></tr>
           </thead>
           <tbody id="volBody"></tbody>
         </table>
@@ -237,33 +240,6 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         </table>
         <div id="matchResult" class="detail"></div>
       </fieldset>
-
-      <fieldset>
-        <legend>当前项目</legend>
-        <table class="grid">
-          <tr><th style="width:120px;">项目名称</th><td>山经-蒂中帝联合提取项目</td></tr>
-          <tr><th>受试者</th><td><b>107 人</b></td></tr>
-          <tr><th>剩余时间</th><td><span class="countdown" id="cd">01:12:00</span></td></tr>
-          <tr><th>项目状态</th><td>执行中（待远程指令切换抽取模式）</td></tr>
-          <tr><th>操作</th><td><button type="button" id="projBtn">查看项目详情</button></td></tr>
-        </table>
-
-        <div class="detail" id="projDetail">
-          <h4>项目详情 · 山经-蒂中帝联合提取项目</h4>
-          <p>本项目由 <b>蒂中帝教育</b> 与 <b>山经书店</b> 联合发起。由蒂中帝方面组织在校学生参加“学习能力评估”，评估过程中对学生的学科认知进行大规模抽取，所得数据统一打包，以供后续出售给有需求的买家。</p>
-          <p>抽取所得数据将按照学科、评级分类，伪装为“内部教辅资料”在小程序渠道出售。本次受试者共 <b>107 人</b>。</p>
-
-          <h3>抽取名单（前 10 人）</h3>
-          <table class="grid">
-            <thead><tr><th>序号</th><th>姓名</th><th>学校</th><th>年级</th><th>学科</th><th>采集次数</th><th>数据评级</th></tr></thead>
-              <tbody id="extractBody"></tbody>
-            </table>
-
-          <h3>详细报告</h3>
-          <p>本次联合提取为“批量采集”模式。系统将在倒计时结束后，统一对名单内全部受试者执行学科认知抽取，并进行记忆剥离与数据打包。由于受试者名单跨越两所学校、多个年级，单一个体重复采集次数普遍超过建议阈值（单一个体不超过 3 次），预计将造成不可逆的能力衰退与生活记忆丢失。</p>
-          <p>抽取所得数据将由董新飞统一对外出售，用于其个人资金需求。</p>
-        </div>
-      </fieldset>
     </div>
 
     <!-- 认知强化服务 -->
@@ -279,10 +255,42 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
       </fieldset>
     </div>
 
-    <!-- 远程操作 -->
+    <!-- 远程操作：陈超武只有查看权限，改不了模式 -->
     <div class="section" id="remote">
-      <h2>远程操作</h2>
-      <div class="deny">✕ 权限不足</div>
+      <h2>远程操作 · 山经-蒂中帝联合提取项目</h2>
+
+      <fieldset>
+        <legend>项目信息</legend>
+        <table class="grid">
+          <tr><th style="width:130px;">项目名称</th><td>山经-蒂中帝联合提取项目</td></tr>
+          <tr><th>受试者</th><td>107 人</td></tr>
+          <tr><th>剩余时间</th><td><span class="countdown" id="cd">01:12:00</span></td></tr>
+          <tr><th>项目状态</th><td>执行中（等待店长下发抽取模式指令）</td></tr>
+        </table>
+      </fieldset>
+
+      <fieldset>
+        <legend>运行模式</legend>
+        <div class="deny">✕ 权限不足：运行模式的修改权限为店长专属</div>
+      </fieldset>
+
+      <fieldset>
+        <legend>项目详情 · 山经-蒂中帝联合提取项目</legend>
+        <div class="report">
+          <p>本项目由 <b>蒂中帝教育</b> 与 <b>山经书店</b> 联合发起。由蒂中帝方面组织在校学生参加“学习能力评估”，评估过程中对学生的学科认知进行大规模抽取，所得数据统一打包，以供后续出售给有需求的买家。</p>
+          <p>抽取所得数据将按照学科、评级分类，伪装为“内部教辅资料”在小程序渠道出售。本次受试者共 <b>107 人</b>。</p>
+
+          <table class="grid">
+            <thead><tr><th colspan="7">抽取名单（前 10 人）</th></tr>
+              <tr><th>序号</th><th>姓名</th><th>学校</th><th>年级</th><th>学科</th><th>采集次数</th><th>数据评级</th></tr></thead>
+            <tbody id="extractBody"></tbody>
+          </table>
+
+          <p>本次联合提取为“批量采集”模式。系统将在倒计时结束后，统一对名单内全部受试者执行学科认知抽取，并进行记忆剥离与数据打包。由于受试者名单跨越两所学校、多个年级，单一个体重复采集次数普遍超过建议阈值（单一个体不超过 3 次），预计将造成不可逆的能力衰退与生活记忆丢失。</p>
+          <p>抽取所得数据将由董新飞统一对外出售，用于其个人资金需求。</p>
+          <p class="note">本账号只可查看，无法修改运行模式。</p>
+        </div>
+      </fieldset>
     </div>
 
     <!-- 个人记录 -->
@@ -300,11 +308,16 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
         </div>
       </fieldset>
 
-      <h3>系统操作记录</h3>
+    </div>
+
+    <!-- 系统日志 -->
+    <div class="section" id="log">
+      <h2>系统日志</h2>
       <table class="grid log-table">
         <thead><tr><th>时间</th><th>账号</th><th>操作内容</th></tr></thead>
         <tbody id="logBody"></tbody>
       </table>
+
       <div class="log-actions"><a href="#" class="tiny" id="wipeLink">清理记录</a></div>
       <div class="wipe-panel" id="wipePanel">
         <table class="grid wipe-list">
@@ -317,7 +330,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
           <button type="button" id="wipeClearSel" class="ghost">取消勾选</button>
           <span id="wipeMsg" class="note" style="margin-left:8px;"></span>
         </div>
-      </div>    </div>
+      </div>
+    </div>
 
   </div>
 
@@ -349,93 +363,20 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   });
 
   /* 志愿者数据 */
-  var VOL = {
-    v1: { name: '徐雨桐', html:
-      '<h4>志愿者报告 · V-001 徐雨桐</h4>' +
-      '<table class="grid">' +
-      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>生物</td></tr>' +
-      '<tr><th>采集次数</th><td>6 次</td><th>数据评级</th><td>A+</td></tr>' +
-      '<tr><th>首次采集</th><td>2026-06-06</td><th>最近采集</th><td>2026-06-20</td></tr>' +
-      '<tr><th>能力变化</th><td colspan="3">生物成绩由年级前三跌至四十余名；重复记忆效率下降约 61%</td></tr>' +
-      '<tr><th>副作用</th><td colspan="3">出现生活记忆丢失：忘记近期饮食、行程与人际往来</td></tr>' +
-      '</table><p class="note">常规内容，无额外抹除记录。</p>' },
-    v2: { name: '赵思航', html:
-      '<h4>志愿者报告 · V-002 赵思航</h4>' +
-      '<table class="grid">' +
-      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>数学</td></tr>' +
-      '<tr><th>采集次数</th><td>5 次</td><th>数据评级</th><td>A</td></tr>' +
-      '<tr><th>能力变化</th><td colspan="3">数学解题反应变慢，隐性下降约 29%</td></tr>' +
-      '</table><p class="note">常规内容，无额外抹除记录。</p>' },
-    v3: { name: '林婉仪', html:
-      '<h4>志愿者报告 · V-003 林婉仪</h4>' +
-      '<table class="grid">' +
-      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>英语</td></tr>' +
-      '<tr><th>采集次数</th><td>12 次</td><th>数据评级</th><td>A</td></tr>' +
-      '<tr><th>状态</th><td colspan="3">重度衰退。已超出建议阈值 4 倍，恢复率低于 10%</td></tr>' +
-      '</table><p class="note">常规内容，无额外抹除记录。</p>' },
-    v4: { name: '周晓雨', html:
-      '<h4>志愿者报告 · V-004 周晓雨</h4>' +
-      '<table class="grid">' +
-      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>生物</td></tr>' +
-      '<tr><th>身份</th><td colspan="3">数据包买家（使用“生物学科能力包”后出现记忆污染）</td></tr>' +
-      '<tr><th>症状</th><td colspan="3">出现不属于本人的记忆片段：实验室解剖、未参加过的竞赛考场</td></tr>' +
-      '</table><p class="note">常规内容，无额外抹除记录。</p>' },
-    v5: { name: '刘天清', html:
-      '<h4>志愿者报告 · V-005 刘天清</h4>' +
-      '<table class="grid">' +
-      '<tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>数学 / 综合</td></tr>' +
-      '<tr><th>采集次数</th><td>3 次</td><th>数据评级</th><td>A+</td></tr>' +
-      '<tr><th>状态</th><td colspan="3">已抹除部分记忆</td></tr>' +
-      '<tr><th>常规内容</th><td colspan="3">学科认知模式完整，数学能力评级 A+，数据已进入待打包队列。</td></tr>' +
-      '</table>' +
-      '<p class="tag">※ 本报告中除常规内容外，额外包含【记忆抹除内容】：</p>' +
-      '<div class="mem">近几日此人印象深刻的内容：<br>' +
-      '  · 牟通雪<br>' +
-      '  · 董新飞<br>' +
-      '  · G7y0k293s</div>' +
-      '<p class="note">系统提示：以上条目为本次记忆抹除操作的目标内容，抹除后当事人将无法回忆。请确认无遗漏。</p>' },
-    v6: { name: '吴昊博', html:
-      '<h4>志愿者报告 · V-006 吴昊博</h4>' +
-      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>综合</td></tr>' +
-      '<tr><th>采集次数</th><td>2 次</td><th>数据评级</th><td>A</td></tr></table>' +
-      '<p class="note">常规内容，无额外抹除记录。</p>' },
-    v7: { name: '李杨梓麟', html:
-      '<h4>志愿者报告 · V-007 李杨梓麟</h4>' +
-      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>数学</td></tr>' +
-      '<tr><th>采集次数</th><td>2 次</td><th>数据评级</th><td>A</td></tr></table>' +
-      '<p class="note">常规内容，无额外抹除记录。</p>' },
-    v8: { name: '王宇涵', html:
-      '<h4>志愿者报告 · V-008 王宇涵</h4>' +
-      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>语文</td></tr>' +
-      '<tr><th>采集次数</th><td>1 次</td><th>数据评级</th><td>B+</td></tr></table>' +
-      '<p class="note">常规内容，无额外抹除记录。</p>' },
-    v9: { name: '林晚', html:
-      '<h4>志愿者报告 · V-009 林晚</h4>' +
-      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>综合</td></tr>' +
-      '<tr><th>采集次数</th><td>1 次</td><th>数据评级</th><td>A</td></tr></table>' +
-      '<p class="note">常规内容，无额外抹除记录。</p>' },
-    v10: { name: '陈牧循', html:
-      '<h4>志愿者报告 · V-010 陈牧循</h4>' +
-      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高二</td><th>学科</th><td>生物</td></tr>' +
-      '<tr><th>采集次数</th><td>4 次</td><th>数据评级</th><td>A+</td></tr>' +
-      '<tr><th>关联</th><td colspan="3">认知强化服务申请者（服务ID：CMX-CS-20260615，源数据 XYT-20260606）</td></tr></table>' +
-      '<p class="note">常规内容，无额外抹除记录。</p>' },
-    v11: { name: '罗晋铭', html:
-      '<h4>志愿者报告 · V-011 罗晋铭</h4>' +
-      '<table class="grid"><tr><th>学校 / 年级</th><td>怀璧一中 · 高三</td><th>学科</th><td>物理</td></tr>' +
-      '<tr><th>采集次数</th><td>1 次</td><th>数据评级</th><td>B</td></tr></table>' +
-      '<p class="note">常规内容，无额外抹除记录。</p>' }
-  };
-
-  var volBody = document.getElementById('volBody');
+  /* 志愿者详情：数据在共用文件 admin-data.js 的 SJSD.VOL_DETAIL 里，
+     这里只负责点「详情」两个字时把它显示出来。 */
   var volDetail = document.getElementById('volDetail');
-  volBody.addEventListener('click', function (e) {
-    var tr = e.target.closest ? e.target.closest('tr.pick') : null;
-    if (!tr) return;
-    var d = VOL[tr.getAttribute('data-vol')];
-    volDetail.innerHTML = d.html;
+  document.getElementById('volBody').addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a.detail-link') : null;
+    if (!a) return;
+    e.preventDefault();
+    var html = window.SJSD.VOL_DETAIL[a.getAttribute('data-vol')];
+    if (!html) return;
+    volDetail.innerHTML = html;
     volDetail.classList.add('open');
     volDetail.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    /* 这条操作记录由后面的日志模块统一写入（本段作用域里还没有 L / ME）。 */
+    document.dispatchEvent(new CustomEvent('sjsd:viewvol', { detail: a.getAttribute('data-vol') }));
   });
 
   /* 匹配工具 */
@@ -464,12 +405,8 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     box.classList.add('open');
   });
 
-  /* 当前项目倒计时由 admin-log.js 统一驱动 */
-
-  document.getElementById('projBtn').addEventListener('click', function () {
-    var d = document.getElementById('projDetail');
-    d.classList.toggle('open');
-  });
+  /* 远程操作的倒计时由 admin-log.js 统一驱动；
+     项目详情在页面上直接展示，本账号没有可操作项。 */
 
   /* 认知强化申请者 */
   var COG = {
@@ -511,6 +448,9 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
 (function () {
   var ME = 'chenchaowu';
   var L = window.SJSDLog;
+  /* 倒计时基准 = 进入本页面的那一刻（只写一次，之后不再改动）。
+     必须在 init() 之前定下来：init 里落档的董新飞那三条日志要按同一个基准算时间。 */
+  L.markAnchor();
   L.init(ME);
 
   /* 无痕模式（隐私浏览） */
@@ -582,10 +522,11 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     wipeBody.querySelectorAll('input[type=checkbox]').forEach(function (c) { c.checked = false; });
   });
   var targetLog = {
-    eval: '访问【评估服务后台】',
-    vdb: '访问【志愿者能力抽取数据库】',
+    eval: '访问【评估服务】',
+    vol: '访问【志愿者数据库】',
     cog: '访问【认知强化服务】',
-    remote: '尝试访问【远程操作】（拒绝：权限不足）',
+    remote: '访问【远程操作】（仅可查看，无修改权限）',
+    log: '访问【系统日志】',
     record: '访问【个人记录】'
   };
   document.querySelectorAll('.menu a').forEach(function (a) {
@@ -598,12 +539,12 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
   var mb = document.getElementById('matchBtn');
   if (mb) { mb.addEventListener('click', function () { var s = document.getElementById('mSubject').value; L.push(ME, '使用【匹配工具】（目标学科：' + s + '）'); renderLog(); renderWipe(); }); }
   /* 其它操作也留下记录 */
-  var volBody = document.getElementById('volBody');
-  if (volBody) { volBody.addEventListener('click', function (e) {
-    var tr = e.target.closest ? e.target.closest('tr.pick') : null; if (!tr) return;
-    var nm = tr.children[1] ? tr.children[1].textContent : '';
-    L.push(ME, '查看志愿者报告（' + nm + '）'); renderLog(); renderWipe();
-  }); }
+  document.addEventListener('sjsd:viewvol', function (e) {
+    var key = e.detail;
+    var rec = (window.SJSD.VOLUNTEER || []).filter(function (v) { return v.key === key; })[0];
+    L.push(ME, '查看志愿者详情（' + (rec ? rec.id + ' ' + rec.name : key) + '）');
+    renderLog(); renderWipe();
+  });
   var cogBody = document.getElementById('cogBody');
   if (cogBody) { cogBody.addEventListener('click', function (e) {
     var tr = e.target.closest ? e.target.closest('tr.pick') : null; if (!tr) return;
@@ -615,8 +556,6 @@ hr.old { border: none; border-top: 1px solid #808080; border-bottom: 1px solid #
     var q = (e.target && e.target.getAttribute) ? e.target.getAttribute('data-quick') : null;
     if (q) { L.push(ME, '执行快速匹配（' + q + '类）'); renderLog(); renderWipe(); }
   }); }
-  var projBtnEl = document.getElementById('projBtn');
-  if (projBtnEl) { projBtnEl.addEventListener('click', function () { L.push(ME, '查看当前项目详情'); renderLog(); renderWipe(); }); }
 
   if (ghostLink) {
     ghostLink.addEventListener('click', function (e) {
